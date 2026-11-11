@@ -1,5 +1,5 @@
 import {createPatientReports} from './patient-reports.js?v=20261111-obra-social';
-import {createManagement} from './management.js?v=20261028-0129';
+import {createManagement} from './management.js?v=20261111-stock';
 import {BillingXlsx} from './xlsx.js?v=20261019-0110';
 export function createReports(ctx){
  const $=s=>document.querySelector(s),el=(t,s)=>{const e=document.createElement(t);if(s!==undefined)e.textContent=s;return e;};

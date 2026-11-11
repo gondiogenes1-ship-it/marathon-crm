@@ -17,6 +17,24 @@ export function createManagement(ctx){
  function table(parent,columns,rows,empty='Sin registros para estos filtros.'){if(!rows.length){parent.append(el('p',empty,'subtitle'));return;}const wrap=el('div',undefined,'table-scroll'),t=el('table'),head=el('thead'),tr=el('tr');for(const [,label]of columns){const th=el('th',label);th.scope='col';tr.append(th);}head.append(tr);t.append(head);const body=el('tbody');for(const r of rows){const row=el('tr');for(const [key,,fmt]of columns)row.append(el('td',fmt?fmt(r[key],r):r[key]??'Sin dato'));body.append(row);}t.append(body);wrap.append(t);parent.append(wrap);}
  function block(parent,title,note){const section=el('section',undefined,'management-block');section.append(el('h2',title),el('p',note,'subtitle'));parent.append(section);return section;}
  function detail(parent,title){const d=el('details'),s=el('summary',title);d.append(s);parent.append(d);return d;}
+ function inventoryChart(parent,rows){
+  if(!rows.length)return;
+  parent.append(el('p','Barras: proporción de artículos inicializados en el mínimo o por debajo, por sede. Semáforo: rojo con agotados o negativos, ámbar en mínimo, verde sin alertas.','subtitle'));
+  const wrap=el('div',undefined,'mgmt-stock-chart');
+  for(const r of rows){
+   const alerts=Number(r.alerts)||0,empty=Number(r.empty)||0,init=Number(r.initialized)||0;
+   const level=empty>0?'crit':alerts>0?'warn':'ok';
+   const row=el('div',undefined,'mgmt-stock-row'),labelBox=el('div',undefined,'mgmt-stock-label');
+   const dot=el('span',undefined,'mgmt-dot '+level),head=el('div',undefined,'mgmt-stock-head');
+   head.append(el('strong',r.sede),el('span',number(alerts)+' en mínimo · '+number(empty)+' agotados/neg. · '+number(init)+' inicializados','mgmt-stock-sub'));
+   labelBox.append(dot,head);
+   const track=el('div',undefined,'mgmt-track'),fill=el('span',undefined,'mgmt-fill '+level);
+   fill.style.width=(init?Math.min(100,100*alerts/init):0)+'%';track.append(fill);
+   track.setAttribute('role','img');track.setAttribute('aria-label',r.sede+': '+alerts+' en mínimo de '+init+' inicializados'+(empty?', '+empty+' agotados o negativos':''));
+   row.append(labelBox,track);wrap.append(row);
+  }
+  parent.append(wrap);
+ }
  function draw(r,filters){data=r;applied={...filters};const host=$('#report-results');host.replaceChildren();
   host.append(el('div',window.MARATHON_CONFIG?.supabaseUrl==='https://marathon-demo.invalid'?'Demostración con cifras ficticias. Los filtros solo ilustran los controles en esta demostración; para calcular con datos reales usá el acceso normal al CRM.':'Registro en validación · Estos valores describen lo cargado en el CRM. Un cero registrado no demuestra ausencia de actividad real.','management-notice'));
   const a=r.activity,c=r.cash,b=r.balances,i=r.inventory,t=r.capacity;
@@ -43,6 +61,7 @@ export function createManagement(ctx){
   section.append(el('p','Antigüedad no significa deuda vencida. Las sesiones futuras no se exigen. Las aplicaciones de anticipos reducen el saldo, sin generar un nuevo ingreso.','subtitle'));
   section=block(host,'Ortopedia e inventario','Foto actual · Solo artículos y sedes activos. Se aplica sede; mes, terapia y profesional no se aplican. Validar existencias físicas y mínimos antes de reponer.');
   stats(section,[['Inventarios inicializados',number(i.initialized),`${i.total} pares artículo-sede activos`],['En mínimo o por debajo',number(i.alerts),percent(i.percentage)+' de los inicializados'],['Agotados o negativos',number(i.empty),`${i.negative} con stock negativo`],['Sin inicializar',number(i.unknown),'Fuera del porcentaje de alertas; stock desconocido']]);
+  inventoryChart(section,i.rows);
   table(section,[['sede','Sede'],['initialized','Inicializados',number],['unknown','Sin inicializar',number],['alerts','En mínimo o debajo',number],['empty','Agotados o negativos',number]],i.rows);
   const stock=detail(section,'Consultar artículos y alertas'),controls=el('div',undefined,'management-stock-filter'),searchLabel=el('label','Buscar artículo'),search=el('input');search.type='search';search.placeholder='Nombre o código';searchLabel.append(search);
   const stateLabel=el('label','Inventario'),state=el('select');for(const [value,label]of [['alerts','En mínimo o debajo'],['unknown','Sin inicializar'],['all','Todos']]){const o=el('option',label);o.value=value;state.append(o);}stateLabel.append(state);controls.append(searchLabel,stateLabel);stock.append(controls);const result=el('div');stock.append(result);
