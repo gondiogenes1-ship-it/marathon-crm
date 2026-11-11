@@ -1,4 +1,4 @@
-import {buildPatientReportWorkbook,patientReportTabs} from './patient-report-workbook.js?v=20261105-informes-excel-3';
+import {buildPatientReportWorkbook,patientReportTabs} from './patient-report-workbook.js?v=20261111-obra-social';
 const el=(tag,text,cls)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;return node;};
 const count=n=>Number(n??0).toLocaleString('es-AR',{maximumFractionDigits:1});
 const percent=n=>n===null||n===undefined?'Sin base':count(n)+' %';
