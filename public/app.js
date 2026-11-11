@@ -9,7 +9,7 @@ import {createEditing} from './editing.js?v=20261029-caja-pacientes';
 import {createHelp} from './help.js?v=20261105-saldo';
 import {createHome} from './home.js?v=20261102-cancelados';
 import {createCatalogs} from './catalogs.js?v=20261019-0110';
-import {createReports} from './reports.js?v=20261111-facturacion';
+import {createReports} from './reports.js?v=20261111-roles';
 import {createDocuments} from './documents.js?v=20261029-caja-pacientes';
 import {MarathonApi} from './api.js?v=20261104-saldo';
 import {createMasters} from './masters.js?v=20261028-0131-espacio';
@@ -30,7 +30,7 @@ const agenda=createAgenda({saldoActive:()=>saldoActive,openSaldo:p=>operations.o
 const operations=createOperations({saldoActive:()=>saldoActive,openPlan:id=>agenda.openPlan(id),appendWhatsApp:(parent,turn,kind)=>appendTurnWhatsApp(parent,turn,{kind,getApi:()=>api,isBusy:()=>busy,onError:text=>msg(text,true)}),getApi:()=>api,getUser:()=>user,isBusy:()=>busy,work,message:msg,sync,refreshAgenda:async()=>{if(!$('#agenda-screen').hidden)await agenda.reload();await home.reloadVisible();},refreshHome:()=>home.reloadVisible(),refreshPatient:()=>patientHistory.reload(),openWaitBooking:r=>agenda.openFromWait(r),openOrthoReverse:m=>ortho.openReverse(m),setBusy:value=>{busy=value;sync();}});
 const ortho=createOrtho({getApi:()=>api,getUser:()=>user,isBusy:()=>busy,work,message:msg,sync,refreshCash:()=>operations.reloadCash(),setBusy:value=>{busy=value;sync();}});
 const catalogs=createCatalogs({getApi:()=>api,getUser:()=>user,isBusy:()=>busy,work,message:msg,sync,show:showSection,refreshPatientCatalog:async()=>{catalog=await api.rpc('marathon_patient_catalog',{});},setBusy:value=>{busy=value;sync();}});
-const reports=createReports({getApi:()=>api,isBusy:()=>busy,work,message:msg,sync,show:showSection});
+const reports=createReports({getApi:()=>api,getUser:()=>user,isBusy:()=>busy,work,message:msg,sync,show:showSection});
 const documents=createDocuments({getApi:()=>api,isBusy:()=>busy,work,message:msg,sync,setBusy:value=>{busy=value;sync();}});
 const home=createHome({exportTurns:exportTurnList,getApi:()=>api,getUser:()=>user,isBusy:()=>busy,isPending:()=>!!pending||agenda.isPending()||operations.isPending()||ortho.isPending()||masters.isPending()||catalogs.isPending()||documents.isPending()||users.isPending()||whatsapp.isPending(),renderTurns:(panel,rows,partial,scope)=>agenda.renderRows(panel,rows,false,partial,scope),work,message:msg,show:showSection,navigate:async(target,filter)=>{
  if(target==='booking'){await agenda.openAt(filter.date,filter.site);agenda.startBooking();}

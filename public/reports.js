@@ -36,13 +36,18 @@ export function createReports(ctx){
    :bill?'Pacientes atendidos en el mes, según la cobertura de cada atención. Tildá "Cargado" a medida que cargás en la plataforma de la obra social; la marca es compartida entre secretarias. Filtrá por modalidad, obra social o terapia (algunas no se facturan por OS).'
    :'Movimientos del mes: clínica, ortopedia y caja manual. Con filtro de terapia, solo movimientos vinculados a turnos de esa terapia.';
  }
+ const isAdmin=()=>ctx.getUser?.()?.role==='ADMIN';
  function show(){
-  const legacy=tab==='ortho'||tab==='cash';
+  const admin=isAdmin(),legacy=tab==='ortho'||tab==='cash';
   $('#patient-reports').hidden=tab!=='patients';
   $('#report-trends').hidden=tab!=='trends';
   $('#report-legacy').hidden=!legacy;
+  // Acceso por rol: SECRETARIA solo ve Caja -> Facturación.
+  $('#report-tabs').hidden=!admin;
+  $('#report-tab-patients').hidden=!admin;$('#report-tab-trends').hidden=!admin;$('#report-tab-ortho').hidden=!admin;
+  $('#report-sub-resumen').hidden=!admin;$('#report-sub-movimientos').hidden=!admin;
   for(const [id,val]of [['report-tab-patients','patients'],['report-tab-trends','trends'],['report-tab-ortho','ortho'],['report-tab-cash','cash']]){const b=$('#'+id);const a=tab===val;b.className=a?'b':'s';b.setAttribute('aria-pressed',String(a));}
-  $('#report-subtabs').hidden=tab!=='cash';
+  $('#report-subtabs').hidden=tab!=='cash'||!admin;
   for(const [id,val]of [['report-sub-resumen','resumen'],['report-sub-facturacion','facturacion'],['report-sub-movimientos','movimientos']]){const b=$('#'+id);const a=sub===val;b.className=a?'b':'s';b.setAttribute('aria-pressed',String(a));}
   $('#report-export').hidden=!legacy;
   if(legacy)applyFields();
@@ -95,7 +100,7 @@ export function createReports(ctx){
   const bytes=BillingXlsx.buildGrid({title:m.kind==='billing'?'Resumen mensual de obra social':'Caja mensual',sheetName:m.kind==='billing'?'Facturacion':'Caja',columns:cols.map(([key,name])=>({name,numeric:['done','next','monto'].includes(key),width:26})),rows:r.rows.map(row=>cols.map(([key])=>['done','next','monto'].includes(key)?Number(row[key]):String(row[key]??''))),metadata:[['Mes',r.month,'Siguiente',r.next_month||''],['Sede',filters.sede||'Todas','Terapia',filters.therapy||'Todas'],['Obra social',r.summary?.insurance||'','Consulta',r.generated_at]],note:$('#report-note').textContent});
   download(bytes,'Marathon_'+m.kind+'_'+filters.month+'.xlsx','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');ctx.message('Informe completo descargado: '+r.rows.length+' filas.');
  }));
- return{sync,isPending:()=>false,open:async()=>{ctx.show('reports');const opts=await rpc('marathon_catalog_options');const agendaOptions=await rpc('marathon_agenda_options');patientOptions={sedes:opts.sedes,therapies:opts.therapies,professionals:agendaOptions.professionals||[]};
+ return{sync,isPending:()=>false,open:async()=>{ctx.show('reports');if(!isAdmin()){tab='cash';sub='facturacion';}const opts=await rpc('marathon_catalog_options');const agendaOptions=await rpc('marathon_agenda_options');patientOptions={sedes:opts.sedes,therapies:opts.therapies,professionals:agendaOptions.professionals||[]};
   for(const [id,rows,initial]of [['report-sede',opts.sedes,'Todas las sedes'],['report-therapy',opts.therapies,'Todas las terapias'],['report-insurance',[{id:'__PARTICULAR__',label:'Particular'},...opts.insurances],'Todas las obras sociales']]){const v=$('#'+id).value;$('#'+id).replaceChildren();for(const [value,title]of [['',initial],...rows.map(r=>[r.id,r.label+(r.estado==='INACTIVO'?' (inactiva)':'')])]){const o=el('option',title);o.value=value;$('#'+id).append(o);}$('#'+id).value=v;}
   if(!$('#report-month').value)$('#report-month').value=currentMonth();
   await go();},
