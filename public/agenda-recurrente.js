@@ -52,7 +52,7 @@ export function createRecurringAgenda(ctx){
    if(!s){cell.classList.add('recurring-unavailable');cell.append(el('small','Sin atención'));continue;}
    const slotHead=el('div',undefined,'recurring-slot-head'),slotMeta=el('div',undefined,'recurring-slot-meta');slotMeta.append(el('strong',s.meta.remaining+' de '+s.meta.capacity+' libres','recurring-capacity'),el('small','Compartido ('+(s.meta.shared_space_count??0)+')'));slotHead.append(slotMeta);
    if(!s.meta.blocked&&s.meta.remaining>0){
-    const past=dt<today(),add=button('Reservar turno',()=>{if(past||ctx.isBusy())return;return ctx.work(()=>ctx.bookAt({date:dt,sede:site,prof,therapy:s.therapy,hora:time}));},'secondary');
+    const past=dt<today(),add=button('+',()=>{if(past||ctx.isBusy())return;return ctx.work(()=>ctx.bookAt({date:dt,sede:site,prof,therapy:s.therapy,hora:time}));},'secondary');
     add.classList.add('recurring-add');add.disabled=past;
     add.setAttribute('aria-label','Reservar turno · '+date(dt)+' · '+time+' · '+s.meta.remaining+' lugares libres');
     add.title=past?'No se pueden reservar turnos en fechas pasadas':'Reservar turno en este horario';slotHead.append(add);

@@ -1,4 +1,4 @@
-import {createRecurringAgenda} from './agenda-recurrente.js?v=20261106-excepcional-1';
+import {createRecurringAgenda} from './agenda-recurrente.js?v=20261111-boton-mas';
 import {createTurnSeriesUI} from './turn-series.js?v=20261105-series';
 import {sessionCountLabel,loadSessionCounts} from './session-counts.js?v=20261029-0131';
 import {createAgendaPatientEditor} from './agenda-patient-editor.js?v=20261029-caja-pacientes';
