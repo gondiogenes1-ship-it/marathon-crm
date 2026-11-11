@@ -1,9 +1,10 @@
 import {createPatientReports} from './patient-reports.js?v=20261111-obra-social';
 import {createManagement} from './management.js?v=20261111-informes-tabs';
+import {createTrends} from './trends.js?v=20261111-tendencias';
 import {BillingXlsx} from './xlsx.js?v=20261019-0110';
 export function createReports(ctx){
  const $=s=>document.querySelector(s),el=(t,s)=>{const e=document.createElement(t);if(s!==undefined)e.textContent=s;return e;};
- const management=createManagement(ctx),patients=createPatientReports(ctx);
+ const management=createManagement(ctx),patients=createPatientReports(ctx),trends=createTrends(ctx);
  let tab='patients',sub='resumen',patientOptions=null;
  let pages=[null],page=0,next=null,last=null,filters=null;
  const rpc=(n,a={})=>ctx.getApi().rpc(n,a);
@@ -33,13 +34,15 @@ export function createReports(ctx){
    :'Movimientos del mes: clínica, ortopedia y caja manual. Con filtro de terapia, solo movimientos vinculados a turnos de esa terapia.';
  }
  function show(){
-  const onPatients=tab==='patients';
-  $('#patient-reports').hidden=!onPatients;$('#report-legacy').hidden=onPatients;
-  for(const [id,val]of [['report-tab-patients','patients'],['report-tab-ortho','ortho'],['report-tab-cash','cash']]){const b=$('#'+id);const a=tab===val;b.className=a?'b':'s';b.setAttribute('aria-pressed',String(a));}
+  const legacy=tab==='ortho'||tab==='cash';
+  $('#patient-reports').hidden=tab!=='patients';
+  $('#report-trends').hidden=tab!=='trends';
+  $('#report-legacy').hidden=!legacy;
+  for(const [id,val]of [['report-tab-patients','patients'],['report-tab-trends','trends'],['report-tab-ortho','ortho'],['report-tab-cash','cash']]){const b=$('#'+id);const a=tab===val;b.className=a?'b':'s';b.setAttribute('aria-pressed',String(a));}
   $('#report-subtabs').hidden=tab!=='cash';
   for(const [id,val]of [['report-sub-resumen','resumen'],['report-sub-facturacion','facturacion'],['report-sub-movimientos','movimientos']]){const b=$('#'+id);const a=sub===val;b.className=a?'b':'s';b.setAttribute('aria-pressed',String(a));}
-  $('#report-export').hidden=onPatients;
-  if(!onPatients)applyFields();
+  $('#report-export').hidden=!legacy;
+  if(legacy)applyFields();
  }
  function sync(){patients.sync();const m=mode();$('#report-prev').disabled=ctx.isBusy()||!page;$('#report-next').disabled=ctx.isBusy()||!next;$('#report-export').disabled=ctx.isBusy()||(m.engine==='management'?!management.hasData():!last?.rows?.length);}
  function readFilters(){
@@ -67,10 +70,11 @@ export function createReports(ctx){
   }
   drawTable(m.kind,await rpc('marathon_report',{p_kind:m.kind,p_filters:filters,p_after:pages[page],p_limit:100}));
  }
- async function go(){show();if(tab==='patients'){if(patientOptions)await patients.open(patientOptions);sync();return;}page=0;pages=[null];last=null;next=null;await load();}
+ async function go(){show();if(tab==='patients'){if(patientOptions)await patients.open(patientOptions);sync();return;}if(tab==='trends'){if(patientOptions)await trends.open(patientOptions);sync();return;}page=0;pages=[null];last=null;next=null;await load();}
  function resetResults(msg){management.invalidate();last=null;next=null;$('#report-results').replaceChildren();$('#report-summary').textContent=msg||'';sync();}
  function download(bytes,name,type){const url=URL.createObjectURL(new Blob([bytes],{type})),a=el('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
  $('#report-tab-patients').addEventListener('click',()=>ctx.work(async()=>{tab='patients';await go();}));
+ $('#report-tab-trends').addEventListener('click',()=>ctx.work(async()=>{tab='trends';await go();}));
  $('#report-tab-ortho').addEventListener('click',()=>ctx.work(async()=>{tab='ortho';await go();}));
  $('#report-tab-cash').addEventListener('click',()=>ctx.work(async()=>{tab='cash';sub='resumen';await go();}));
  for(const [id,val]of [['report-sub-resumen','resumen'],['report-sub-facturacion','facturacion'],['report-sub-movimientos','movimientos']])$('#'+id).addEventListener('click',()=>ctx.work(async()=>{sub=val;await go();}));
@@ -92,5 +96,5 @@ export function createReports(ctx){
   for(const [id,rows,initial]of [['report-sede',opts.sedes,'Todas las sedes'],['report-therapy',opts.therapies,'Todas las terapias'],['report-insurance',[{id:'__PARTICULAR__',label:'Particular'},...opts.insurances],'Todas las obras sociales']]){const v=$('#'+id).value;$('#'+id).replaceChildren();for(const [value,title]of [['',initial],...rows.map(r=>[r.id,r.label+(r.estado==='INACTIVO'?' (inactiva)':'')])]){const o=el('option',title);o.value=value;$('#'+id).append(o);}$('#'+id).value=v;}
   if(!$('#report-month').value)$('#report-month').value=currentMonth();
   await go();},
-  reset:()=>{patients.reset();management.reset();tab='patients';sub='resumen';patientOptions=null;pages=[null];page=0;next=null;last=null;filters=null;$('#report-filter').reset();$('#report-results').replaceChildren();$('#report-summary').textContent='';$('#report-generated').textContent='';}};
+  reset:()=>{patients.reset();management.reset();trends.reset();tab='patients';sub='resumen';patientOptions=null;pages=[null];page=0;next=null;last=null;filters=null;$('#report-filter').reset();$('#report-results').replaceChildren();$('#report-summary').textContent='';$('#report-generated').textContent='';}};
 }
