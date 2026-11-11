@@ -1,0 +1,272 @@
+{
+  "deployment": "dpl_2vcu8wVr29X8aVqobRZYno421zC6",
+  "previous": "dpl_GeSpefCwrUsYk4xe1kT2NgnwGabQ",
+  "state": "READY",
+  "environment": "production",
+  "url": "https://marathon-crm-liart.vercel.app",
+  "saldoEnabled": false,
+  "databaseMigrationApplied": false,
+  "reason": "Activación pendiente de respaldo completo verificado mediante restauración.",
+  "verified": [
+    {
+      "file": "accessibility.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "agenda-availability.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "agenda-patient-editor.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "agenda-recurrente.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "agenda-recurrente.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "agenda.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "api.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "app.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "button-variants.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "cash-export.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "cash-patient-picker.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "catalogs.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "config.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "coverage.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "daily.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "diagnostico.html",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "documents.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "editing.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "fonts/Outfit-OFL.txt",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "fonts/Outfit-variable.woff2",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "help.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "home.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "impeccable.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "index.html",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "login-guard.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "management.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "management.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "marathon-brand.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "marathon-motion.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "marathon-salud.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "marathon-ui.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "masters.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "modal-ui.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "motion.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "operations.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "ortho.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "patient-history.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "patient-reports.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "patient-reports.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "reports.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "saldo-state.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "saldo.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "saldo.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "session-counts.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "shared-space.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "shared-space.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "style.css",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "turn-tools.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "users.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "whatsapp-templates.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "whatsapp.js",
+      "status": 200,
+      "match": true
+    },
+    {
+      "file": "xlsx.js",
+      "status": 200,
+      "match": true
+    }
+  ]
+}

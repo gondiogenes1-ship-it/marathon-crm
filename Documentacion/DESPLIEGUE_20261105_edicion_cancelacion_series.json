@@ -1,0 +1,372 @@
+{
+  "date": "2026-11-05",
+  "status": "PUBLICADO_VERIFICADO",
+  "url": "https://marathon-crm-liart.vercel.app/",
+  "deployment": "dpl_FWSiWX6jvNXBm4wr7F6yxbNwkZNA",
+  "deploymentState": "READY",
+  "sourceFiles": 54,
+  "servedFilesVerified": 53,
+  "migration": "20261105131658_agenda_edicion_cancelacion_desde_turno.sql",
+  "features": [
+    "Cancelación individual o desde el turno seleccionado en adelante.",
+    "Baja de la asignación indefinida, liberación de cupos y fin de generación de sesiones.",
+    "Edición desde el mismo formulario de Reservar turno, con datos precargados.",
+    "Cambios de fecha, sede, profesional y horarios por día; alcance individual o serie hacia adelante.",
+    "Reglas de horario con vigencia temporal para conservar lo anterior al corte.",
+    "Vista previa reversible, huella de versión, reintento idempotente y validación final de cupos.",
+    "Las cuotas eligen sede/profesional según el horario vigente en la fecha correspondiente."
+  ],
+  "protected": [
+    "Paciente, terapia, cantidad autorizada, cobertura, importes y facturación permanecen protegidos en edición.",
+    "Presentes/ausentes anteriores y movimientos de Caja conservados; no se modificó ningún turno real para probar.",
+    "Las cancelaciones ya registradas no se regeneran al editar una serie.",
+    "Conflictos futuros de cupo o asistencia registrada impiden la operación completa."
+  ],
+  "checks": {
+    "seriesSQL": "PASS en copia restaurada: cancelación individual/futura, baja indefinida, edición de serie y de fecha individual, excepciones canceladas, presente anterior, vista previa reversible, vista obsoleta, conflicto a 140 días, permisos, Caja.",
+    "financeSQL": "PASS cinco suites en base sintética aislada (unificado, eventos, importación, orden, reintegro de cuota).",
+    "javascript": "Sintaxis agenda.js/agenda-recurrente.js/turn-series.js; regresiones botón reservar y cancelados por rol PASS.",
+    "browser": "Demo 8776 con pacientes ficticios: formulario de reserva precargado, alcance futuro, revisión y confirmación; grilla actualizada a 13:00. Diálogo de cancelación con ambos alcances observado.",
+    "production": "RPC de contexto y vista previa ejecutados con rol de secretaría dentro de transacción revertida; no se guardaron operaciones reales.",
+    "originalCashRowsCompared": 53,
+    "originalCashDifferences": 0,
+    "concurrentOperationsObserved": true,
+    "concurrentActivityExplanation": "El sistema siguió operando: se registraron reservas, asistencia y un ingreso por un usuario del CRM durante la comparación. No se revirtieron ni sobrescribieron esas operaciones. Por ello la comparación global de 49 tablas tiene diferencias legítimas; no se declara igualdad global.",
+    "tablesWithConcurrentChanges": [
+      "turnos",
+      "turn_audit",
+      "solicitudes",
+      "agenda_planes",
+      "agenda_horarios",
+      "operation_audit",
+      "agenda_autorizaciones"
+    ],
+    "advisors": "Tres avisos adicionales de RPC SECURITY DEFINER intencionales con validación de usuario activo; ACL internas cerradas. Sin cambios en RLS."
+  },
+  "files": [
+    {
+      "relative": "accessibility.css",
+      "file": "Marathon_Vercel_0112/accessibility.css",
+      "sha": "edcc0acbe0f4d348ee7a4e99ded6c26bd72a717e",
+      "size": 2836
+    },
+    {
+      "relative": "agenda-availability.js",
+      "file": "Marathon_Vercel_0112/agenda-availability.js",
+      "sha": "96451391300a605c0e03dd6955536ebfe369ec82",
+      "size": 3202
+    },
+    {
+      "relative": "agenda-patient-editor.js",
+      "file": "Marathon_Vercel_0112/agenda-patient-editor.js",
+      "sha": "28aa14cc8de6b2bbeea98a91cd29b52f374927c9",
+      "size": 5309
+    },
+    {
+      "relative": "agenda-recurrente.css",
+      "file": "Marathon_Vercel_0112/agenda-recurrente.css",
+      "sha": "0b2a00f735bf2a90c96d3c73b669f2be7e2ddf3d",
+      "size": 7303
+    },
+    {
+      "relative": "agenda-recurrente.js",
+      "file": "Marathon_Vercel_0112/agenda-recurrente.js",
+      "sha": "a770f0d8beb4ca1ffcb22043f4b2244451af902a",
+      "size": 31529
+    },
+    {
+      "relative": "agenda.js",
+      "file": "Marathon_Vercel_0112/agenda.js",
+      "sha": "0df3844a91a2d683eca5ffeff72f651a5f881792",
+      "size": 72299
+    },
+    {
+      "relative": "api.js",
+      "file": "Marathon_Vercel_0112/api.js",
+      "sha": "12d7ce25eb7c8546aef7043add79ea9b1b2ac834",
+      "size": 8803
+    },
+    {
+      "relative": "app.js",
+      "file": "Marathon_Vercel_0112/app.js",
+      "sha": "f1011d8f9ce6b485eb791adcb492b2eda2112313",
+      "size": 27271
+    },
+    {
+      "relative": "button-variants.css",
+      "file": "Marathon_Vercel_0112/button-variants.css",
+      "sha": "ed24888dd9f2dbfc4a170462ea39754d2fe371d3",
+      "size": 7443
+    },
+    {
+      "relative": "cash-export.js",
+      "file": "Marathon_Vercel_0112/cash-export.js",
+      "sha": "78f84c5c4be6bf48e151b9fd2eb4ceacea648a24",
+      "size": 2704
+    },
+    {
+      "relative": "cash-patient-picker.js",
+      "file": "Marathon_Vercel_0112/cash-patient-picker.js",
+      "sha": "fb105e4d544207f9111e007513663a943e45d18c",
+      "size": 4134
+    },
+    {
+      "relative": "catalogs.js",
+      "file": "Marathon_Vercel_0112/catalogs.js",
+      "sha": "699be60e7d688d5084aede103399855555d9db35",
+      "size": 5498
+    },
+    {
+      "relative": "config.js",
+      "file": "Marathon_Vercel_0112/config.js",
+      "sha": "8121b2d3e7fd1c791fa5baee8bab11b3b0feb52e",
+      "size": 228
+    },
+    {
+      "relative": "coverage.js",
+      "file": "Marathon_Vercel_0112/coverage.js",
+      "sha": "0a92dadba08854a79adc1061dbefa9fe1d048913",
+      "size": 8949
+    },
+    {
+      "relative": "daily.js",
+      "file": "Marathon_Vercel_0112/daily.js",
+      "sha": "ae3822e8a514e41ad5be6e45dca18730a651c9e1",
+      "size": 3372
+    },
+    {
+      "relative": "diagnostico.html",
+      "file": "Marathon_Vercel_0112/diagnostico.html",
+      "sha": "8e4a6056a3e9e026e31b595735607040bb0a59eb",
+      "size": 7474
+    },
+    {
+      "relative": "documents.js",
+      "file": "Marathon_Vercel_0112/documents.js",
+      "sha": "c7dc8b7f040d1cce56103047a87ad1585c91a544",
+      "size": 8143
+    },
+    {
+      "relative": "editing.js",
+      "file": "Marathon_Vercel_0112/editing.js",
+      "sha": "c8a54b78c833ad0480cc4d5cf0e861e56b811b85",
+      "size": 5927
+    },
+    {
+      "relative": "fonts/Outfit-OFL.txt",
+      "file": "Marathon_Vercel_0112/fonts/Outfit-OFL.txt",
+      "sha": "511f83d0f91295c07861ca6308599199126848bf",
+      "size": 4389
+    },
+    {
+      "relative": "fonts/Outfit-variable.woff2",
+      "file": "Marathon_Vercel_0112/fonts/Outfit-variable.woff2",
+      "sha": "d8a316f7cbfa46e69876c925e58fbf7b7c1abf0d",
+      "size": 32292
+    },
+    {
+      "relative": "help.js",
+      "file": "Marathon_Vercel_0112/help.js",
+      "sha": "69dfff41e3f818b299c7cfa31b094f580f33f7f6",
+      "size": 7077
+    },
+    {
+      "relative": "home.js",
+      "file": "Marathon_Vercel_0112/home.js",
+      "sha": "b05d908e420b11e7fb50c11caaef475e8ecfd6b5",
+      "size": 9307
+    },
+    {
+      "relative": "impeccable.css",
+      "file": "Marathon_Vercel_0112/impeccable.css",
+      "sha": "6d0f3e3884e76b4484c6f09185332673e1a1362a",
+      "size": 10080
+    },
+    {
+      "relative": "index.html",
+      "file": "Marathon_Vercel_0112/index.html",
+      "sha": "f9648f7ca7d513a412de18521b150ab70a46370c",
+      "size": 29678
+    },
+    {
+      "relative": "login-guard.js",
+      "file": "Marathon_Vercel_0112/login-guard.js",
+      "sha": "3a6dff6274d6f554b1940e87f53a3fc55290ec57",
+      "size": 1139
+    },
+    {
+      "relative": "management.css",
+      "file": "Marathon_Vercel_0112/management.css",
+      "sha": "142f9380489e95a91ccedc587f8c436a9ac0a5ea",
+      "size": 1653
+    },
+    {
+      "relative": "management.js",
+      "file": "Marathon_Vercel_0112/management.js",
+      "sha": "7747f62bbdee72afd8da1c77833706d3ccc5479d",
+      "size": 14595
+    },
+    {
+      "relative": "marathon-brand.css",
+      "file": "Marathon_Vercel_0112/marathon-brand.css",
+      "sha": "229e0c8c71a36ceff7f780c97e40493ba8dea18e",
+      "size": 12850
+    },
+    {
+      "relative": "marathon-motion.css",
+      "file": "Marathon_Vercel_0112/marathon-motion.css",
+      "sha": "507292d0ca680f8ab6fae8dd7f8c9a3cca1e7e73",
+      "size": 3099
+    },
+    {
+      "relative": "marathon-salud.css",
+      "file": "Marathon_Vercel_0112/marathon-salud.css",
+      "sha": "6a4d56ae51a553d04e6e073cbcfe4c816f16f9a0",
+      "size": 7402
+    },
+    {
+      "relative": "marathon-ui.css",
+      "file": "Marathon_Vercel_0112/marathon-ui.css",
+      "sha": "68ffd99962397e47a4ee6128103758e02c09380b",
+      "size": 21849
+    },
+    {
+      "relative": "masters.js",
+      "file": "Marathon_Vercel_0112/masters.js",
+      "sha": "8e364ba8fe252ac72eba1dda1ec0c1049865bba4",
+      "size": 10160
+    },
+    {
+      "relative": "modal-ui.js",
+      "file": "Marathon_Vercel_0112/modal-ui.js",
+      "sha": "cdc7cc84d8196e856ba6862eb107b08093bbb900",
+      "size": 2349
+    },
+    {
+      "relative": "motion.js",
+      "file": "Marathon_Vercel_0112/motion.js",
+      "sha": "4155c428d0dc54ca5ede38cb5017b7b24cedf7f0",
+      "size": 1423
+    },
+    {
+      "relative": "operations.js",
+      "file": "Marathon_Vercel_0112/operations.js",
+      "sha": "1a053402796b195344c0c3d963991ca2eb627240",
+      "size": 49468
+    },
+    {
+      "relative": "ortho.js",
+      "file": "Marathon_Vercel_0112/ortho.js",
+      "sha": "a7a5f7c20072e13755c78c3ffef265d7de1e1eb7",
+      "size": 25347
+    },
+    {
+      "relative": "patient-history.js",
+      "file": "Marathon_Vercel_0112/patient-history.js",
+      "sha": "ca570ab45df72c3dd004bc4b5ee2518eee0b6937",
+      "size": 10349
+    },
+    {
+      "relative": "patient-reports.css",
+      "file": "Marathon_Vercel_0112/patient-reports.css",
+      "sha": "d54bc74d5ac287938020c3e4b45db1b10d088706",
+      "size": 6994
+    },
+    {
+      "relative": "patient-reports.js",
+      "file": "Marathon_Vercel_0112/patient-reports.js",
+      "sha": "c2899bc041e84041133377cca000ce00aa5fc39a",
+      "size": 28868
+    },
+    {
+      "relative": "reports.js",
+      "file": "Marathon_Vercel_0112/reports.js",
+      "sha": "dc38e2ddfa180d84895be2d7569521051216c119",
+      "size": 8579
+    },
+    {
+      "relative": "saldo-state.js",
+      "file": "Marathon_Vercel_0112/saldo-state.js",
+      "sha": "7f3a04251389594492de0b4e8823cf6286a913f6",
+      "size": 644
+    },
+    {
+      "relative": "saldo.css",
+      "file": "Marathon_Vercel_0112/saldo.css",
+      "sha": "2fe298b5a440c5c267cded58bdbbe2ba8a0c2900",
+      "size": 2840
+    },
+    {
+      "relative": "saldo.js",
+      "file": "Marathon_Vercel_0112/saldo.js",
+      "sha": "83f37e49598ecefd3ab6e39737eede4ef399f356",
+      "size": 18456
+    },
+    {
+      "relative": "session-counts.js",
+      "file": "Marathon_Vercel_0112/session-counts.js",
+      "sha": "2c94fe8ed6443bb3cc2698e8d266823913f45a8c",
+      "size": 1393
+    },
+    {
+      "relative": "shared-space.css",
+      "file": "Marathon_Vercel_0112/shared-space.css",
+      "sha": "36e9a9b853f761cfccdc84feb1fc261af6c578e1",
+      "size": 2815
+    },
+    {
+      "relative": "shared-space.js",
+      "file": "Marathon_Vercel_0112/shared-space.js",
+      "sha": "7c8056cfa893892d402b2a8e1de11ccdd9f836a3",
+      "size": 4610
+    },
+    {
+      "relative": "style.css",
+      "file": "Marathon_Vercel_0112/style.css",
+      "sha": "00412f0bd2dc30f5c6892d4b66f0f4b5d83268b3",
+      "size": 57950
+    },
+    {
+      "relative": "turn-series.js",
+      "file": "Marathon_Vercel_0112/turn-series.js",
+      "sha": "7e481d68e2c867cc237fcb15da16daca8916657c",
+      "size": 7962
+    },
+    {
+      "relative": "turn-tools.js",
+      "file": "Marathon_Vercel_0112/turn-tools.js",
+      "sha": "5e09009bf807f0bcafbbf28cc18e4671688bf51e",
+      "size": 6396
+    },
+    {
+      "relative": "users.js",
+      "file": "Marathon_Vercel_0112/users.js",
+      "sha": "cffc392283745c7f8c7e1d76319d114523d00d3c",
+      "size": 7534
+    },
+    {
+      "relative": "vercel.json",
+      "file": "Marathon_Vercel_0112/vercel.json",
+      "sha": "d2ef0425e21ed153b4f37262676f5f665a737e64",
+      "size": 257
+    },
+    {
+      "relative": "whatsapp-templates.js",
+      "file": "Marathon_Vercel_0112/whatsapp-templates.js",
+      "sha": "acf74ba73c23b9d45736330a06bb69c69feb4ca4",
+      "size": 5160
+    },
+    {
+      "relative": "whatsapp.js",
+      "file": "Marathon_Vercel_0112/whatsapp.js",
+      "sha": "7eef99af6765836d3f415a5a2818c1467fb2eb76",
+      "size": 14681
+    },
+    {
+      "relative": "xlsx.js",
+      "file": "Marathon_Vercel_0112/xlsx.js",
+      "sha": "04ff473ce7f9e95f2a1f28254105d2c0d58fadfe",
+      "size": 10687
+    }
+  ]
+}

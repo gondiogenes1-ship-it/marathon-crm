@@ -1,0 +1,4976 @@
+{
+  "date": "2026-11-06",
+  "schema": "marathon",
+  "table_count": 51,
+  "column_count": 520,
+  "tables": [
+    {
+      "table_name": "agenda_ajustes",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "cuota_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "numeric",
+          "column": "importe",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "motivo",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "agenda_autorizaciones",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "plan_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "integer",
+          "column": "cantidad",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "fecha",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "agenda_cuotas",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "plan_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "periodo_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "fecha",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "hasta",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "numeric",
+          "column": "importe",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "sede",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "agenda_horarios",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "plan_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "sede",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "profesional_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "integer",
+          "column": "dia",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "time without time zone",
+          "column": "hora",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "integer",
+          "column": "duracion_min",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "desde",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "hasta",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "numeric",
+          "column": "importe_override",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "jsonb",
+          "column": "coverage_override",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "observaciones_override",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "terapia_override",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "agenda_pausas",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "plan_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "desde",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "hasta",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "motivo",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "agenda_periodos",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "plan_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "inicio",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "fin",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "boolean",
+          "column": "anulado",
+          "default": "false",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "agenda_planes",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "dni",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "terapia_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "modalidad",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "facturacion",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "numeric",
+          "column": "importe",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "inicio",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "baja",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "jsonb",
+          "column": "coverage",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "observaciones",
+          "default": "''::text",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        },
+        {
+          "type": "boolean",
+          "column": "registro_retroactivo",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "agenda_tarifas",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "plan_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "desde",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "numeric",
+          "column": "importe",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "boolean",
+          "column": "vigente",
+          "default": "true",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "request_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "anticipo_eventos",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "anticipo_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "turno_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "tipo",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "numeric",
+          "column": "monto",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "movimiento_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "request_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "actor",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "anticipos",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "dni",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "sede",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "terapia_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "profesional_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "numeric",
+          "column": "importe",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "fecha",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "time without time zone",
+          "column": "hora",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "observaciones",
+          "default": "''::text",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "app_users",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "user_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "role",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "boolean",
+          "column": "active",
+          "default": "false",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "display_name",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "attendance_settings",
+      "columns": [
+        {
+          "type": "boolean",
+          "column": "id",
+          "default": "true",
+          "nullable": "NO"
+        },
+        {
+          "type": "boolean",
+          "column": "enabled",
+          "default": "true",
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "start_date",
+          "default": null,
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "attendance_system_audit",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "turn_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "run_day",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "jsonb",
+          "column": "before_data",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "jsonb",
+          "column": "after_data",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "bonos_serie",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "serie_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "dni",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "sede",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "terapia_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "profesional_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "numeric",
+          "column": "importe",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "estado",
+          "default": "'ACTIVO'::text",
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "fecha",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "time without time zone",
+          "column": "hora",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "primera_fecha",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "integer",
+          "column": "sesiones",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "observaciones",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "cash_edits",
+      "columns": [
+        {
+          "type": "text",
+          "column": "original_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "reversal_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "replacement_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "request_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "actor",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "motivo",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "documentos",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "dni",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "nombre",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "storage_path",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "legacy_url",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "mime",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "sha256",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "estado",
+          "default": "'LISTO'::text",
+          "nullable": "NO"
+        },
+        {
+          "type": "bigint",
+          "column": "bytes",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "upload_expires",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "deleted_at",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "deleted_by",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "espera",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "fecha",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "dni",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "terapia_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "profesional_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "sede",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "estado",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "preferencias_legacy",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "observaciones",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "reserved_turn_id",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "horarios",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "profesional_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "sede",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "smallint",
+          "column": "dia",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "time without time zone",
+          "column": "inicio",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "time without time zone",
+          "column": "fin",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "informacion_terapias",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "terapia_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "obra_social_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "mensaje",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "estado",
+          "default": "'ACTIVO'::text",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "master_audit",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "request_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "actor",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "entity",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "entity_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "jsonb",
+          "column": "before_data",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "jsonb",
+          "column": "after_data",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "movimientos",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "date",
+          "column": "fecha",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "time without time zone",
+          "column": "hora",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "origen",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "tipo",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "dni",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "numeric",
+          "column": "monto",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "medio",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "sede",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "secretaria_legacy",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "turno_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "operacion_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "concepto",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "observaciones_legacy",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "compensacion_de",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "motivo",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "categoria",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "profesional_asociado_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "secretaria_asociada",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "bono_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "anticipo_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "cuota_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "subtipo",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "terapia_asociada_id",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "obras_sociales",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "nombre",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "domicilio",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "localidad",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "cuit",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "estado",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "observaciones",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "operation_audit",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "request_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "actor",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "entity",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "entity_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "action",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "jsonb",
+          "column": "before_data",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "jsonb",
+          "column": "after_data",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "ortopedia_operaciones",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "original_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "date",
+          "column": "fecha",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "time without time zone",
+          "column": "hora",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "tipo",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "producto_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "sede",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "integer",
+          "column": "cantidad",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "dni",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "integer",
+          "column": "semanas",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "date",
+          "column": "devolucion_prevista",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "numeric",
+          "column": "importe_total",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "secretaria_legacy",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "observaciones",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        },
+        {
+          "type": "numeric",
+          "column": "precio_unitario",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "jsonb",
+          "column": "producto_snapshot",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "transfer_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "numeric",
+          "column": "subtotal",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "numeric",
+          "column": "discount_rate",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "numeric",
+          "column": "discount_amount",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "pacientes",
+      "columns": [
+        {
+          "type": "text",
+          "column": "dni",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "nombre",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "segundo_nombre",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "apellido",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "obra_social_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "afiliado",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "date",
+          "column": "nacimiento",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "domicilio",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "localidad",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "provincia",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "telefono",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "email",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "sexo",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "medico",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "observaciones",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "documentos_legacy",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "integer",
+          "column": "sesiones_autorizadas",
+          "default": "0",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        },
+        {
+          "type": "jsonb",
+          "column": "coberturas",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "productos",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "pieza",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "talle",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "marca",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "descripcion",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "codigo",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "modalidad",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "numeric",
+          "column": "costo",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "numeric",
+          "column": "precio_venta",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "numeric",
+          "column": "precio_alquiler",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "estado",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "observaciones",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "profesional_terapias",
+      "columns": [
+        {
+          "type": "text",
+          "column": "profesional_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "terapia_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "profesionales",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "nombre",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "segundo_nombre",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "apellido",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "matricula",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "especialidad",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "estado",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "saldo_ajustes_sesion",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "turno_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "numeric",
+          "column": "monto",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "motivo",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "request_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "actor",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "saldo_aplicaciones",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "dni",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "fuente_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "turno_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "cuota_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "bono_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "numeric",
+          "column": "monto",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "request_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "actor",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "saldo_base_legacy",
+      "columns": [
+        {
+          "type": "text",
+          "column": "tipo",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "numeric",
+          "column": "pagado",
+          "default": null,
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "saldo_config",
+      "columns": [
+        {
+          "type": "boolean",
+          "column": "id",
+          "default": "true",
+          "nullable": "NO"
+        },
+        {
+          "type": "boolean",
+          "column": "activo",
+          "default": "false",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "corte",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "saldo_cuentas",
+      "columns": [
+        {
+          "type": "text",
+          "column": "dni",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "saldo_eventos",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "dni",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "fuente_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "tipo",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "numeric",
+          "column": "monto",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "aplicacion_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "movimiento_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "request_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "actor",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "efecto",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "saldo_fuentes",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "dni",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "movimiento_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "origen",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "saldo_importacion_map",
+      "columns": [
+        {
+          "type": "text",
+          "column": "origen",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "destino",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "lote",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "secretarias",
+      "columns": [
+        {
+          "type": "text",
+          "column": "nombre",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "email",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "estado",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "sedes",
+      "columns": [
+        {
+          "type": "text",
+          "column": "nombre",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "direccion",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "telefono",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "estado",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "observaciones",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "shared_space_config",
+      "columns": [
+        {
+          "type": "boolean",
+          "column": "singleton",
+          "default": "true",
+          "nullable": "NO"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "shared_space_therapies",
+      "columns": [
+        {
+          "type": "text",
+          "column": "therapy_id",
+          "default": null,
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "solicitudes",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "usuario_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "tipo",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "payload_hash",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "jsonb",
+          "column": "resultado",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "stock_config",
+      "columns": [
+        {
+          "type": "text",
+          "column": "producto_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "sede",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "integer",
+          "column": "minimo",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        },
+        {
+          "type": "boolean",
+          "column": "initial_loaded",
+          "default": "false",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "terapias",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "especialidad",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "nombre",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "integer",
+          "column": "duracion_min",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "integer",
+          "column": "capacidad",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "estado",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "turn_audit",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "request_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "actor",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "turn_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "action",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "jsonb",
+          "column": "before_data",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "jsonb",
+          "column": "after_data",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "turnos",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "original_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "date",
+          "column": "fecha",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "sede",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "time without time zone",
+          "column": "hora",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "integer",
+          "column": "duracion_min",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "terapia_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "profesional_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "dni",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "numeric",
+          "column": "importe",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "estado",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "observaciones",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        },
+        {
+          "type": "jsonb",
+          "column": "coverage",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "date",
+          "column": "fixed_until",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "ARRAY",
+          "column": "fixed_days",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "date",
+          "column": "attendance_manual_date",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "boolean",
+          "column": "attendance_auto",
+          "default": "false",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "attendance_auto_at",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "jsonb",
+          "column": "series_pattern",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "recovered_from",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "booking_notes",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "plan_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "horario_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "date",
+          "column": "fecha_habitual",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "autorizacion_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "agenda_motivo",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "terapia_override",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "boolean",
+          "column": "excepcional",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "user_provision",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "email",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "display_name",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "role",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "finished_at",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "auth_user_id",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    },
+    {
+      "table_name": "user_sedes",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "user_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "sede",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "created_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "whatsapp_attempts",
+      "columns": [
+        {
+          "type": "uuid",
+          "column": "id",
+          "default": "gen_random_uuid()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "user_id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "bigint",
+          "column": "config_version",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "status",
+          "default": "'pending'::text",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "created_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "expires_at",
+          "default": "(now() + '00:10:00'::interval)",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "token_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "waba_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "jsonb",
+          "column": "phones",
+          "default": "'[]'::jsonb",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "whatsapp_config",
+      "columns": [
+        {
+          "type": "boolean",
+          "column": "singleton",
+          "default": "true",
+          "nullable": "NO"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "app_id",
+          "default": "''::text",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "config_id",
+          "default": "''::text",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "graph_version",
+          "default": "'v26.0'::text",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "app_secret_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "verify_token",
+          "default": "(gen_random_uuid())::text",
+          "nullable": "NO"
+        },
+        {
+          "type": "boolean",
+          "column": "coexistence_enabled",
+          "default": "false",
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "webhook_verified_at",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "boolean",
+          "column": "connected",
+          "default": "false",
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "phone_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "waba_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "phone_display",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "text",
+          "column": "phone_name",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "access_token_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "linked_at",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "last_event_at",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "uuid",
+          "column": "last_request_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "whatsapp_events",
+      "columns": [
+        {
+          "type": "text",
+          "column": "event_hash",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "received_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "jsonb",
+          "column": "payload",
+          "default": null,
+          "nullable": "NO"
+        }
+      ]
+    },
+    {
+      "table_name": "whatsapp_message_templates",
+      "columns": [
+        {
+          "type": "text",
+          "column": "id",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "title",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "trigger_label",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "body",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "text",
+          "column": "default_body",
+          "default": null,
+          "nullable": "NO"
+        },
+        {
+          "type": "bigint",
+          "column": "version",
+          "default": "1",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "last_request_id",
+          "default": null,
+          "nullable": "YES"
+        },
+        {
+          "type": "timestamp with time zone",
+          "column": "updated_at",
+          "default": "now()",
+          "nullable": "NO"
+        },
+        {
+          "type": "uuid",
+          "column": "updated_by",
+          "default": null,
+          "nullable": "YES"
+        }
+      ]
+    }
+  ],
+  "constraints": [
+    {
+      "table_name": "marathon.agenda_ajustes",
+      "constraint_name": "agenda_ajustes_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.agenda_ajustes",
+      "constraint_name": "agenda_ajustes_cuota_id_fkey",
+      "definition": "FOREIGN KEY (cuota_id) REFERENCES marathon.agenda_cuotas(id)"
+    },
+    {
+      "table_name": "marathon.agenda_ajustes",
+      "constraint_name": "agenda_ajustes_importe_check",
+      "definition": "CHECK (importe > 0::numeric)"
+    },
+    {
+      "table_name": "marathon.agenda_ajustes",
+      "constraint_name": "agenda_ajustes_motivo_check",
+      "definition": "CHECK (length(btrim(motivo)) >= 3 AND length(btrim(motivo)) <= 1000)"
+    },
+    {
+      "table_name": "marathon.agenda_ajustes",
+      "constraint_name": "agenda_ajustes_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.agenda_autorizaciones",
+      "constraint_name": "agenda_autorizaciones_cantidad_check",
+      "definition": "CHECK (cantidad >= 1 AND cantidad <= 1000)"
+    },
+    {
+      "table_name": "marathon.agenda_autorizaciones",
+      "constraint_name": "agenda_autorizaciones_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.agenda_autorizaciones",
+      "constraint_name": "agenda_autorizaciones_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.agenda_autorizaciones",
+      "constraint_name": "agenda_autorizaciones_plan_id_fkey",
+      "definition": "FOREIGN KEY (plan_id) REFERENCES marathon.agenda_planes(id)"
+    },
+    {
+      "table_name": "marathon.agenda_cuotas",
+      "constraint_name": "agenda_cuotas_check",
+      "definition": "CHECK (hasta > fecha)"
+    },
+    {
+      "table_name": "marathon.agenda_cuotas",
+      "constraint_name": "agenda_cuotas_importe_check",
+      "definition": "CHECK (importe >= 0::numeric)"
+    },
+    {
+      "table_name": "marathon.agenda_cuotas",
+      "constraint_name": "agenda_cuotas_periodo_id_fecha_key",
+      "definition": "UNIQUE (periodo_id, fecha)"
+    },
+    {
+      "table_name": "marathon.agenda_cuotas",
+      "constraint_name": "agenda_cuotas_periodo_id_fkey",
+      "definition": "FOREIGN KEY (periodo_id) REFERENCES marathon.agenda_periodos(id)"
+    },
+    {
+      "table_name": "marathon.agenda_cuotas",
+      "constraint_name": "agenda_cuotas_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.agenda_cuotas",
+      "constraint_name": "agenda_cuotas_plan_id_fkey",
+      "definition": "FOREIGN KEY (plan_id) REFERENCES marathon.agenda_planes(id)"
+    },
+    {
+      "table_name": "marathon.agenda_cuotas",
+      "constraint_name": "agenda_cuotas_sede_fkey",
+      "definition": "FOREIGN KEY (sede) REFERENCES marathon.sedes(nombre)"
+    },
+    {
+      "table_name": "marathon.agenda_horarios",
+      "constraint_name": "agenda_horarios_check",
+      "definition": "CHECK (hasta IS NULL OR hasta >= desde)"
+    },
+    {
+      "table_name": "marathon.agenda_horarios",
+      "constraint_name": "agenda_horarios_dia_check",
+      "definition": "CHECK (dia >= 1 AND dia <= 5)"
+    },
+    {
+      "table_name": "marathon.agenda_horarios",
+      "constraint_name": "agenda_horarios_duracion_min_check",
+      "definition": "CHECK (duracion_min > 0)"
+    },
+    {
+      "table_name": "marathon.agenda_horarios",
+      "constraint_name": "agenda_horarios_importe_override_check",
+      "definition": "CHECK (importe_override >= 0::numeric)"
+    },
+    {
+      "table_name": "marathon.agenda_horarios",
+      "constraint_name": "agenda_horarios_observaciones_override_check",
+      "definition": "CHECK (length(observaciones_override) <= 1000)"
+    },
+    {
+      "table_name": "marathon.agenda_horarios",
+      "constraint_name": "agenda_horarios_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.agenda_horarios",
+      "constraint_name": "agenda_horarios_plan_id_fkey",
+      "definition": "FOREIGN KEY (plan_id) REFERENCES marathon.agenda_planes(id)"
+    },
+    {
+      "table_name": "marathon.agenda_horarios",
+      "constraint_name": "agenda_horarios_profesional_id_fkey",
+      "definition": "FOREIGN KEY (profesional_id) REFERENCES marathon.profesionales(id)"
+    },
+    {
+      "table_name": "marathon.agenda_horarios",
+      "constraint_name": "agenda_horarios_sede_fkey",
+      "definition": "FOREIGN KEY (sede) REFERENCES marathon.sedes(nombre)"
+    },
+    {
+      "table_name": "marathon.agenda_horarios",
+      "constraint_name": "agenda_horarios_terapia_override_fkey",
+      "definition": "FOREIGN KEY (terapia_override) REFERENCES marathon.terapias(id)"
+    },
+    {
+      "table_name": "marathon.agenda_pausas",
+      "constraint_name": "agenda_pausas_check",
+      "definition": "CHECK (hasta IS NULL OR hasta >= desde)"
+    },
+    {
+      "table_name": "marathon.agenda_pausas",
+      "constraint_name": "agenda_pausas_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.agenda_pausas",
+      "constraint_name": "agenda_pausas_motivo_check",
+      "definition": "CHECK (length(btrim(motivo)) >= 3 AND length(btrim(motivo)) <= 1000)"
+    },
+    {
+      "table_name": "marathon.agenda_pausas",
+      "constraint_name": "agenda_pausas_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.agenda_pausas",
+      "constraint_name": "agenda_pausas_plan_id_fkey",
+      "definition": "FOREIGN KEY (plan_id) REFERENCES marathon.agenda_planes(id)"
+    },
+    {
+      "table_name": "marathon.agenda_periodos",
+      "constraint_name": "agenda_periodos_check",
+      "definition": "CHECK (fin IS NULL OR fin >= inicio)"
+    },
+    {
+      "table_name": "marathon.agenda_periodos",
+      "constraint_name": "agenda_periodos_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.agenda_periodos",
+      "constraint_name": "agenda_periodos_plan_id_fkey",
+      "definition": "FOREIGN KEY (plan_id) REFERENCES marathon.agenda_planes(id)"
+    },
+    {
+      "table_name": "marathon.agenda_planes",
+      "constraint_name": "agenda_planes_check",
+      "definition": "CHECK (baja IS NULL OR baja >= inicio)"
+    },
+    {
+      "table_name": "marathon.agenda_planes",
+      "constraint_name": "agenda_planes_check1",
+      "definition": "CHECK (facturacion <> 'none'::text OR importe = 0::numeric)"
+    },
+    {
+      "table_name": "marathon.agenda_planes",
+      "constraint_name": "agenda_planes_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.agenda_planes",
+      "constraint_name": "agenda_planes_dni_fkey",
+      "definition": "FOREIGN KEY (dni) REFERENCES marathon.pacientes(dni)"
+    },
+    {
+      "table_name": "marathon.agenda_planes",
+      "constraint_name": "agenda_planes_facturacion_check",
+      "definition": "CHECK (facturacion = ANY (ARRAY['class'::text, 'bonus_class'::text, 'monthly'::text, 'none'::text]))"
+    },
+    {
+      "table_name": "marathon.agenda_planes",
+      "constraint_name": "agenda_planes_importe_check",
+      "definition": "CHECK (importe >= 0::numeric)"
+    },
+    {
+      "table_name": "marathon.agenda_planes",
+      "constraint_name": "agenda_planes_modalidad_check",
+      "definition": "CHECK (modalidad = ANY (ARRAY['sessions'::text, 'monthly'::text, 'fixed'::text]))"
+    },
+    {
+      "table_name": "marathon.agenda_planes",
+      "constraint_name": "agenda_planes_observaciones_check",
+      "definition": "CHECK (length(observaciones) <= 1000)"
+    },
+    {
+      "table_name": "marathon.agenda_planes",
+      "constraint_name": "agenda_planes_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.agenda_planes",
+      "constraint_name": "agenda_planes_terapia_id_fkey",
+      "definition": "FOREIGN KEY (terapia_id) REFERENCES marathon.terapias(id)"
+    },
+    {
+      "table_name": "marathon.agenda_planes",
+      "constraint_name": "agenda_planes_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.agenda_tarifas",
+      "constraint_name": "agenda_tarifas_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.agenda_tarifas",
+      "constraint_name": "agenda_tarifas_importe_check",
+      "definition": "CHECK (importe > 0::numeric)"
+    },
+    {
+      "table_name": "marathon.agenda_tarifas",
+      "constraint_name": "agenda_tarifas_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.agenda_tarifas",
+      "constraint_name": "agenda_tarifas_plan_id_fkey",
+      "definition": "FOREIGN KEY (plan_id) REFERENCES marathon.agenda_planes(id)"
+    },
+    {
+      "table_name": "marathon.agenda_tarifas",
+      "constraint_name": "agenda_tarifas_request_id_fkey",
+      "definition": "FOREIGN KEY (request_id) REFERENCES marathon.solicitudes(id)"
+    },
+    {
+      "table_name": "marathon.anticipo_eventos",
+      "constraint_name": "anticipo_eventos_actor_fkey",
+      "definition": "FOREIGN KEY (actor) REFERENCES marathon.app_users(user_id)"
+    },
+    {
+      "table_name": "marathon.anticipo_eventos",
+      "constraint_name": "anticipo_eventos_anticipo_id_fkey",
+      "definition": "FOREIGN KEY (anticipo_id) REFERENCES marathon.anticipos(id)"
+    },
+    {
+      "table_name": "marathon.anticipo_eventos",
+      "constraint_name": "anticipo_eventos_check",
+      "definition": "CHECK ((tipo = ANY (ARRAY['DEPOSITO'::text, 'DEVOLUCION'::text])) AND turno_id IS NULL AND movimiento_id IS NOT NULL OR (tipo = ANY (ARRAY['APLICACION'::text, 'REVERSO'::text])) AND turno_id IS NOT NULL AND movimiento_id IS NULL)"
+    },
+    {
+      "table_name": "marathon.anticipo_eventos",
+      "constraint_name": "anticipo_eventos_monto_check",
+      "definition": "CHECK (monto > 0::numeric)"
+    },
+    {
+      "table_name": "marathon.anticipo_eventos",
+      "constraint_name": "anticipo_eventos_movimiento_id_fkey",
+      "definition": "FOREIGN KEY (movimiento_id) REFERENCES marathon.movimientos(id)"
+    },
+    {
+      "table_name": "marathon.anticipo_eventos",
+      "constraint_name": "anticipo_eventos_movimiento_id_key",
+      "definition": "UNIQUE (movimiento_id)"
+    },
+    {
+      "table_name": "marathon.anticipo_eventos",
+      "constraint_name": "anticipo_eventos_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.anticipo_eventos",
+      "constraint_name": "anticipo_eventos_request_id_fkey",
+      "definition": "FOREIGN KEY (request_id) REFERENCES marathon.solicitudes(id)"
+    },
+    {
+      "table_name": "marathon.anticipo_eventos",
+      "constraint_name": "anticipo_eventos_tipo_check",
+      "definition": "CHECK (tipo = ANY (ARRAY['DEPOSITO'::text, 'APLICACION'::text, 'REVERSO'::text, 'DEVOLUCION'::text]))"
+    },
+    {
+      "table_name": "marathon.anticipo_eventos",
+      "constraint_name": "anticipo_eventos_turno_id_fkey",
+      "definition": "FOREIGN KEY (turno_id) REFERENCES marathon.turnos(id)"
+    },
+    {
+      "table_name": "marathon.anticipos",
+      "constraint_name": "anticipos_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES marathon.app_users(user_id)"
+    },
+    {
+      "table_name": "marathon.anticipos",
+      "constraint_name": "anticipos_dni_fkey",
+      "definition": "FOREIGN KEY (dni) REFERENCES marathon.pacientes(dni)"
+    },
+    {
+      "table_name": "marathon.anticipos",
+      "constraint_name": "anticipos_importe_check",
+      "definition": "CHECK (importe > 0::numeric)"
+    },
+    {
+      "table_name": "marathon.anticipos",
+      "constraint_name": "anticipos_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.anticipos",
+      "constraint_name": "anticipos_profesional_id_fkey",
+      "definition": "FOREIGN KEY (profesional_id) REFERENCES marathon.profesionales(id)"
+    },
+    {
+      "table_name": "marathon.anticipos",
+      "constraint_name": "anticipos_sede_fkey",
+      "definition": "FOREIGN KEY (sede) REFERENCES marathon.sedes(nombre)"
+    },
+    {
+      "table_name": "marathon.anticipos",
+      "constraint_name": "anticipos_terapia_id_fkey",
+      "definition": "FOREIGN KEY (terapia_id) REFERENCES marathon.terapias(id)"
+    },
+    {
+      "table_name": "marathon.anticipos",
+      "constraint_name": "anticipos_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES marathon.app_users(user_id)"
+    },
+    {
+      "table_name": "marathon.app_users",
+      "constraint_name": "app_users_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.app_users",
+      "constraint_name": "app_users_pkey",
+      "definition": "PRIMARY KEY (user_id)"
+    },
+    {
+      "table_name": "marathon.app_users",
+      "constraint_name": "app_users_role_check",
+      "definition": "CHECK (role = ANY (ARRAY['ADMIN'::text, 'SECRETARIA'::text]))"
+    },
+    {
+      "table_name": "marathon.app_users",
+      "constraint_name": "app_users_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.app_users",
+      "constraint_name": "app_users_user_id_fkey",
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.app_users",
+      "constraint_name": "app_users_version_check",
+      "definition": "CHECK (version > 0)"
+    },
+    {
+      "table_name": "marathon.attendance_settings",
+      "constraint_name": "attendance_settings_id_check",
+      "definition": "CHECK (id)"
+    },
+    {
+      "table_name": "marathon.attendance_settings",
+      "constraint_name": "attendance_settings_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.attendance_system_audit",
+      "constraint_name": "attendance_system_audit_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.attendance_system_audit",
+      "constraint_name": "attendance_system_audit_turn_id_fkey",
+      "definition": "FOREIGN KEY (turn_id) REFERENCES marathon.turnos(id)"
+    },
+    {
+      "table_name": "marathon.bonos_serie",
+      "constraint_name": "bonos_serie_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.bonos_serie",
+      "constraint_name": "bonos_serie_dni_fkey",
+      "definition": "FOREIGN KEY (dni) REFERENCES marathon.pacientes(dni)"
+    },
+    {
+      "table_name": "marathon.bonos_serie",
+      "constraint_name": "bonos_serie_estado_check",
+      "definition": "CHECK (estado = ANY (ARRAY['ACTIVO'::text, 'ANULADO'::text]))"
+    },
+    {
+      "table_name": "marathon.bonos_serie",
+      "constraint_name": "bonos_serie_importe_check",
+      "definition": "CHECK (importe > 0::numeric)"
+    },
+    {
+      "table_name": "marathon.bonos_serie",
+      "constraint_name": "bonos_serie_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.bonos_serie",
+      "constraint_name": "bonos_serie_profesional_id_fkey",
+      "definition": "FOREIGN KEY (profesional_id) REFERENCES marathon.profesionales(id)"
+    },
+    {
+      "table_name": "marathon.bonos_serie",
+      "constraint_name": "bonos_serie_sede_fkey",
+      "definition": "FOREIGN KEY (sede) REFERENCES marathon.sedes(nombre)"
+    },
+    {
+      "table_name": "marathon.bonos_serie",
+      "constraint_name": "bonos_serie_serie_id_fkey",
+      "definition": "FOREIGN KEY (serie_id) REFERENCES marathon.turnos(id)"
+    },
+    {
+      "table_name": "marathon.bonos_serie",
+      "constraint_name": "bonos_serie_serie_id_key",
+      "definition": "UNIQUE (serie_id)"
+    },
+    {
+      "table_name": "marathon.bonos_serie",
+      "constraint_name": "bonos_serie_sesiones_check",
+      "definition": "CHECK (sesiones >= 1 AND sesiones <= 60)"
+    },
+    {
+      "table_name": "marathon.bonos_serie",
+      "constraint_name": "bonos_serie_terapia_id_fkey",
+      "definition": "FOREIGN KEY (terapia_id) REFERENCES marathon.terapias(id)"
+    },
+    {
+      "table_name": "marathon.bonos_serie",
+      "constraint_name": "bonos_serie_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.bonos_serie",
+      "constraint_name": "bonos_serie_version_check",
+      "definition": "CHECK (version > 0)"
+    },
+    {
+      "table_name": "marathon.cash_edits",
+      "constraint_name": "cash_edits_actor_fkey",
+      "definition": "FOREIGN KEY (actor) REFERENCES marathon.app_users(user_id)"
+    },
+    {
+      "table_name": "marathon.cash_edits",
+      "constraint_name": "cash_edits_motivo_check",
+      "definition": "CHECK (length(btrim(motivo)) >= 3 AND length(btrim(motivo)) <= 1000)"
+    },
+    {
+      "table_name": "marathon.cash_edits",
+      "constraint_name": "cash_edits_original_id_fkey",
+      "definition": "FOREIGN KEY (original_id) REFERENCES marathon.movimientos(id)"
+    },
+    {
+      "table_name": "marathon.cash_edits",
+      "constraint_name": "cash_edits_pkey",
+      "definition": "PRIMARY KEY (original_id)"
+    },
+    {
+      "table_name": "marathon.cash_edits",
+      "constraint_name": "cash_edits_replacement_id_fkey",
+      "definition": "FOREIGN KEY (replacement_id) REFERENCES marathon.movimientos(id) DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "table_name": "marathon.cash_edits",
+      "constraint_name": "cash_edits_replacement_id_key",
+      "definition": "UNIQUE (replacement_id)"
+    },
+    {
+      "table_name": "marathon.cash_edits",
+      "constraint_name": "cash_edits_request_id_fkey",
+      "definition": "FOREIGN KEY (request_id) REFERENCES marathon.solicitudes(id)"
+    },
+    {
+      "table_name": "marathon.cash_edits",
+      "constraint_name": "cash_edits_request_id_key",
+      "definition": "UNIQUE (request_id)"
+    },
+    {
+      "table_name": "marathon.cash_edits",
+      "constraint_name": "cash_edits_reversal_id_fkey",
+      "definition": "FOREIGN KEY (reversal_id) REFERENCES marathon.movimientos(id) DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "table_name": "marathon.cash_edits",
+      "constraint_name": "cash_edits_reversal_id_key",
+      "definition": "UNIQUE (reversal_id)"
+    },
+    {
+      "table_name": "marathon.documentos",
+      "constraint_name": "documentos_bytes_check",
+      "definition": "CHECK (bytes >= 1 AND bytes <= 5242880)"
+    },
+    {
+      "table_name": "marathon.documentos",
+      "constraint_name": "documentos_check",
+      "definition": "CHECK (storage_path IS NOT NULL OR legacy_url IS NOT NULL)"
+    },
+    {
+      "table_name": "marathon.documentos",
+      "constraint_name": "documentos_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.documentos",
+      "constraint_name": "documentos_deleted_by_fkey",
+      "definition": "FOREIGN KEY (deleted_by) REFERENCES marathon.app_users(user_id)"
+    },
+    {
+      "table_name": "marathon.documentos",
+      "constraint_name": "documentos_dni_fkey",
+      "definition": "FOREIGN KEY (dni) REFERENCES marathon.pacientes(dni)"
+    },
+    {
+      "table_name": "marathon.documentos",
+      "constraint_name": "documentos_estado_check",
+      "definition": "CHECK (estado = ANY (ARRAY['PENDIENTE'::text, 'LISTO'::text, 'ELIMINANDO'::text, 'ELIMINADO'::text]))"
+    },
+    {
+      "table_name": "marathon.documentos",
+      "constraint_name": "documentos_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.documentos",
+      "constraint_name": "documentos_storage_path_key",
+      "definition": "UNIQUE (storage_path)"
+    },
+    {
+      "table_name": "marathon.documentos",
+      "constraint_name": "documentos_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.espera",
+      "constraint_name": "espera_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.espera",
+      "constraint_name": "espera_dni_fkey",
+      "definition": "FOREIGN KEY (dni) REFERENCES marathon.pacientes(dni)"
+    },
+    {
+      "table_name": "marathon.espera",
+      "constraint_name": "espera_estado_check",
+      "definition": "CHECK (estado = ANY (ARRAY['PENDIENTE'::text, 'CONTACTADO'::text, 'RESUELTO'::text, 'CANCELADO'::text]))"
+    },
+    {
+      "table_name": "marathon.espera",
+      "constraint_name": "espera_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.espera",
+      "constraint_name": "espera_profesional_id_fkey",
+      "definition": "FOREIGN KEY (profesional_id) REFERENCES marathon.profesionales(id)"
+    },
+    {
+      "table_name": "marathon.espera",
+      "constraint_name": "espera_reserved_turn_id_fkey",
+      "definition": "FOREIGN KEY (reserved_turn_id) REFERENCES marathon.turnos(id)"
+    },
+    {
+      "table_name": "marathon.espera",
+      "constraint_name": "espera_sede_fkey",
+      "definition": "FOREIGN KEY (sede) REFERENCES marathon.sedes(nombre)"
+    },
+    {
+      "table_name": "marathon.espera",
+      "constraint_name": "espera_terapia_id_fkey",
+      "definition": "FOREIGN KEY (terapia_id) REFERENCES marathon.terapias(id)"
+    },
+    {
+      "table_name": "marathon.espera",
+      "constraint_name": "espera_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.horarios",
+      "constraint_name": "horarios_check",
+      "definition": "CHECK (fin > inicio)"
+    },
+    {
+      "table_name": "marathon.horarios",
+      "constraint_name": "horarios_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.horarios",
+      "constraint_name": "horarios_dia_check",
+      "definition": "CHECK (dia >= 0 AND dia <= 6)"
+    },
+    {
+      "table_name": "marathon.horarios",
+      "constraint_name": "horarios_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.horarios",
+      "constraint_name": "horarios_profesional_id_fkey",
+      "definition": "FOREIGN KEY (profesional_id) REFERENCES marathon.profesionales(id)"
+    },
+    {
+      "table_name": "marathon.horarios",
+      "constraint_name": "horarios_sede_fkey",
+      "definition": "FOREIGN KEY (sede) REFERENCES marathon.sedes(nombre)"
+    },
+    {
+      "table_name": "marathon.horarios",
+      "constraint_name": "horarios_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.informacion_terapias",
+      "constraint_name": "informacion_terapias_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.informacion_terapias",
+      "constraint_name": "informacion_terapias_estado_check",
+      "definition": "CHECK (estado = ANY (ARRAY['ACTIVO'::text, 'INACTIVO'::text]))"
+    },
+    {
+      "table_name": "marathon.informacion_terapias",
+      "constraint_name": "informacion_terapias_obra_social_id_fkey",
+      "definition": "FOREIGN KEY (obra_social_id) REFERENCES marathon.obras_sociales(id)"
+    },
+    {
+      "table_name": "marathon.informacion_terapias",
+      "constraint_name": "informacion_terapias_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.informacion_terapias",
+      "constraint_name": "informacion_terapias_terapia_id_fkey",
+      "definition": "FOREIGN KEY (terapia_id) REFERENCES marathon.terapias(id)"
+    },
+    {
+      "table_name": "marathon.informacion_terapias",
+      "constraint_name": "informacion_terapias_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.master_audit",
+      "constraint_name": "master_audit_actor_fkey",
+      "definition": "FOREIGN KEY (actor) REFERENCES marathon.app_users(user_id)"
+    },
+    {
+      "table_name": "marathon.master_audit",
+      "constraint_name": "master_audit_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.master_audit",
+      "constraint_name": "master_audit_request_id_fkey",
+      "definition": "FOREIGN KEY (request_id) REFERENCES marathon.solicitudes(id)"
+    },
+    {
+      "table_name": "marathon.master_audit",
+      "constraint_name": "master_audit_request_id_key",
+      "definition": "UNIQUE (request_id)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimiento_cuota_shape",
+      "definition": "CHECK (cuota_id IS NULL OR origen = 'CAJA'::text AND (tipo = ANY (ARRAY['INGRESO'::text, 'EGRESO'::text])) AND turno_id IS NULL AND bono_id IS NULL AND anticipo_id IS NULL AND operacion_id IS NULL)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_anticipo_id_fkey",
+      "definition": "FOREIGN KEY (anticipo_id) REFERENCES marathon.anticipos(id)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_anticipo_shape",
+      "definition": "CHECK (anticipo_id IS NULL OR origen = 'ANTICIPO'::text AND (tipo = ANY (ARRAY['INGRESO'::text, 'EGRESO'::text])) AND turno_id IS NULL AND bono_id IS NULL AND operacion_id IS NULL)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_bono_id_fkey",
+      "definition": "FOREIGN KEY (bono_id) REFERENCES marathon.bonos_serie(id)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_bono_shape",
+      "definition": "CHECK (bono_id IS NULL OR origen = 'BONO'::text AND turno_id IS NULL AND operacion_id IS NULL AND (tipo = ANY (ARRAY['INGRESO'::text, 'EGRESO'::text])))"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_check",
+      "definition": "CHECK (compensacion_de IS NULL OR compensacion_de <> id AND length(TRIM(BOTH FROM motivo)) >= 3)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_compensacion_de_fkey",
+      "definition": "FOREIGN KEY (compensacion_de) REFERENCES marathon.movimientos(id)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_cuota_id_fkey",
+      "definition": "FOREIGN KEY (cuota_id) REFERENCES marathon.agenda_cuotas(id)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_dni_fkey",
+      "definition": "FOREIGN KEY (dni) REFERENCES marathon.pacientes(dni)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_medio_check",
+      "definition": "CHECK (medio = ANY (ARRAY['EFECTIVO'::text, 'TRANSFERENCIA'::text]))"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_monto_check",
+      "definition": "CHECK (monto >= 0::numeric)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_operacion_id_fkey",
+      "definition": "FOREIGN KEY (operacion_id) REFERENCES marathon.ortopedia_operaciones(id)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_profesional_asociado_id_fkey",
+      "definition": "FOREIGN KEY (profesional_asociado_id) REFERENCES marathon.profesionales(id)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_secretaria_asociada_fkey",
+      "definition": "FOREIGN KEY (secretaria_asociada) REFERENCES marathon.secretarias(nombre)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_sede_fkey",
+      "definition": "FOREIGN KEY (sede) REFERENCES marathon.sedes(nombre)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_terapia_asociada_id_fkey",
+      "definition": "FOREIGN KEY (terapia_asociada_id) REFERENCES marathon.terapias(id)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_tipo_check",
+      "definition": "CHECK (tipo = ANY (ARRAY['PAGO'::text, 'INGRESO'::text, 'EGRESO'::text, 'REINTEGRO'::text]))"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_turno_id_fkey",
+      "definition": "FOREIGN KEY (turno_id) REFERENCES marathon.turnos(id)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "movimientos_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.movimientos",
+      "constraint_name": "saldo_subtipo_check",
+      "definition": "CHECK (subtipo IS NULL OR subtipo = 'SALDO_INGRESO'::text AND origen = 'CAJA'::text AND tipo = 'INGRESO'::text AND dni IS NOT NULL AND num_nonnulls(turno_id, cuota_id, bono_id, anticipo_id, operacion_id) = 0 OR subtipo = 'SALDO_DEVOLUCION'::text AND origen = 'CAJA'::text AND tipo = 'EGRESO'::text AND dni IS NOT NULL AND num_nonnulls(turno_id, cuota_id, bono_id, anticipo_id, operacion_id) = 0 OR (subtipo = ANY (ARRAY['OTRO_INGRESO'::text, 'GASTO_GENERAL'::text, 'OTRO_EGRESO'::text, 'PAGO_PROFESIONAL'::text])) AND origen = 'CAJA'::text AND dni IS NULL AND num_nonnulls(turno_id, cuota_id, bono_id, anticipo_id, operacion_id) = 0 AND (subtipo = 'OTRO_INGRESO'::text AND tipo = 'INGRESO'::text OR subtipo <> 'OTRO_INGRESO'::text AND tipo = 'EGRESO'::text) AND (subtipo <> 'PAGO_PROFESIONAL'::text OR profesional_asociado_id IS NOT NULL AND terapia_asociada_id IS NOT NULL))"
+    },
+    {
+      "table_name": "marathon.obras_sociales",
+      "constraint_name": "obras_sociales_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.obras_sociales",
+      "constraint_name": "obras_sociales_estado_check",
+      "definition": "CHECK (estado = ANY (ARRAY['ACTIVO'::text, 'INACTIVO'::text]))"
+    },
+    {
+      "table_name": "marathon.obras_sociales",
+      "constraint_name": "obras_sociales_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.obras_sociales",
+      "constraint_name": "obras_sociales_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.operation_audit",
+      "constraint_name": "operation_audit_actor_fkey",
+      "definition": "FOREIGN KEY (actor) REFERENCES marathon.app_users(user_id)"
+    },
+    {
+      "table_name": "marathon.operation_audit",
+      "constraint_name": "operation_audit_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.operation_audit",
+      "constraint_name": "operation_audit_request_id_entity_entity_id_key",
+      "definition": "UNIQUE (request_id, entity, entity_id)"
+    },
+    {
+      "table_name": "marathon.operation_audit",
+      "constraint_name": "operation_audit_request_id_fkey",
+      "definition": "FOREIGN KEY (request_id) REFERENCES marathon.solicitudes(id)"
+    },
+    {
+      "table_name": "marathon.ortopedia_operaciones",
+      "constraint_name": "ortho_discount_valid",
+      "definition": "CHECK (num_nonnulls(subtotal, discount_rate, discount_amount) = 0 OR num_nonnulls(subtotal, discount_rate, discount_amount) = 3 AND (tipo = ANY (ARRAY['VENTA'::text, 'ALQUILER'::text])) AND subtotal >= 0::numeric AND discount_rate >= 0::numeric AND discount_rate <= 100::numeric AND discount_amount = round(subtotal * discount_rate / 100::numeric, 2) AND importe_total = (subtotal - discount_amount))"
+    },
+    {
+      "table_name": "marathon.ortopedia_operaciones",
+      "constraint_name": "ortopedia_operaciones_cantidad_check",
+      "definition": "CHECK (cantidad > 0)"
+    },
+    {
+      "table_name": "marathon.ortopedia_operaciones",
+      "constraint_name": "ortopedia_operaciones_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.ortopedia_operaciones",
+      "constraint_name": "ortopedia_operaciones_dni_fkey",
+      "definition": "FOREIGN KEY (dni) REFERENCES marathon.pacientes(dni)"
+    },
+    {
+      "table_name": "marathon.ortopedia_operaciones",
+      "constraint_name": "ortopedia_operaciones_importe_total_check",
+      "definition": "CHECK (importe_total >= 0::numeric)"
+    },
+    {
+      "table_name": "marathon.ortopedia_operaciones",
+      "constraint_name": "ortopedia_operaciones_original_id_fkey",
+      "definition": "FOREIGN KEY (original_id) REFERENCES marathon.ortopedia_operaciones(id) DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "table_name": "marathon.ortopedia_operaciones",
+      "constraint_name": "ortopedia_operaciones_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.ortopedia_operaciones",
+      "constraint_name": "ortopedia_operaciones_precio_unitario_check",
+      "definition": "CHECK (precio_unitario >= 0::numeric)"
+    },
+    {
+      "table_name": "marathon.ortopedia_operaciones",
+      "constraint_name": "ortopedia_operaciones_producto_id_fkey",
+      "definition": "FOREIGN KEY (producto_id) REFERENCES marathon.productos(id)"
+    },
+    {
+      "table_name": "marathon.ortopedia_operaciones",
+      "constraint_name": "ortopedia_operaciones_sede_fkey",
+      "definition": "FOREIGN KEY (sede) REFERENCES marathon.sedes(nombre)"
+    },
+    {
+      "table_name": "marathon.ortopedia_operaciones",
+      "constraint_name": "ortopedia_operaciones_semanas_check",
+      "definition": "CHECK (semanas >= 1 AND semanas <= 520)"
+    },
+    {
+      "table_name": "marathon.ortopedia_operaciones",
+      "constraint_name": "ortopedia_operaciones_tipo_check",
+      "definition": "CHECK (tipo = ANY (ARRAY['STOCK_INICIAL'::text, 'VENTA'::text, 'ALQUILER'::text, 'COMPRA'::text, 'AJUSTE_POSITIVO'::text, 'AJUSTE_NEGATIVO'::text, 'DEVOLUCION'::text]))"
+    },
+    {
+      "table_name": "marathon.ortopedia_operaciones",
+      "constraint_name": "ortopedia_operaciones_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.pacientes",
+      "constraint_name": "pacientes_apellido_check",
+      "definition": "CHECK (length(TRIM(BOTH FROM apellido)) > 0)"
+    },
+    {
+      "table_name": "marathon.pacientes",
+      "constraint_name": "pacientes_coberturas_shape",
+      "definition": "CHECK (coberturas IS NULL OR jsonb_typeof(coberturas) = 'array'::text AND jsonb_array_length(coberturas) <= 20)"
+    },
+    {
+      "table_name": "marathon.pacientes",
+      "constraint_name": "pacientes_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.pacientes",
+      "constraint_name": "pacientes_dni_check",
+      "definition": "CHECK (dni ~ '^[0-9]{1,12}$'::text)"
+    },
+    {
+      "table_name": "marathon.pacientes",
+      "constraint_name": "pacientes_nombre_check",
+      "definition": "CHECK (length(TRIM(BOTH FROM nombre)) > 0)"
+    },
+    {
+      "table_name": "marathon.pacientes",
+      "constraint_name": "pacientes_obra_social_id_fkey",
+      "definition": "FOREIGN KEY (obra_social_id) REFERENCES marathon.obras_sociales(id)"
+    },
+    {
+      "table_name": "marathon.pacientes",
+      "constraint_name": "pacientes_pkey",
+      "definition": "PRIMARY KEY (dni)"
+    },
+    {
+      "table_name": "marathon.pacientes",
+      "constraint_name": "pacientes_sesiones_autorizadas_check",
+      "definition": "CHECK (sesiones_autorizadas >= 0)"
+    },
+    {
+      "table_name": "marathon.pacientes",
+      "constraint_name": "pacientes_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.productos",
+      "constraint_name": "productos_costo_check",
+      "definition": "CHECK (costo >= 0::numeric)"
+    },
+    {
+      "table_name": "marathon.productos",
+      "constraint_name": "productos_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.productos",
+      "constraint_name": "productos_estado_check",
+      "definition": "CHECK (estado = ANY (ARRAY['ACTIVO'::text, 'INACTIVO'::text]))"
+    },
+    {
+      "table_name": "marathon.productos",
+      "constraint_name": "productos_modalidad_check",
+      "definition": "CHECK (modalidad = ANY (ARRAY['VENTA'::text, 'ALQUILER'::text, 'VENTA Y ALQUILER'::text]))"
+    },
+    {
+      "table_name": "marathon.productos",
+      "constraint_name": "productos_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.productos",
+      "constraint_name": "productos_precio_alquiler_check",
+      "definition": "CHECK (precio_alquiler >= 0::numeric)"
+    },
+    {
+      "table_name": "marathon.productos",
+      "constraint_name": "productos_precio_venta_check",
+      "definition": "CHECK (precio_venta >= 0::numeric)"
+    },
+    {
+      "table_name": "marathon.productos",
+      "constraint_name": "productos_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.profesional_terapias",
+      "constraint_name": "profesional_terapias_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.profesional_terapias",
+      "constraint_name": "profesional_terapias_pkey",
+      "definition": "PRIMARY KEY (profesional_id, terapia_id)"
+    },
+    {
+      "table_name": "marathon.profesional_terapias",
+      "constraint_name": "profesional_terapias_profesional_id_fkey",
+      "definition": "FOREIGN KEY (profesional_id) REFERENCES marathon.profesionales(id)"
+    },
+    {
+      "table_name": "marathon.profesional_terapias",
+      "constraint_name": "profesional_terapias_terapia_id_fkey",
+      "definition": "FOREIGN KEY (terapia_id) REFERENCES marathon.terapias(id)"
+    },
+    {
+      "table_name": "marathon.profesional_terapias",
+      "constraint_name": "profesional_terapias_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.profesionales",
+      "constraint_name": "profesionales_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.profesionales",
+      "constraint_name": "profesionales_estado_check",
+      "definition": "CHECK (estado = ANY (ARRAY['ACTIVO'::text, 'INACTIVO'::text]))"
+    },
+    {
+      "table_name": "marathon.profesionales",
+      "constraint_name": "profesionales_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.profesionales",
+      "constraint_name": "profesionales_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.saldo_ajustes_sesion",
+      "constraint_name": "saldo_ajustes_sesion_actor_fkey",
+      "definition": "FOREIGN KEY (actor) REFERENCES marathon.app_users(user_id)"
+    },
+    {
+      "table_name": "marathon.saldo_ajustes_sesion",
+      "constraint_name": "saldo_ajustes_sesion_monto_check",
+      "definition": "CHECK (monto > 0::numeric)"
+    },
+    {
+      "table_name": "marathon.saldo_ajustes_sesion",
+      "constraint_name": "saldo_ajustes_sesion_motivo_check",
+      "definition": "CHECK (length(btrim(motivo)) >= 3 AND length(btrim(motivo)) <= 1000)"
+    },
+    {
+      "table_name": "marathon.saldo_ajustes_sesion",
+      "constraint_name": "saldo_ajustes_sesion_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.saldo_ajustes_sesion",
+      "constraint_name": "saldo_ajustes_sesion_request_id_fkey",
+      "definition": "FOREIGN KEY (request_id) REFERENCES marathon.solicitudes(id)"
+    },
+    {
+      "table_name": "marathon.saldo_ajustes_sesion",
+      "constraint_name": "saldo_ajustes_sesion_turno_id_fkey",
+      "definition": "FOREIGN KEY (turno_id) REFERENCES marathon.turnos(id)"
+    },
+    {
+      "table_name": "marathon.saldo_aplicaciones",
+      "constraint_name": "saldo_aplicaciones_actor_fkey",
+      "definition": "FOREIGN KEY (actor) REFERENCES marathon.app_users(user_id)"
+    },
+    {
+      "table_name": "marathon.saldo_aplicaciones",
+      "constraint_name": "saldo_aplicaciones_bono_id_fkey",
+      "definition": "FOREIGN KEY (bono_id) REFERENCES marathon.bonos_serie(id)"
+    },
+    {
+      "table_name": "marathon.saldo_aplicaciones",
+      "constraint_name": "saldo_aplicaciones_check",
+      "definition": "CHECK (num_nonnulls(turno_id, cuota_id, bono_id) = 1)"
+    },
+    {
+      "table_name": "marathon.saldo_aplicaciones",
+      "constraint_name": "saldo_aplicaciones_cuota_id_fkey",
+      "definition": "FOREIGN KEY (cuota_id) REFERENCES marathon.agenda_cuotas(id)"
+    },
+    {
+      "table_name": "marathon.saldo_aplicaciones",
+      "constraint_name": "saldo_aplicaciones_dni_fkey",
+      "definition": "FOREIGN KEY (dni) REFERENCES marathon.pacientes(dni)"
+    },
+    {
+      "table_name": "marathon.saldo_aplicaciones",
+      "constraint_name": "saldo_aplicaciones_fuente_id_dni_fkey",
+      "definition": "FOREIGN KEY (fuente_id, dni) REFERENCES marathon.saldo_fuentes(id, dni)"
+    },
+    {
+      "table_name": "marathon.saldo_aplicaciones",
+      "constraint_name": "saldo_aplicaciones_id_fuente_id_dni_key",
+      "definition": "UNIQUE (id, fuente_id, dni)"
+    },
+    {
+      "table_name": "marathon.saldo_aplicaciones",
+      "constraint_name": "saldo_aplicaciones_monto_check",
+      "definition": "CHECK (monto > 0::numeric)"
+    },
+    {
+      "table_name": "marathon.saldo_aplicaciones",
+      "constraint_name": "saldo_aplicaciones_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.saldo_aplicaciones",
+      "constraint_name": "saldo_aplicaciones_request_id_fkey",
+      "definition": "FOREIGN KEY (request_id) REFERENCES marathon.solicitudes(id)"
+    },
+    {
+      "table_name": "marathon.saldo_aplicaciones",
+      "constraint_name": "saldo_aplicaciones_turno_id_fkey",
+      "definition": "FOREIGN KEY (turno_id) REFERENCES marathon.turnos(id)"
+    },
+    {
+      "table_name": "marathon.saldo_base_legacy",
+      "constraint_name": "saldo_base_legacy_pagado_check",
+      "definition": "CHECK (pagado >= 0::numeric)"
+    },
+    {
+      "table_name": "marathon.saldo_base_legacy",
+      "constraint_name": "saldo_base_legacy_pkey",
+      "definition": "PRIMARY KEY (tipo, id)"
+    },
+    {
+      "table_name": "marathon.saldo_config",
+      "constraint_name": "saldo_config_id_check",
+      "definition": "CHECK (id)"
+    },
+    {
+      "table_name": "marathon.saldo_config",
+      "constraint_name": "saldo_config_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.saldo_cuentas",
+      "constraint_name": "saldo_cuentas_dni_fkey",
+      "definition": "FOREIGN KEY (dni) REFERENCES marathon.pacientes(dni)"
+    },
+    {
+      "table_name": "marathon.saldo_cuentas",
+      "constraint_name": "saldo_cuentas_pkey",
+      "definition": "PRIMARY KEY (dni)"
+    },
+    {
+      "table_name": "marathon.saldo_cuentas",
+      "constraint_name": "saldo_cuentas_version_check",
+      "definition": "CHECK (version > 0)"
+    },
+    {
+      "table_name": "marathon.saldo_eventos",
+      "constraint_name": "saldo_eventos_actor_fkey",
+      "definition": "FOREIGN KEY (actor) REFERENCES marathon.app_users(user_id)"
+    },
+    {
+      "table_name": "marathon.saldo_eventos",
+      "constraint_name": "saldo_eventos_aplicacion_id_fuente_id_dni_fkey",
+      "definition": "FOREIGN KEY (aplicacion_id, fuente_id, dni) REFERENCES marathon.saldo_aplicaciones(id, fuente_id, dni)"
+    },
+    {
+      "table_name": "marathon.saldo_eventos",
+      "constraint_name": "saldo_eventos_check",
+      "definition": "CHECK ((tipo = ANY (ARRAY['APLICACION'::text, 'REVERSO_APLICACION'::text])) AND aplicacion_id IS NOT NULL AND movimiento_id IS NULL OR (tipo = ANY (ARRAY['INGRESO'::text, 'DEVOLUCION'::text])) AND aplicacion_id IS NULL AND movimiento_id IS NOT NULL)"
+    },
+    {
+      "table_name": "marathon.saldo_eventos",
+      "constraint_name": "saldo_eventos_dni_fkey",
+      "definition": "FOREIGN KEY (dni) REFERENCES marathon.pacientes(dni)"
+    },
+    {
+      "table_name": "marathon.saldo_eventos",
+      "constraint_name": "saldo_eventos_fuente_id_dni_fkey",
+      "definition": "FOREIGN KEY (fuente_id, dni) REFERENCES marathon.saldo_fuentes(id, dni)"
+    },
+    {
+      "table_name": "marathon.saldo_eventos",
+      "constraint_name": "saldo_eventos_monto_check",
+      "definition": "CHECK (monto > 0::numeric)"
+    },
+    {
+      "table_name": "marathon.saldo_eventos",
+      "constraint_name": "saldo_eventos_movimiento_id_fkey",
+      "definition": "FOREIGN KEY (movimiento_id) REFERENCES marathon.movimientos(id)"
+    },
+    {
+      "table_name": "marathon.saldo_eventos",
+      "constraint_name": "saldo_eventos_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.saldo_eventos",
+      "constraint_name": "saldo_eventos_request_id_efecto_key",
+      "definition": "UNIQUE (request_id, efecto)"
+    },
+    {
+      "table_name": "marathon.saldo_eventos",
+      "constraint_name": "saldo_eventos_request_id_fkey",
+      "definition": "FOREIGN KEY (request_id) REFERENCES marathon.solicitudes(id)"
+    },
+    {
+      "table_name": "marathon.saldo_eventos",
+      "constraint_name": "saldo_eventos_tipo_check",
+      "definition": "CHECK (tipo = ANY (ARRAY['INGRESO'::text, 'APLICACION'::text, 'REVERSO_APLICACION'::text, 'DEVOLUCION'::text]))"
+    },
+    {
+      "table_name": "marathon.saldo_fuentes",
+      "constraint_name": "saldo_fuentes_dni_fkey",
+      "definition": "FOREIGN KEY (dni) REFERENCES marathon.pacientes(dni)"
+    },
+    {
+      "table_name": "marathon.saldo_fuentes",
+      "constraint_name": "saldo_fuentes_id_dni_key",
+      "definition": "UNIQUE (id, dni)"
+    },
+    {
+      "table_name": "marathon.saldo_fuentes",
+      "constraint_name": "saldo_fuentes_movimiento_id_fkey",
+      "definition": "FOREIGN KEY (movimiento_id) REFERENCES marathon.movimientos(id)"
+    },
+    {
+      "table_name": "marathon.saldo_fuentes",
+      "constraint_name": "saldo_fuentes_movimiento_id_key",
+      "definition": "UNIQUE (movimiento_id)"
+    },
+    {
+      "table_name": "marathon.saldo_fuentes",
+      "constraint_name": "saldo_fuentes_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.saldo_importacion_map",
+      "constraint_name": "saldo_importacion_map_pkey",
+      "definition": "PRIMARY KEY (origen)"
+    },
+    {
+      "table_name": "marathon.secretarias",
+      "constraint_name": "secretarias_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.secretarias",
+      "constraint_name": "secretarias_estado_check",
+      "definition": "CHECK (estado = ANY (ARRAY['ACTIVO'::text, 'INACTIVO'::text]))"
+    },
+    {
+      "table_name": "marathon.secretarias",
+      "constraint_name": "secretarias_pkey",
+      "definition": "PRIMARY KEY (nombre)"
+    },
+    {
+      "table_name": "marathon.secretarias",
+      "constraint_name": "secretarias_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.sedes",
+      "constraint_name": "sedes_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.sedes",
+      "constraint_name": "sedes_estado_check",
+      "definition": "CHECK (estado = ANY (ARRAY['ACTIVO'::text, 'INACTIVO'::text]))"
+    },
+    {
+      "table_name": "marathon.sedes",
+      "constraint_name": "sedes_pkey",
+      "definition": "PRIMARY KEY (nombre)"
+    },
+    {
+      "table_name": "marathon.sedes",
+      "constraint_name": "sedes_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.shared_space_config",
+      "constraint_name": "shared_space_config_pkey",
+      "definition": "PRIMARY KEY (singleton)"
+    },
+    {
+      "table_name": "marathon.shared_space_config",
+      "constraint_name": "shared_space_config_singleton_check",
+      "definition": "CHECK (singleton)"
+    },
+    {
+      "table_name": "marathon.shared_space_config",
+      "constraint_name": "shared_space_config_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.shared_space_config",
+      "constraint_name": "shared_space_config_version_check",
+      "definition": "CHECK (version > 0)"
+    },
+    {
+      "table_name": "marathon.shared_space_therapies",
+      "constraint_name": "shared_space_therapies_pkey",
+      "definition": "PRIMARY KEY (therapy_id)"
+    },
+    {
+      "table_name": "marathon.shared_space_therapies",
+      "constraint_name": "shared_space_therapies_therapy_id_fkey",
+      "definition": "FOREIGN KEY (therapy_id) REFERENCES marathon.terapias(id)"
+    },
+    {
+      "table_name": "marathon.solicitudes",
+      "constraint_name": "solicitudes_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.solicitudes",
+      "constraint_name": "solicitudes_usuario_id_fkey",
+      "definition": "FOREIGN KEY (usuario_id) REFERENCES marathon.app_users(user_id)"
+    },
+    {
+      "table_name": "marathon.stock_config",
+      "constraint_name": "stock_config_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.stock_config",
+      "constraint_name": "stock_config_minimo_check",
+      "definition": "CHECK (minimo >= 0)"
+    },
+    {
+      "table_name": "marathon.stock_config",
+      "constraint_name": "stock_config_pkey",
+      "definition": "PRIMARY KEY (producto_id, sede)"
+    },
+    {
+      "table_name": "marathon.stock_config",
+      "constraint_name": "stock_config_producto_id_fkey",
+      "definition": "FOREIGN KEY (producto_id) REFERENCES marathon.productos(id)"
+    },
+    {
+      "table_name": "marathon.stock_config",
+      "constraint_name": "stock_config_sede_fkey",
+      "definition": "FOREIGN KEY (sede) REFERENCES marathon.sedes(nombre)"
+    },
+    {
+      "table_name": "marathon.stock_config",
+      "constraint_name": "stock_config_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.terapias",
+      "constraint_name": "terapias_capacidad_check",
+      "definition": "CHECK (capacidad >= 1 AND capacidad <= 200)"
+    },
+    {
+      "table_name": "marathon.terapias",
+      "constraint_name": "terapias_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.terapias",
+      "constraint_name": "terapias_duracion_min_check",
+      "definition": "CHECK (duracion_min >= 5 AND duracion_min <= 480)"
+    },
+    {
+      "table_name": "marathon.terapias",
+      "constraint_name": "terapias_estado_check",
+      "definition": "CHECK (estado = ANY (ARRAY['ACTIVO'::text, 'INACTIVO'::text]))"
+    },
+    {
+      "table_name": "marathon.terapias",
+      "constraint_name": "terapias_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.terapias",
+      "constraint_name": "terapias_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.turn_audit",
+      "constraint_name": "turn_audit_actor_fkey",
+      "definition": "FOREIGN KEY (actor) REFERENCES marathon.app_users(user_id)"
+    },
+    {
+      "table_name": "marathon.turn_audit",
+      "constraint_name": "turn_audit_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.turn_audit",
+      "constraint_name": "turn_audit_request_id_fkey",
+      "definition": "FOREIGN KEY (request_id) REFERENCES marathon.solicitudes(id)"
+    },
+    {
+      "table_name": "marathon.turn_audit",
+      "constraint_name": "turn_audit_request_id_turn_id_key",
+      "definition": "UNIQUE (request_id, turn_id)"
+    },
+    {
+      "table_name": "marathon.turn_audit",
+      "constraint_name": "turn_audit_turn_id_fkey",
+      "definition": "FOREIGN KEY (turn_id) REFERENCES marathon.turnos(id)"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_autorizacion_id_fkey",
+      "definition": "FOREIGN KEY (autorizacion_id) REFERENCES marathon.agenda_autorizaciones(id)"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_coverage_shape",
+      "definition": "CHECK (coverage IS NULL OR jsonb_typeof(coverage) = 'object'::text AND coverage ? 'type'::text AND ((coverage ->> 'type'::text) = ANY (ARRAY['PARTICULAR'::text, 'OBRA_SOCIAL'::text, 'ART'::text, 'CLUB'::text])))"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_dni_fkey",
+      "definition": "FOREIGN KEY (dni) REFERENCES marathon.pacientes(dni)"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_duracion_min_check",
+      "definition": "CHECK (duracion_min > 0)"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_estado_check",
+      "definition": "CHECK (estado = ANY (ARRAY['PENDIENTE'::text, 'PRESENTE'::text, 'AUSENTE'::text, 'CANCELADO'::text]))"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_fixed_shape",
+      "definition": "CHECK (fixed_until IS NULL AND fixed_days IS NULL OR fixed_until IS NOT NULL AND fixed_days IS NOT NULL AND cardinality(fixed_days) >= 1 AND cardinality(fixed_days) <= 7 AND fixed_days <@ ARRAY[0, 1, 2, 3, 4, 5, 6])"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_horario_id_fkey",
+      "definition": "FOREIGN KEY (horario_id) REFERENCES marathon.agenda_horarios(id)"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_importe_check",
+      "definition": "CHECK (importe >= 0::numeric)"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_original_id_fkey",
+      "definition": "FOREIGN KEY (original_id) REFERENCES marathon.turnos(id) DEFERRABLE INITIALLY DEFERRED"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_plan_id_fkey",
+      "definition": "FOREIGN KEY (plan_id) REFERENCES marathon.agenda_planes(id)"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_profesional_id_fkey",
+      "definition": "FOREIGN KEY (profesional_id) REFERENCES marathon.profesionales(id)"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_recovered_from_fkey",
+      "definition": "FOREIGN KEY (recovered_from) REFERENCES marathon.turnos(id)"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_sede_fkey",
+      "definition": "FOREIGN KEY (sede) REFERENCES marathon.sedes(nombre)"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_terapia_id_fkey",
+      "definition": "FOREIGN KEY (terapia_id) REFERENCES marathon.terapias(id)"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_terapia_override_fkey",
+      "definition": "FOREIGN KEY (terapia_override) REFERENCES marathon.terapias(id)"
+    },
+    {
+      "table_name": "marathon.turnos",
+      "constraint_name": "turnos_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.user_provision",
+      "constraint_name": "user_provision_auth_user_id_fkey",
+      "definition": "FOREIGN KEY (auth_user_id) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.user_provision",
+      "constraint_name": "user_provision_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES marathon.app_users(user_id)"
+    },
+    {
+      "table_name": "marathon.user_provision",
+      "constraint_name": "user_provision_email_key",
+      "definition": "UNIQUE (email)"
+    },
+    {
+      "table_name": "marathon.user_provision",
+      "constraint_name": "user_provision_id_fkey",
+      "definition": "FOREIGN KEY (id) REFERENCES marathon.solicitudes(id)"
+    },
+    {
+      "table_name": "marathon.user_provision",
+      "constraint_name": "user_provision_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.user_provision",
+      "constraint_name": "user_provision_role_check",
+      "definition": "CHECK (role = ANY (ARRAY['ADMIN'::text, 'SECRETARIA'::text]))"
+    },
+    {
+      "table_name": "marathon.user_sedes",
+      "constraint_name": "user_sedes_created_by_fkey",
+      "definition": "FOREIGN KEY (created_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.user_sedes",
+      "constraint_name": "user_sedes_pkey",
+      "definition": "PRIMARY KEY (user_id, sede)"
+    },
+    {
+      "table_name": "marathon.user_sedes",
+      "constraint_name": "user_sedes_sede_fkey",
+      "definition": "FOREIGN KEY (sede) REFERENCES marathon.sedes(nombre)"
+    },
+    {
+      "table_name": "marathon.user_sedes",
+      "constraint_name": "user_sedes_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.user_sedes",
+      "constraint_name": "user_sedes_user_id_fkey",
+      "definition": "FOREIGN KEY (user_id) REFERENCES marathon.app_users(user_id)"
+    },
+    {
+      "table_name": "marathon.whatsapp_attempts",
+      "constraint_name": "whatsapp_attempts_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.whatsapp_attempts",
+      "constraint_name": "whatsapp_attempts_status_check",
+      "definition": "CHECK (status = ANY (ARRAY['pending'::text, 'processing'::text, 'choose_phone'::text, 'linked'::text, 'failed'::text]))"
+    },
+    {
+      "table_name": "marathon.whatsapp_attempts",
+      "constraint_name": "whatsapp_attempts_user_id_fkey",
+      "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id)"
+    },
+    {
+      "table_name": "marathon.whatsapp_config",
+      "constraint_name": "whatsapp_config_pkey",
+      "definition": "PRIMARY KEY (singleton)"
+    },
+    {
+      "table_name": "marathon.whatsapp_config",
+      "constraint_name": "whatsapp_config_singleton_check",
+      "definition": "CHECK (singleton)"
+    },
+    {
+      "table_name": "marathon.whatsapp_events",
+      "constraint_name": "whatsapp_events_pkey",
+      "definition": "PRIMARY KEY (event_hash)"
+    },
+    {
+      "table_name": "marathon.whatsapp_message_templates",
+      "constraint_name": "whatsapp_message_templates_body_check",
+      "definition": "CHECK (length(body) >= 1 AND length(body) <= 1000)"
+    },
+    {
+      "table_name": "marathon.whatsapp_message_templates",
+      "constraint_name": "whatsapp_message_templates_id_check",
+      "definition": "CHECK (id = ANY (ARRAY['confirmation'::text, 'reminder'::text, 'cancellation'::text, 'reschedule'::text]))"
+    },
+    {
+      "table_name": "marathon.whatsapp_message_templates",
+      "constraint_name": "whatsapp_message_templates_pkey",
+      "definition": "PRIMARY KEY (id)"
+    },
+    {
+      "table_name": "marathon.whatsapp_message_templates",
+      "constraint_name": "whatsapp_message_templates_updated_by_fkey",
+      "definition": "FOREIGN KEY (updated_by) REFERENCES auth.users(id)"
+    }
+  ],
+  "note": "Solo metadatos estructurales, sin registros de pacientes ni credenciales. No es un respaldo ni un instalador completo."
+}

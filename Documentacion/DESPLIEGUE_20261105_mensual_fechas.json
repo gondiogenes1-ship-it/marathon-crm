@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-05",
+  "deployment": "dpl_8QsJ9nAFTzHWLU9kakT1RD8sUTXL",
+  "url": "https://marathon-crm-liart.vercel.app/?revision=mensual-fechas-1",
+  "migration": "20261105180938_agenda_mensual_inicio_fin.sql",
+  "features": [
+    "Inicio mensual retroactivo",
+    "Fin inclusivo opcional",
+    "Agenda y cuotas limitadas al período",
+    "Sin asistencia automática de sesiones retroactivas",
+    "Resumen de cuotas e importe sin prorrateo"
+  ],
+  "tests": [
+    "agenda_mensual_fechas PASS en dos copias",
+    "agenda_condiciones_scope PASS",
+    "agenda_nueva_serie PASS",
+    "agenda_edicion_terapia PASS",
+    "Reserva mensual retroactiva completa por UI en demostración PASS"
+  ],
+  "productionDataPreserved": true,
+  "productionTestWrites": false,
+  "status": "READY · producción activa",
+  "externalIncident": {
+    "url": "https://www.vercel-status.com/",
+    "title": "Build delays and degraded Vercel Dashboard performance",
+    "reportedUtc": "2026-11-05T18:25:00Z"
+  },
+  "productionDataGuard": "PASS: instalación sin modificar registros existentes",
+  "publicFilesVerified": {
+    "checked": 53,
+    "failures": []
+  },
+  "incidentOutcome": "Vercel completó la cola y activó el dominio de producción"
+}

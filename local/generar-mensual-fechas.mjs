@@ -1,0 +1,31 @@
+import fs from 'node:fs/promises';
+const root=new URL('../',import.meta.url);
+let sql=await fs.readFile(new URL('local/mensual-command-anterior.sql',root),'utf8');
+const replace=(a,b)=>{if(!sql.includes(a))throw Error('No se encontró '+a);sql=sql.replaceAll(a,()=>b);};
+replace('bonus jsonb;','bonus jsonb;end_inclusive date;end_exclusive date;');
+replace("'wait_id','wait_version']","'wait_id','wait_version','end']");
+replace("if dt<marathon.agenda_hoy() or dt>","if(kind<>'monthly'and dt<marathon.agenda_hoy()) or dt>");
+replace("cov=marathon.normalize_turn_coverage(p_data->>'dni',p_data->'coverage');",`if nullif(p_data->>'end','')is not null then
+   if kind<>'monthly'then raise exception 'La fecha de fin corresponde a la agenda mensual.'using errcode='22023';end if;
+   end_inclusive=marathon.agenda_date(p_data->>'end');
+   if end_inclusive<dt then raise exception 'La fecha de fin debe ser igual o posterior al inicio.'using errcode='22023';end if;
+   end_exclusive=end_inclusive+1;
+  end if;
+  cov=marathon.normalize_turn_coverage(p_data->>'dni',p_data->'coverage');`);
+replace('importe,inicio,coverage,observaciones,created_by,updated_by)values','importe,inicio,baja,registro_retroactivo,coverage,observaciones,created_by,updated_by)values');
+replace("p_data->>'billing',fee,dt,cov","p_data->>'billing',fee,dt,end_exclusive,(kind='monthly'and dt<marathon.agenda_hoy()),cov");
+replace("slot=marathon.agenda_cupo(dt2,raw->>'site'",`if end_inclusive is not null and dt2>end_inclusive then raise exception 'El período elegido no incluye uno de los días de atención. Revisá inicio, fin y días.'using errcode='22023';end if;
+   slot=marathon.agenda_cupo(dt2,raw->>'site'`);
+replace('dia,hora,duracion_min,desde)values','dia,hora,duracion_min,desde,hasta)values');
+replace("(slot->>'duration_min')::int,dt);","(slot->>'duration_min')::int,dt,end_exclusive);");
+replace('where candidate_date>=dt and extract','where candidate_date>=dt and(end_inclusive is null or candidate_date<=end_inclusive)and extract');
+replace('insert into marathon.agenda_periodos(plan_id,inicio)values(pid,dt);end if;','insert into marathon.agenda_periodos(plan_id,inicio,fin)values(pid,dt,end_exclusive);end if;');
+// Igual al contrato anterior salvo los límites del período. Sin pagos automáticos.
+const guardSource=await fs.readFile(new URL('supabase/migrations/20261105141935_nueva_serie_desde_reserva_anterior.sql',root),'utf8');
+const snapshot=guardSource.match(/create temporary table _continue_before on commit drop as ([\s\S]*?);\r?\n/)[1].replaceAll('to_jsonb(x)',"(to_jsonb(x)-'registro_retroactivo')");
+let materializer=await fs.readFile(new URL('local/mensual-materializar-anterior.sql',root),'utf8');
+materializer=materializer.replace('fecha_habitual,created_by,updated_by)','fecha_habitual,attendance_manual_date,created_by,updated_by)').replace('p.id,v.horario_id,v.fecha,auth.uid(),auth.uid()',"p.id,v.horario_id,v.fecha,case when p.registro_retroactivo and v.fecha<marathon.agenda_hoy()then v.fecha end,auth.uid(),auth.uid()");
+if(!materializer.includes('case when p.registro_retroactivo'))throw Error('No se adaptó la asistencia retroactiva');
+const out=`-- Inicio mensual retroactivo opcional y fin inclusivo. No modifica datos existentes.\nbegin;\nset local lock_timeout='5s';\nselect pg_advisory_xact_lock(hashtextextended('marathon:master-write:v1',0));\ncreate temporary table _monthly_dates_before on commit drop as ${snapshot};\nalter table marathon.agenda_planes add column registro_retroactivo boolean;\n${sql};\n${materializer};\nrevoke all on function marathon.agenda_materializar(date,date)from public,anon,authenticated;\nrevoke all on function public.marathon_agenda_plan_command(text,text,jsonb)from public,anon;\ngrant execute on function public.marathon_agenda_plan_command(text,text,jsonb)to authenticated;\ndo $guard$declare actual jsonb;begin select snapshot into actual from(${snapshot})s;if actual is distinct from(select snapshot from _monthly_dates_before)then raise exception 'La instalación cambió registros existentes. Actualización revertida.';end if;end$guard$;\nnotify pgrst,'reload schema';\ncommit;\n`;
+await fs.writeFile(new URL('supabase/migrations/20261105180938_agenda_mensual_inicio_fin.sql',root),out);
+console.log('Generado',out.length);

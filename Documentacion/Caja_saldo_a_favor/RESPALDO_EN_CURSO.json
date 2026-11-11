@@ -1,0 +1,14 @@
+{
+  "status": "backup_created",
+  "directory": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Respaldos\\Supabase_completo_20261105_002814",
+  "file": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Respaldos\\Supabase_completo_20261105_002814\\database.dump",
+  "bytes": 1439104,
+  "sha256": "9364aa23e98c70e66a5403687740649d303649df7c5756f2f590d52f2a158a1d",
+  "archive_verified": true,
+  "restore_verified": true,
+  "host": "aws-0-us-east-1.pooler.supabase.com",
+  "database": "postgres",
+  "scope": "Database completo, sin filtros de esquema o tabla; no incluye archivos físicos de Storage.",
+  "production_writes": 0,
+  "restore_scope": "CRM marathon/public con datos, esquema, índices, restricciones, funciones y políticas; Auth representado localmente por identidades. El archivo conserva los demás esquemas. No se verificaron servicios alojados Auth/Storage ni contiene archivos físicos de Storage."
+}

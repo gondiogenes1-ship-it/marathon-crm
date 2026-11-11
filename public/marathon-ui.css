@@ -1,0 +1,209 @@
+/* Diseño aprobado de Marathon. Presentación solamente; sin dependencias externas. */
+body.marathon-ui {
+ --bg:#f5f7f8;--card:#fff;--tx:#20352e;--mu:#5c6f67;--bd:#dce4e0;
+ --ac:#016237;--side:#07513c;--ok:#226640;--no:#aa352c;--wa:#895b16;
+ font:var(--fs-md)/1.45 "Segoe UI",system-ui,sans-serif;letter-spacing:0;
+}
+.marathon-ui [hidden]{display:none!important}
+.marathon-ui .trial-banner{background:#eaf4ee;color:#214f3a;border-bottom:1px solid #cadfd1;padding:8px 20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:var(--fs-md)}
+.marathon-ui .trial-banner a{color:#07513c;font-weight:600}
+.marathon-ui .shell{grid-template-columns:208px minmax(0,1fr)}
+.marathon-ui .side{padding:24px 12px 16px;gap:22px;overflow-y:auto;height:100vh}
+.marathon-ui .side::before,.marathon-ui .side::after{display:none}
+.marathon-ui .brand{font-size:23px;gap:10px;padding:0 8px}
+.marathon-ui .brand small{font-size:var(--fs-md)}
+.marathon-ui .nav-heading{font-size:var(--fs-md);letter-spacing:.12em;color:#b7d1c5;margin:0 12px -12px}
+.marathon-ui #nav{gap:4px}
+.marathon-ui #nav button{display:flex;align-items:center;gap:11px;padding:10px 12px;font-size:var(--fs-md);min-height:40px;border-radius:6px;border-left:0;color:#e3eee8}
+.marathon-ui #nav button.b{background:#e9f5ee;color:#07513c;box-shadow:none}
+.marathon-ui .nav-icon{width:18px;height:18px;flex:none}
+.marathon-ui .side-foot{padding:16px 8px 0;border-top:1px solid #ffffff26;gap:8px}
+.marathon-ui .side-foot p{margin:0;font-size:var(--fs-md);color:#e3eee8}
+.marathon-ui .side-foot .scope,.marathon-ui .sidebar-version{font-size:var(--fs-md);color:#c0d7cc}
+.marathon-ui .workspace-caption{font-size:var(--fs-md);letter-spacing:.08em;color:#bdd6c8}
+.marathon-ui .content{max-width:none;padding:0 28px 32px;min-width:0}
+.marathon-ui .appbar{min-height:64px;height:auto;margin:0 -28px 24px;padding:12px 28px;border-bottom:1px solid var(--bd);background:#fff;gap:18px;flex-wrap:wrap}
+.marathon-ui .breadcrumb{font-size:var(--fs-md);gap:12px}
+.marathon-ui .appbar-tools{gap:12px;flex-wrap:wrap}
+.marathon-ui .quick-search{width:290px;max-width:100%}
+.marathon-ui #quick-q{font-size:var(--fs-md);min-height:36px;border-radius:6px;background:#f8faf9}
+.marathon-ui #work-status{font-size:var(--fs-md)}
+.marathon-ui h1{font-size:26px;font-weight:650;letter-spacing:-.6px;line-height:1.2}
+.marathon-ui h2{font-size:16px;font-weight:650;margin-bottom:12px}
+.marathon-ui h3{font-size:var(--fs-md)}
+.marathon-ui .subtitle{font-size:var(--fs-md);color:var(--mu);line-height:1.5}
+.marathon-ui .section-kicker{font-size:var(--fs-md);letter-spacing:.12em;color:#547264;margin:0 0 5px}
+.marathon-ui .topbar{margin-bottom:18px;gap:16px;align-items:center}
+.marathon-ui .topbar .subtitle{margin:7px 0 0}
+.marathon-ui .card{padding:18px;border-radius:8px;box-shadow:none;margin-bottom:16px;border-color:var(--bd)}
+.marathon-ui button.b,.marathon-ui button.s{min-height:36px;padding:7px 12px;border-radius:6px;font-size:var(--fs-md);box-shadow:none;font-weight:600}
+.marathon-ui button.s:hover{background:#eef4f0;border-color:#a7bfb0}
+.marathon-ui button:disabled{opacity:.5;cursor:not-allowed}
+.marathon-ui label{font-size:var(--fs-md);font-weight:600;min-width:0;gap:6px;color:#485f53}
+.marathon-ui input,.marathon-ui select,.marathon-ui textarea{min-height:38px;padding:8px 10px;font-size:var(--fs-md);border-radius:6px}
+.marathon-ui textarea{min-height:85px}
+.marathon-ui :is(button,input,select,textarea,summary,a):focus-visible{outline:3px solid #258451;outline-offset:3px}
+.marathon-ui .side button:focus-visible{outline-color:#fff}
+.marathon-ui .form-actions{gap:8px;flex-wrap:wrap}
+.marathon-ui .daily-shortcuts{margin:0 0 22px}
+.marathon-ui #home-content{display:flex;flex-direction:column;gap:0}
+.marathon-ui #home-content>.dashboard-section-head{order:0;margin-bottom:10px}
+.marathon-ui #home-month-error{order:0}
+.marathon-ui #home-content>.metric-grid{order:1}
+.marathon-ui #home-content>.date-nav{order:2}
+.marathon-ui #home-filter{order:3}
+.marathon-ui #home-content>.home-day{order:4}
+.marathon-ui #home-content>.home-aside{order:5}
+.marathon-ui #home-updated{order:6}
+.marathon-ui .dashboard-section-head{align-items:center;gap:12px;flex-wrap:wrap}
+.marathon-ui .dashboard-section-head h2{font-size:15px;margin:0}
+.marathon-ui .dashboard-section-head>span{font-size:var(--fs-md);color:var(--mu)}
+.marathon-ui .metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;background:#fff;border:1px solid var(--bd);border-radius:8px;margin:0 0 20px;overflow:hidden}
+.marathon-ui .metric-grid>.metric-card{border:0;border-right:1px solid var(--bd);border-radius:0;margin:0;padding:14px 18px;background:#fff;min-height:0}
+.marathon-ui .metric-grid>.metric-card:last-child{border-right:0}
+.marathon-ui .metric-card::after,.marathon-ui .metric-card::before{display:none}
+.marathon-ui .metric-label{font-size:var(--fs-md);color:#50665a}
+.marathon-ui .metric-card>strong{font-size:28px;letter-spacing:-.5px;line-height:1.1;margin:8px 0 6px}
+.marathon-ui .metric-card small{font-size:var(--fs-md);color:#607469}
+.marathon-ui #home-filter,.marathon-ui .agenda-filter{background:#fff;gap:12px;padding:14px;margin-bottom:16px;align-items:end}
+.marathon-ui #home-filter>div{flex-basis:100%;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.marathon-ui #home-filter>div .subtitle{margin:0;font-size:var(--fs-md)}
+.marathon-ui #home-filter label,.marathon-ui .agenda-filter label{min-width:130px;flex:1 1 130px}
+.marathon-ui .date-nav{margin:0 0 10px;gap:6px}
+.marathon-ui .date-nav button{min-height:32px;padding:5px 10px}
+.marathon-ui .home-day{padding:18px 18px 8px}
+.marathon-ui .home-day>.subtitle{margin:10px 0;font-size:var(--fs-md);padding-bottom:10px}
+.marathon-ui .home-aside{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.marathon-ui .home-aside .card{background:#fff;border-color:var(--bd)}
+.marathon-ui .cash-highlight{font-size:25px;margin:10px 0}
+.marathon-ui .cash-breakdown{padding-top:12px}
+.marathon-ui .cash-breakdown span,.marathon-ui .attendance-meta,.marathon-ui .attendance-card .subtitle{font-size:var(--fs-md)}
+.marathon-ui table{font-size:var(--fs-md);border-collapse:collapse;width:100%}
+.marathon-ui th{background:#f4f7f5;font-size:var(--fs-md);font-weight:650;letter-spacing:.02em;text-transform:none;color:#526b5e;padding:11px 12px;border-bottom:1px solid #cbd9d0;white-space:nowrap}
+.marathon-ui td{padding:10px 12px;border-bottom:1px solid #e5ebe7;vertical-align:middle}
+.marathon-ui td small{font-size:var(--fs-md);line-height:1.5;color:#587064}
+.marathon-ui .table-scroll{overflow:auto;max-width:100%}
+.marathon-ui .daily-table-wrap{overflow:auto;max-width:100%;min-width:0}
+.marathon-ui :is(.agenda-layout,.patient-layout)>*{min-width:0}
+.marathon-ui #ortho-list .form-actions{margin:0;padding:0;border:0;gap:5px;max-width:300px}
+.marathon-ui #ortho-list .form-actions button{min-height:30px;font-size:var(--fs-md);padding:5px 8px}
+.marathon-ui .turn-summary{gap:7px;padding:0 0 12px;margin:12px 0 0}
+.marathon-ui .chip-stat{font-size:var(--fs-md);border-radius:5px;background:#fff;padding:6px 9px;min-height:32px;box-shadow:none}
+.marathon-ui button.chip-stat[aria-pressed=true]{background:#e8f3ec;border-color:#016237;color:#07513c;box-shadow:inset 0 -2px #016237}
+.marathon-ui .summary-note{font-size:var(--fs-md);margin-top:4px;color:#607469}
+.marathon-ui .planilla-table{min-width:620px}
+.marathon-ui .planilla-table th,.marathon-ui .planilla-table td{padding:10px 12px}
+.marathon-ui .planilla-table .planilla-hour{width:128px;min-width:110px;background:#eef5f0!important;border-right:1px solid #d2e1d7;vertical-align:top;padding-top:18px}
+.marathon-ui .planilla-hour-info>strong{font-size:22px;letter-spacing:-.6px;color:#07513c}
+.marathon-ui .planilla-hour-info small{font-size:var(--fs-md);line-height:1.45;margin-top:5px}
+.marathon-ui .planilla-table td[data-label=Paciente]{min-width:180px}
+.marathon-ui .planilla-table td[data-label="Estado / saldo"]{min-width:125px}
+.marathon-ui .planilla-table .planilla-presente td:not(.planilla-hour),.marathon-ui .planilla-table .planilla-pendiente td:not(.planilla-hour),.marathon-ui .planilla-table .planilla-ausente td:not(.planilla-hour){background:#fff}
+.marathon-ui .planilla-table .planilla-cancelado td:not(.planilla-hour){background:#f8f9f8}
+.marathon-ui .planilla-table tbody tr:not(.planilla-block-end):hover td:not(.planilla-hour){background:#f5f9f6}
+.marathon-ui .pill{padding:3px 7px;border-radius:4px;font-size:var(--fs-md);font-weight:650;border:1px solid transparent;letter-spacing:.02em}
+.marathon-ui .status-presente{background:#e7f2e9;color:#25613b;border-color:#cce1d0}
+.marathon-ui .status-pendiente{background:#fff4dd;color:#7c5413;border-color:#ebd6a8}
+.marathon-ui .status-ausente{background:#fbece8;color:#943c31;border-color:#edcec6}
+.marathon-ui .status-cancelado{background:#edf0ee;color:#5b6862;border-color:#d9dfdc}
+.marathon-ui .ui-debt{color:#9e372b;font-weight:650;font-variant-numeric:tabular-nums}
+.marathon-ui td[data-label="Estado / saldo"]>div>span:not(.pill){border-top:1px solid #e6ece8;padding-top:5px;margin-top:6px;font-size:var(--fs-md)}
+.marathon-ui .planilla-table .row-actions{min-width:112px;max-width:140px;gap:7px}
+.marathon-ui .turn-whatsapp{border-radius:5px;font-size:var(--fs-md);padding:5px 8px;min-height:30px;background:#f1f8f3;color:#276840}
+.marathon-ui .planilla-table .row-more summary{font-size:var(--fs-md);min-height:30px;border-radius:5px;padding:5px 8px}
+.marathon-ui .planilla-table .planilla-block-end td{background:#f6f9f7;border-bottom:2px solid #d6e1da;padding:7px 12px;font-size:var(--fs-md)}
+.marathon-ui .planilla-table .turn-phone{font-size:var(--fs-md);color:#3e5b4a}
+.marathon-ui .pagination{gap:10px;padding:10px 0;font-size:var(--fs-md)}
+.marathon-ui .agenda-availability{background:#f0f6f2;border:1px solid #d8e6dc;border-radius:7px;padding:12px 14px;margin-bottom:16px}
+.marathon-ui .agenda-availability h3{margin:0 0 5px}
+.marathon-ui .agenda-availability p{margin:5px 0}
+.marathon-ui .slot{font-size:var(--fs-md);border-radius:6px;border:1px solid #bcd2c3;background:#f4faf6;color:#244f35;padding:10px 12px;min-width:108px;min-height:54px;line-height:1.4}
+.marathon-ui .slot small{font-size:var(--fs-md)}
+.marathon-ui .slot.w{background:#fff8e8;border-color:#dfcfac;color:#775314}
+.marathon-ui .slot.x{background:#f1f3f2;color:#69756e;border-color:#d5dcd7}
+.marathon-ui .slot[aria-pressed=true]{background:#07513c;color:white;border-color:#07513c;outline:2px solid #68a981;outline-offset:2px}
+.marathon-ui .patient-layout{grid-template-columns:300px minmax(0,1fr);gap:18px}
+.marathon-ui #patients-screen>.patient-layout>section:first-child{position:sticky;top:16px;max-height:calc(100vh - 32px);overflow:auto;align-self:start}
+.marathon-ui #search-form{display:flex;gap:8px;flex-wrap:wrap}
+.marathon-ui #search-form button{width:auto;margin:0}
+.marathon-ui .patient-item{padding:12px 10px;font-size:var(--fs-md);border-radius:6px;border:1px solid transparent;margin:3px 0}
+.marathon-ui .patient-item[aria-pressed=true]{background:#edf6ef;border-color:#bcd7c5}
+.marathon-ui .patient-item small{font-size:var(--fs-md);color:#596e62}
+.marathon-ui .patient-empty{min-height:300px;padding:20px}
+.marathon-ui .patient-ficha-grid{background:#f7f9f8;border:1px solid var(--bd);border-radius:7px;padding:16px;gap:16px}
+.marathon-ui .patient-ficha-grid dt{font-size:var(--fs-md);color:#5c7064}
+.marathon-ui .patient-ficha-grid dd{font-size:var(--fs-md)}
+.marathon-ui .patient-stats{gap:0;border:1px solid var(--bd);border-radius:7px;overflow:hidden}
+.marathon-ui .patient-stat{border:0;border-radius:0;border-bottom:1px solid var(--bd);padding:12px;background:#fff}
+.marathon-ui .patient-stat span{font-size:var(--fs-md)}
+.marathon-ui .patient-stat strong{font-size:16px}
+.marathon-ui .patient-quick-actions{gap:6px;margin:15px 0}
+.marathon-ui .patient-quick-actions button{font-size:var(--fs-md)}
+.marathon-ui .form-grid{gap:16px}
+.marathon-ui .form-section-heading{font-size:var(--fs-md);background:#f5f8f6;padding:9px 10px;border-radius:4px;margin:8px 0 0}
+.marathon-ui :is(.tabs,.patient-tabs){display:flex;flex-wrap:wrap;gap:4px;border-bottom:1px solid var(--bd);padding-bottom:8px;margin-bottom:14px}
+.marathon-ui .turn-card{border:1px solid var(--bd);border-radius:7px;background:#fff;padding:15px;margin:0 0 12px;box-shadow:none}
+.marathon-ui .turn-card p{font-size:var(--fs-md);margin:5px 0}
+.marathon-ui .wait-kanban{gap:12px;overflow:auto;grid-template-columns:repeat(4,minmax(220px,1fr))}
+.marathon-ui .kanban-column{padding:10px;background:#eff3f1;border-radius:7px;min-width:0}
+.marathon-ui .kanban-column>h2{font-size:var(--fs-md);padding:6px 3px}
+.marathon-ui td:is([data-label=Importe],[data-label=Total],[data-label=Pagado],[data-label=Saldo],[data-label="Cobrado neto"],[data-label="Saldo exigible"],[data-label="Ingresos netos acumulados"]){text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.marathon-ui #cash-list table{min-width:1080px}
+.marathon-ui dialog{padding:24px;border:1px solid var(--bd);border-radius:10px;box-shadow:0 20px 65px #173b3026;max-height:90vh;overflow:auto}
+.marathon-ui dialog::backdrop{background:#102e2260}
+.marathon-ui dialog .detail-head{border-bottom:1px solid var(--bd);padding-bottom:14px;margin-bottom:18px;gap:14px;align-items:start}
+.marathon-ui dialog h2{font-size:20px}
+.marathon-ui #feedback:not([hidden]),.marathon-ui [role=alert]:not(:empty){border-radius:6px;padding:12px;background:#fff2ed;color:#8c3329;border:1px solid #edcec4;font-size:var(--fs-md)}
+.marathon-ui .inline-error:empty{margin:0;padding:0}
+.marathon-ui #feedback:not(.error):not([hidden]){background:#eef5f0;border-color:#ccdfd2;color:#29553b}
+@media(min-width:981px){.marathon-ui .shell{display:grid}.marathon-ui .side{position:sticky;top:0;flex-direction:column}.marathon-ui #nav{flex-direction:column}}
+@media(max-width:1100px) and (min-width:981px){.marathon-ui .shell{grid-template-columns:190px minmax(0,1fr)}.marathon-ui .content{padding:0 20px 24px}.marathon-ui .appbar{margin:0 -20px 20px;padding:12px 20px}.marathon-ui #work-status{display:none}.marathon-ui .patient-layout{grid-template-columns:250px minmax(0,1fr)}}
+@media(max-width:980px){.marathon-ui .shell{display:block}.marathon-ui .side{position:relative;height:auto;padding:16px 18px 8px;flex-direction:row;flex-wrap:wrap;gap:14px;overflow:visible}.marathon-ui #nav{flex-direction:row;gap:4px;overflow:auto;width:100%;order:3}.marathon-ui #nav button{flex:none;min-height:38px}.marathon-ui .side-foot{margin-left:auto;padding:0;border:0;flex-direction:row;align-items:center}.marathon-ui .side-foot p{font-size:var(--fs-md)}.marathon-ui .content{padding:0 18px 24px}.marathon-ui .appbar{margin:0 -18px 20px;padding:12px 18px}.marathon-ui .patient-layout{grid-template-columns:260px minmax(0,1fr)}}
+@media(max-width:740px){.marathon-ui .trial-banner{padding:8px 14px}.marathon-ui .appbar{gap:10px}.marathon-ui .appbar-tools{width:100%;justify-content:space-between}.marathon-ui .quick-search{flex:1;width:auto;min-width:180px}.marathon-ui #work-status{display:none}.marathon-ui .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.marathon-ui .metric-grid>.metric-card{border-bottom:1px solid var(--bd);padding:12px 14px}.marathon-ui .metric-grid>.metric-card:nth-child(even){border-right:0}.marathon-ui .metric-grid>.metric-card:nth-last-child(-n+2){border-bottom:0}.marathon-ui .home-aside{grid-template-columns:1fr}.marathon-ui .patient-layout{grid-template-columns:1fr}.marathon-ui #patients-screen>.patient-layout>section:first-child{position:static;max-height:300px}.marathon-ui .side-foot #current-user{display:none}.marathon-ui .daily-shortcuts button{flex:1 1 145px}.marathon-ui h1{font-size:23px}.marathon-ui .home-day{padding:14px 12px}.marathon-ui .card{padding:14px}.marathon-ui .daily-table th{display:table-cell}.marathon-ui .planilla-table{display:table}.marathon-ui .planilla-table tr{display:table-row}.marathon-ui .planilla-table td{display:table-cell}.marathon-ui .planilla-table td:before{display:none}.marathon-ui .planilla-table thead{display:table-header-group}.marathon-ui .form-grid{grid-template-columns:1fr}.marathon-ui .form-grid .wide{grid-column:1}.marathon-ui dialog{padding:18px;width:calc(100vw - 24px);max-width:calc(100vw - 24px)}.marathon-ui #cash-list table{display:table}.marathon-ui .topbar>.form-actions{width:100%}}
+.marathon-ui .home-topbar h1{font-size:26px;line-height:1.2}
+.marathon-ui .home-topbar{margin-bottom:12px}
+.marathon-ui .home-topbar .subtitle{margin:5px 0 0}
+.marathon-ui .daily-shortcuts{margin-bottom:16px}
+.marathon-ui .home-day{margin-top:0}
+.marathon-ui .metric-grid>.metric-card{padding-top:12px;padding-bottom:12px}
+.marathon-ui .metric-card>strong{font-size:26px;margin:5px 0;line-height:1.1}
+.marathon-ui #home-filter>div .subtitle{font-size:var(--fs-md);line-height:1.35}
+.marathon-ui #home-filter{row-gap:9px}
+.marathon-ui #nav{flex-shrink:0}
+.marathon-ui #patient-list .patient-item{padding-left:54px;min-height:64px}
+.marathon-ui #patients-screen>.patient-layout>section:first-child{overflow:visible;max-height:none}
+.marathon-ui #patient-list{max-height:calc(100vh - 285px);overflow:auto;gap:4px}
+.marathon-ui a:not(.turn-whatsapp){color:#07513c}
+.marathon-ui #feedback[data-error=true]:not([hidden]){background:#fff2ed;border-color:#edcec4;color:#8c3329}
+@media(max-width:740px){.marathon-ui #patient-list{max-height:200px}.marathon-ui #patients-screen>.patient-layout>section:first-child{position:static}}
+.marathon-ui #home-content>.home-day{margin-top:0}
+.marathon-ui button.chip-stat[aria-pressed=true] strong{color:#07513c}
+.marathon-ui .agenda-filter:has(#agenda-view) label:has(#agenda-view){min-width:100px;flex:.7 1 100px}
+.marathon-ui :is(#home-filter,.agenda-filter) label:has(:is(#home-prof,#agenda-prof)){min-width:185px;flex:1.3 1 185px}
+.marathon-ui .agenda-filter label:has(#agenda-therapy){min-width:165px}
+@media(min-width:1200px){.marathon-ui #home-screen{display:grid;grid-template-columns:minmax(185px,1fr) auto;column-gap:18px;row-gap:18px;align-items:center}.marathon-ui .home-topbar,.marathon-ui .daily-shortcuts{margin:0}.marathon-ui #home-content{grid-column:1/-1}.marathon-ui .daily-shortcuts{max-width:640px;justify-content:flex-end}.marathon-ui .home-topbar h1{font-size:24px}.marathon-ui .home-topbar .subtitle{max-width:230px}}
+@media(min-width:981px){.marathon-ui .side{gap:18px}.marathon-ui #nav{gap:2px}.marathon-ui #nav button{min-height:36px;padding-top:8px;padding-bottom:8px}.marathon-ui .side-foot{gap:6px}.marathon-ui .side-foot .s{min-height:32px;padding:5px 10px}}
+@media(prefers-reduced-motion:reduce){.marathon-ui *{transition:none!important;scroll-behavior:auto!important}}
+@media(max-width:440px){.marathon-ui :is(#home-filter,.agenda-filter) label{flex:1 1 100%;min-width:0}.marathon-ui .agenda-filter label:has(#agenda-view){flex-basis:100%}.marathon-ui .agenda-filter label:has(#agenda-therapy){min-width:0}}
+.marathon-ui #home-content>.dashboard-section-head,.marathon-ui #home-content>.metric-grid{display:none}
+.marathon-ui .planilla-table .planilla-hour{background:hsl(var(--professional-hue) 35% 94%)!important;border-left:4px solid hsl(var(--professional-hue) 45% 40%)}
+.marathon-ui .planilla-table td[data-label="Paciente"]{border-left:4px solid hsl(var(--professional-hue) 45% 40%)}
+.marathon-ui .planilla-hour-info>.planilla-professional{display:block;margin-top:5px}
+.marathon-ui .planilla-hour-info>.planilla-professional,.marathon-ui .planilla-table td[data-label="Paciente"]>div>strong{font-family:inherit;font-size:var(--fs-md);font-weight:700;letter-spacing:normal;line-height:1.4}
+.marathon-ui .bulk-controls{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 12px}
+.marathon-ui .bulk-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;background:#e6f1eb;border:1px solid #bbd8c8;border-radius:12px}
+.marathon-ui .bulk-actions[hidden]{display:none}
+.marathon-ui .bulk-patient{display:inline-flex;margin-bottom:5px;font-size:var(--fs-md)}
+.marathon-ui .bulk-controls .booking-check input,.marathon-ui .bulk-patient input{appearance:none;width:19px;height:19px;min-width:19px;border:2px solid #358466;border-radius:6px;background:white;vertical-align:middle;cursor:pointer}
+.marathon-ui .bulk-controls .booking-check input:checked,.marathon-ui .bulk-patient input:checked{background:#075c3f;border-color:#075c3f}
+.marathon-ui .bulk-controls .booking-check input:checked:after,.marathon-ui .bulk-patient input:checked:after{content:'✓';display:block;color:white;font-size:var(--fs-md);font-weight:800;text-align:center;line-height:14px}
+.marathon-ui .bulk-controls .booking-check input:focus-visible,.marathon-ui .bulk-patient input:focus-visible{outline:3px solid #2469ed;outline-offset:2px}
+.marathon-ui .turn-notes{margin-top:8px;font-size:var(--fs-md)}
+.marathon-ui .turn-notes summary{cursor:pointer;color:#07513c;font-weight:700}
+.marathon-ui .turn-notes p{white-space:pre-wrap;margin:3px 0 8px}
+.marathon-ui dialog .modal-close-x{position:sticky;top:0;float:right;z-index:10;display:grid;place-items:center;width:36px;height:36px;min-width:36px;padding:0;margin:0 0 5px 10px;border-radius:9px;font-size:23px;line-height:1;background:white;color:#163f33;border:1px solid #b6cbbf;cursor:pointer}
+.marathon-ui dialog .modal-close-x:focus-visible{outline:3px solid #2469ed;outline-offset:2px}
+.marathon-ui .marathon-error-dialog{max-width:min(420px,calc(100vw - 30px));width:100%;padding:18px 20px;box-shadow:0 16px 60px #173b3060;border:1px solid #d9b4ac;border-radius:15px}
+.marathon-ui .marathon-error-dialog::backdrop{background:#102f2970}
+.marathon-ui .marathon-error-dialog h2{margin:4px 0 10px;color:#84362f}
+.marathon-ui .marathon-error-dialog p{white-space:pre-wrap;margin:0}

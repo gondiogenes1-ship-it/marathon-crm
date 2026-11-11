@@ -1,0 +1,56 @@
+{
+  "fecha_utc": "2026-11-05T00:18:27.712315+00:00",
+  "estado": "Preparado y probado localmente; no aplicado en Supabase",
+  "migraciones": [
+    {
+      "ruta": "supabase/migrations/20261104213159_caja_saldo_paciente.sql",
+      "sha256": "153c844e76a1a5d7998e1b61bfca342fbfae6c64e5cc5fa5ded189ea63449136",
+      "bytes": 7984
+    },
+    {
+      "ruta": "supabase/migrations/20261104234313_caja_saldo_unificado.sql",
+      "sha256": "229921a0c31c7fdc2172c80866007a05a5f47c6cc2957b8e3661ca848d965399",
+      "bytes": 17458
+    },
+    {
+      "ruta": "supabase/migrations/20261104235052_caja_saldo_eventos.sql",
+      "sha256": "a429eda0474fc54360bf4d6c6086d086b33e1acd04f96a4f3a0caec1280239e2",
+      "bytes": 4579
+    },
+    {
+      "ruta": "supabase/migrations/20261104235514_caja_saldo_integracion.sql",
+      "sha256": "7fac8354363ec4de10e8059d49c77ff3c7fc7b0fa310fa9344378fa35324cd63",
+      "bytes": 51506
+    },
+    {
+      "ruta": "supabase/migrations/20261104235643_caja_saldo_controles.sql",
+      "sha256": "4cd34c1121e6c9ba8bb2428705ce4fc168694754db2126052a3652c1f3bc760c",
+      "bytes": 8878
+    },
+    {
+      "ruta": "supabase/migrations/20261104235809_caja_saldo_importacion.sql",
+      "sha256": "a854d18ed9faab4648bd90226175a94748fb2e35043110deeb5e9cce286ad685",
+      "bytes": 9210
+    },
+    {
+      "ruta": "supabase/migrations/20261105000334_caja_saldo_consultas.sql",
+      "sha256": "3f6623201c05ba1420699b1a25b13467e720426bf6952a1aa33c5145e945a142",
+      "bytes": 27819
+    },
+    {
+      "ruta": "supabase/migrations/20261105000749_caja_saldo_cierre_seguro.sql",
+      "sha256": "ccb1e558cc72711973d15e5253e04c3560d45d5b1f11209ba2d9d40201b8057a",
+      "bytes": 6656
+    },
+    {
+      "ruta": "supabase/migrations/20261105001051_caja_saldo_permisos_finales.sql",
+      "sha256": "77a7f96cec4156c29b86a544102419521b492ee23812599aa82c17495058e71e",
+      "bytes": 971
+    },
+    {
+      "ruta": "supabase/migrations/20261105001331_caja_saldo_trazabilidad.sql",
+      "sha256": "498c8d5d71347d7706a1fa7d8a876cc0b7095013892c041af8dd6b26774f760b",
+      "bytes": 4374
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+/* Impeccable / Operate / refinamiento del Marathon existente. Diseño aprobado. */
+body.marathon-ui.impeccable-ui{
+ --bg:#f3f7f5;--card:#fff;--tx:#203b2e;--mu:#526a5a;--bd:#d8e3dc;
+ --ac:#016237;--side:#07513c;--im-space:8px;
+ font-family:"Segoe UI",system-ui,sans-serif;font-size:var(--fs-md);line-height:1.5;
+ font-variant-numeric:tabular-nums;
+}
+.impeccable-ui ::selection{background:#cbe5d4;color:#143c27}
+.impeccable-ui :is(input,textarea){caret-color:#016237}
+.impeccable-ui :is(h1,h2,h3){font-family:"Segoe UI",system-ui,sans-serif;letter-spacing:-.02em;font-weight:650;text-wrap:balance}
+.impeccable-ui h1,.impeccable-ui .home-topbar h1{font-size:26px;line-height:1.25;color:#203b2e}
+.impeccable-ui h2{font-size:18px;line-height:1.35}
+.impeccable-ui h3{font-size:15px;line-height:1.4}
+.impeccable-ui .section-kicker,.impeccable-ui .login-kicker{display:none}
+.impeccable-ui .brand{font-family:"Segoe UI",system-ui,sans-serif}
+.impeccable-ui .side{background:#07513c;padding:24px 14px 18px;gap:24px}
+.impeccable-ui .brand small{font-size:var(--fs-md);color:#d1e5d9;letter-spacing:0}
+.impeccable-ui .nav-heading,.impeccable-ui .workspace-caption{font-size:var(--fs-md);letter-spacing:0;text-transform:none;color:#c6dece}
+.impeccable-ui #nav{gap:5px}
+.impeccable-ui #nav button{min-height:42px;font-size:var(--fs-md);font-weight:500;padding:10px 13px;border-radius:8px;color:#e8f3ec;box-shadow:none}
+.impeccable-ui #nav button.b{background:#e5f2e9;color:#07513c;font-weight:650;box-shadow:none}
+.impeccable-ui #nav button:hover:not(.b){background:#ffffff12}
+.impeccable-ui .side-foot{gap:10px;padding-top:18px;border-color:#ffffff30}
+.impeccable-ui .side-foot .s{min-height:36px;font-size:var(--fs-md)}
+.impeccable-ui .content{padding-inline:28px;padding-bottom:32px}
+.impeccable-ui .appbar{margin-inline:-28px;padding-inline:28px;min-height:68px;border-color:var(--bd);margin-bottom:24px}
+.impeccable-ui .breadcrumb{font-size:var(--fs-md)}
+.impeccable-ui .quick-search{width:320px}
+.impeccable-ui #quick-q{min-height:40px;font-size:var(--fs-md);background:#f4f8f5;border-color:#c5d8cc}
+.impeccable-ui .topbar{margin-bottom:20px;gap:16px}
+.impeccable-ui .subtitle{font-size:var(--fs-md);color:var(--mu);line-height:1.55}
+.impeccable-ui .topbar .subtitle{max-width:72ch}
+.impeccable-ui .card,.impeccable-ui .home-day{padding:20px;border:1px solid var(--bd);border-radius:12px;box-shadow:none;background:#fff}
+.impeccable-ui :is(.agenda-filter,#home-filter){background:#f8fbf9;border-color:#d8e3dc;border-radius:10px;padding:16px;gap:16px}
+.impeccable-ui label{font-size:var(--fs-md);line-height:1.4;font-weight:600;color:#3e5d49;gap:7px}
+.impeccable-ui :is(input:not([type=checkbox]):not([type=radio]),textarea,select){font-family:inherit;font-size:var(--fs-md);min-height:42px;line-height:1.5;border:1px solid #acc7b6;border-radius:8px;background:#fff;padding:9px 11px;box-shadow:none;color:var(--tx)}
+.impeccable-ui :is(input,textarea)::placeholder{color:#5c7164;opacity:1}
+.impeccable-ui :is(input,select,textarea):hover{border-color:#658b73}
+.impeccable-ui :is(input,select,textarea):focus-visible{outline:3px solid #2a7b50;outline-offset:2px}
+.impeccable-ui :is(button.b,button.s){font-family:inherit;font-size:var(--fs-md);line-height:1.4;min-height:40px;padding:9px 13px;border-radius:8px;font-weight:600;box-shadow:none}
+.impeccable-ui button.b{background:#016237;border-color:#016237;color:#fff}
+.impeccable-ui button.b:hover{background:#07513c;border-color:#07513c}
+.impeccable-ui button.s{color:#244e35;background:#fff;border-color:#b6ccbe}
+.impeccable-ui button.s:hover{background:#edf5ef}
+.impeccable-ui button:disabled{opacity:1;background:#edf2ef;border-color:#d9e3dc;color:#5b6c61;cursor:not-allowed}
+.impeccable-ui #nav button:disabled{background:transparent;color:#b6ccbf}
+.impeccable-ui .daily-shortcuts{gap:8px;max-width:none}
+.impeccable-ui .daily-shortcuts button{font-size:var(--fs-md);padding-inline:11px}
+.impeccable-ui .date-nav{gap:8px}
+.impeccable-ui .table-scroll,.impeccable-ui .daily-table-wrap{border-radius:10px;border-color:#d8e3dc}
+.impeccable-ui table{font-family:inherit;font-size:var(--fs-md);font-variant-numeric:tabular-nums}
+.impeccable-ui th{background:#eef5f0;font-size:var(--fs-md);font-weight:650;letter-spacing:0;text-transform:none;color:#3d5d48;padding:12px;line-height:1.5}
+.impeccable-ui td{font-size:var(--fs-md);padding:12px;line-height:1.5;border-color:#e2ebe5}
+.impeccable-ui .planilla-table td[data-label="Paciente"]>div>strong{font-family:inherit;font-size:var(--fs-md);font-weight:650;line-height:1.5}
+.impeccable-ui .planilla-table .planilla-hour{border-left-width:1px}
+.impeccable-ui .planilla-table td[data-label="Paciente"]{border-left-width:1px}
+.impeccable-ui .planilla-hour-info>.planilla-professional{font-family:inherit;font-size:var(--fs-md);font-weight:650}
+.impeccable-ui .planilla-hour-info small,.impeccable-ui .planilla-table .turn-phone{font-size:var(--fs-md);line-height:1.5}
+.impeccable-ui .planilla-table .row-actions{gap:8px;min-width:125px}
+.impeccable-ui .planilla-table .row-actions :is(button.b,button.s){min-height:34px;padding:7px 10px;font-size:var(--fs-md)}
+.impeccable-ui .planilla-table .row-more summary,.impeccable-ui .turn-whatsapp{min-height:34px;font-size:var(--fs-md);padding:7px 9px}
+.impeccable-ui .planilla-table .pill{font-size:var(--fs-md);line-height:1.5;white-space:nowrap}
+.impeccable-ui .planilla-table .planilla-block-end td{font-size:var(--fs-md);padding:8px 12px;border-bottom-width:1px}
+.impeccable-ui td:is([data-label=Importe],[data-label=Total],[data-label=Pagado],[data-label=Saldo]){font-variant-numeric:tabular-nums;text-align:right}
+.impeccable-ui .patient-layout{gap:24px}
+.impeccable-ui .patient-item{border-radius:8px;padding-block:14px;box-shadow:none}
+.impeccable-ui .patient-item[aria-pressed=true]{background:#eaf4ed;border-color:#a3c9af;box-shadow:none}
+.impeccable-ui .patient-ficha-grid{background:#f6faf7;border-color:#d8e3dc;border-radius:10px;padding:20px;gap:20px}
+.impeccable-ui .patient-ficha-grid dt{font-size:var(--fs-md);color:#4f6a59}
+.impeccable-ui .patient-ficha-grid dd{font-size:var(--fs-md);line-height:1.5}
+.impeccable-ui .form-grid{gap:20px}
+.impeccable-ui .form-section-heading{border:0;border-radius:8px;background:#edf5ef;color:#355b42;padding:12px}
+.impeccable-ui .tabs,.impeccable-ui .patient-tabs{gap:8px;padding-bottom:12px;margin-bottom:20px}
+.impeccable-ui .turn-card{padding:18px;border-radius:10px;box-shadow:none}
+.impeccable-ui .turn-card p{font-size:var(--fs-md);line-height:1.5}
+.impeccable-ui .agenda-availability{border-radius:10px;padding:16px;background:#eff7f1;border-color:#c4dcca}
+.impeccable-ui .slot{min-height:58px;border-radius:8px;font-size:var(--fs-md)}
+.impeccable-ui .management-block{padding:24px;border-radius:12px;border-color:#d8e3dc}
+.impeccable-ui .management-block h2{font-family:inherit;font-size:18px;font-weight:650;color:#234a32}
+.impeccable-ui .management-stats{border-color:#d3e3d7;background:#f5f9f6;border-radius:10px}
+.impeccable-ui .management-stat{padding:18px}
+.impeccable-ui .management-stat strong{font-family:inherit;font-size:27px;font-weight:650;color:#07513c}
+.impeccable-ui .management-stat span{font-size:var(--fs-md);color:#3e5a48}
+.impeccable-ui .management-stat small{font-size:var(--fs-md);line-height:1.5;color:#536c5d}
+.impeccable-ui .management-notice{border:1px solid #cbded1;border-left-width:1px;border-radius:10px;background:#edf6f0;padding:14px 16px;color:#365e45}
+.impeccable-ui .management-note{border-radius:8px;padding:12px 14px}
+.impeccable-ui .management-block summary{padding-block:10px;font-size:var(--fs-md)}
+.impeccable-ui dialog{padding:26px;border:0;border-radius:14px;box-shadow:0 18px 60px #173b3040}
+.impeccable-ui dialog .detail-head{padding-bottom:18px;margin-bottom:20px}
+.impeccable-ui dialog h2{font-size:22px}
+.impeccable-ui dialog .modal-close-x{min-height:40px;width:40px;border-radius:8px}
+.impeccable-ui #feedback:not([hidden]){font-size:var(--fs-md);line-height:1.5;border-radius:8px}
+.impeccable-ui .login{border:1px solid #d0e0d5;border-radius:16px;padding:36px;background:#fff;box-shadow:0 16px 48px #183f2c0a}
+.impeccable-ui .login::before{display:none}
+.impeccable-ui .login h1{font-size:28px;letter-spacing:-.025em}
+.impeccable-ui .login-intro{font-family:inherit;line-height:1.6;font-size:15px;max-width:32ch}
+.impeccable-ui .login .brand{margin-bottom:28px}
+.impeccable-ui .login .brand small{font-size:var(--fs-md)}
+.impeccable-ui #login-form{gap:18px}
+.impeccable-ui #login-form button{min-height:44px;font-size:var(--fs-md)}
+@media(min-width:1360px){.impeccable-ui .daily-shortcuts{flex-wrap:nowrap;gap:6px}}
+@media(max-width:1100px) and (min-width:981px){.impeccable-ui .content{padding-inline:22px}.impeccable-ui .appbar{margin-inline:-22px;padding-inline:22px}.impeccable-ui #nav button{font-size:var(--fs-md);padding-inline:10px}}
+@media(max-width:980px){.impeccable-ui .side{height:auto;padding:16px 18px 10px;gap:16px}.impeccable-ui #nav button{min-height:44px}.impeccable-ui .side-foot{padding-top:0}.impeccable-ui .content{padding-inline:18px}.impeccable-ui .appbar{margin-inline:-18px;padding-inline:18px}.impeccable-ui .quick-search{width:auto;min-width:180px}}
+@media(max-width:740px){.impeccable-ui .content{padding-inline:14px}.impeccable-ui .appbar{margin-inline:-14px;padding-inline:14px}.impeccable-ui h1,.impeccable-ui .home-topbar h1{font-size:24px}.impeccable-ui .card,.impeccable-ui .home-day{padding:16px;border-radius:10px}.impeccable-ui .daily-shortcuts button{min-height:44px}.impeccable-ui :is(button.b,button.s){min-height:44px}.impeccable-ui .side-foot .s{min-height:36px}.impeccable-ui .management-block{padding:17px}.impeccable-ui .management-stat{padding:14px}.impeccable-ui .management-stat strong{font-size:25px}.impeccable-ui .management-stat small{font-size:var(--fs-md)}.impeccable-ui .login{padding:28px 24px}.impeccable-ui dialog{padding:20px}.impeccable-ui #nav{padding-bottom:4px}}
+@media(prefers-reduced-motion:reduce){.impeccable-ui *{transition:none!important;animation:none!important}}

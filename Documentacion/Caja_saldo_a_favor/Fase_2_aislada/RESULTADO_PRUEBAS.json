@@ -1,0 +1,53 @@
+{
+  "fecha_utc": "2026-11-05T01:08:29.225749+00:00",
+  "base_local": "marathon_saldo_restauracion_20261104",
+  "datos": "Sintéticos; sin escrituras en producción",
+  "resultados": [
+    {
+      "prueba": "saldo_unificado_smoke.sql",
+      "resultado": "PASS",
+      "evidencia": [
+        "psql:C:/Users/Gonzalo/OneDrive/Desktop/CRM SUPABASE/Ultima version del CRM/supabase/tests/saldo_unificado_smoke.sql:59: NOTICE:  OK: parcial, orden, sobrante, devolución, reintegro, centavos, pago profesional e idempotencia."
+      ]
+    },
+    {
+      "prueba": "saldo_eventos_smoke.sql",
+      "resultado": "PASS",
+      "evidencia": [
+        "psql:C:/Users/Gonzalo/OneDrive/Desktop/CRM SUPABASE/Ultima version del CRM/supabase/tests/saldo_eventos_smoke.sql:62: NOTICE:  OK: anulación, vista previa vencida, presente parcial/repetido, ausente, reintegro parcial, cuota y bono automáticos, inmutabilidad.",
+        "psql:C:/Users/Gonzalo/OneDrive/Desktop/CRM SUPABASE/Ultima version del CRM/supabase/tests/saldo_eventos_smoke.sql:74: NOTICE:  OK: consulta autenticada, secretaría sin anulación y funciones internas privadas."
+      ]
+    },
+    {
+      "prueba": "saldo_importacion_smoke.sql",
+      "resultado": "PASS",
+      "evidencia": [
+        "psql:C:/Users/Gonzalo/OneDrive/Desktop/CRM SUPABASE/Ultima version del CRM/supabase/tests/saldo_importacion_smoke.sql:37: NOTICE:  OK: prueba en seco, huella, conversión, conciliación exacta, bono sin crédito duplicado, prueba excluida y reversión de pago importado."
+      ]
+    },
+    {
+      "prueba": "saldo_orden_smoke.sql",
+      "resultado": "PASS",
+      "evidencia": [
+        "psql:C:/Users/Gonzalo/OneDrive/Desktop/CRM SUPABASE/Ultima version del CRM/supabase/tests/saldo_orden_smoke.sql:22: NOTICE:  OK: orden entre cuota, bono y sesiones con misma fecha; aplicación parcial e importe exacto."
+      ]
+    },
+    {
+      "prueba": "saldo_cuota_smoke.sql",
+      "resultado": "PASS",
+      "evidencia": [
+        "psql:C:/Users/Gonzalo/OneDrive/Desktop/CRM SUPABASE/Ultima version del CRM/supabase/tests/saldo_cuota_smoke.sql:28: NOTICE:  OK: reintegro de cuota parcial a saldo, cuota sin deuda, aviso explícito, reintento y devolución física separada."
+      ]
+    },
+    {
+      "prueba": "RLS, ACL, circuito apagado y rollback de fixtures",
+      "resultado": "PASS"
+    },
+    {
+      "prueba": "Dos conexiones independientes",
+      "resultado": "PASS",
+      "evidencia": "OK: mismo ingreso simultáneo una sola vez; dos retiros simultáneos no exceden saldo; revisión obsoleta rechazada."
+    }
+  ],
+  "resultado": "PASS"
+}

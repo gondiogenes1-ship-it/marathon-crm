@@ -1,0 +1,43 @@
+/* Marathon 0.13.1 · movimiento al servicio de la respuesta, sin mover datos clínicos. */
+body.marathon-ui{
+ --ease-out:cubic-bezier(0.23,1,0.32,1);
+ --motion-press:120ms;--motion-panel:125ms;--motion-modal:200ms;
+}
+.marathon-ui.motion-pointer :is(button.b,button.s,.patient-item,.slot){transition:transform var(--motion-press) var(--ease-out)}
+.marathon-ui.motion-pointer :is(button.b,button.s,.patient-item,.slot):active:not(:disabled){transform:scale(.97)}
+.marathon-ui #nav button{transition:background-color var(--motion-press) ease,color var(--motion-press) ease}
+@media(hover:hover) and (pointer:fine){
+ .marathon-ui :is(button.b,button.s):not(:disabled){transition:transform var(--motion-press) var(--ease-out),background-color var(--motion-press) ease,border-color var(--motion-press) ease}
+ .marathon-ui button.slot:not(:disabled){transition:transform var(--motion-press) var(--ease-out),background-color var(--motion-press) ease,border-color var(--motion-press) ease,box-shadow var(--motion-press) ease}
+ .marathon-ui button.slot:not(:disabled):hover{border-color:var(--ac);box-shadow:0 0 0 2px #0162371f;background:#e6efe9}
+ .marathon-ui button.slot.w:not(:disabled):hover{background:#fff0ce;border-color:#ab7929}
+ .marathon-ui button.slot[aria-pressed=true]:not(:disabled):hover{background:#07513c;color:#fff}
+}
+.marathon-ui button.slot:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
+.marathon-ui :is(button.b,button.s,button.slot):disabled{cursor:not-allowed}
+/* El navegador conserva su diálogo nativo, foco y cierre con Escape. */
+@supports(transition-behavior:allow-discrete){
+ .marathon-ui dialog{
+  opacity:0;transform:scale(.96);transform-origin:center;
+  transition:opacity var(--motion-modal) var(--ease-out),transform var(--motion-modal) var(--ease-out),overlay var(--motion-modal) allow-discrete,display var(--motion-modal) allow-discrete;
+ }
+ .marathon-ui dialog[open]{opacity:1;transform:scale(1)}
+ .marathon-ui dialog:not([open]){pointer-events:none}
+ .marathon-ui dialog::backdrop{opacity:0;transition:opacity var(--motion-modal) var(--ease-out),overlay var(--motion-modal) allow-discrete,display var(--motion-modal) allow-discrete}
+ .marathon-ui dialog[open]::backdrop{opacity:1}
+ @starting-style{
+  .marathon-ui dialog[open]{opacity:0;transform:scale(.96)}
+  .marathon-ui dialog[open]::backdrop{opacity:0}
+ }
+}
+/* Los cambios por teclado y la preferencia de accesibilidad son inmediatos. */
+.marathon-ui.motion-keyboard :is(button,dialog){transition:none!important}
+.marathon-ui.motion-keyboard dialog::backdrop{transition:none!important}
+.marathon-ui.motion-keyboard dialog[open]{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+ .marathon-ui :is(button,dialog){transition:none!important;animation:none!important}
+ .marathon-ui dialog[open]{opacity:1;transform:none!important}
+ .marathon-ui dialog::backdrop{transition:none!important}
+ @starting-style{.marathon-ui dialog[open]{opacity:1;transform:none}.marathon-ui dialog[open]::backdrop{opacity:1}}
+}
+@media print{.marathon-ui *{transition:none!important;animation:none!important}}

@@ -1,0 +1,30 @@
+/* Etapa 1: legibilidad y acceso con teclado. Cargar después de los temas vigentes. */
+:root{
+ --fs-xs:13px;--fs-sm:14px;--fs-md:14px;--fs-lg:18px;--fs-xl:24px;
+ --focus-ring:#016237;--focus-halo:#fff;
+}
+body.marathon-ui.impeccable-ui.salud-ui .patient-empty>span{color:#53675a}
+/* No cambia fuentes, pantallas, estados ni operaciones de la aplicación. */
+body.marathon-ui.impeccable-ui.salud-ui :is(#workspace,#login,dialog) :is(button,input:not([type=checkbox]):not([type=radio]):not([type=hidden]),select,textarea,summary){
+ min-height:44px;font-size:var(--fs-md);line-height:1.5;
+}
+body.marathon-ui.impeccable-ui.salud-ui :is(#workspace,#login,dialog) :is(label,th,td){font-size:var(--fs-sm);line-height:1.5}
+body.marathon-ui.impeccable-ui.salud-ui :is(#workspace,#login,dialog) :is(button,summary){white-space:normal;overflow-wrap:anywhere}
+body.marathon-ui.impeccable-ui.salud-ui :is(#workspace,#login,dialog) summary{display:list-item;padding-block:10px;box-sizing:border-box}
+body.marathon-ui.impeccable-ui.salud-ui :is(#workspace,#login,dialog) :is(.form-actions,.row-actions,.pagination,.pager,.date-nav,.bulk-actions,.recurring-tabs,.daily-shortcuts){gap:8px;flex-wrap:wrap}
+body.marathon-ui.impeccable-ui.salud-ui #nav{gap:8px}
+body.marathon-ui.impeccable-ui.salud-ui :is(#detail,.recurring-dialog) .detail-head button{min-width:44px;width:auto;height:auto;flex-shrink:0}
+body.marathon-ui.impeccable-ui.salud-ui #help-button{min-width:44px;height:auto}
+body.marathon-ui.impeccable-ui.salud-ui .recurring-grid .recurring-slot-head .recurring-add{flex-basis:44px;width:44px;min-width:44px;max-width:44px;height:44px;min-height:44px}
+body.marathon-ui.impeccable-ui.salud-ui :is(#workspace,#login,dialog) input:is([type=checkbox],[type=radio]){width:24px;height:24px;flex-shrink:0}
+body.marathon-ui.impeccable-ui.salud-ui :is(#workspace,#login,dialog) label:has(>input:is([type=checkbox],[type=radio])){min-height:44px;align-items:center;gap:8px}
+body.marathon-ui.impeccable-ui.salud-ui :is(a[href],button,input,select,textarea,summary,[tabindex]):focus-visible{
+ outline:3px solid var(--focus-ring);outline-offset:3px;box-shadow:0 0 0 3px var(--focus-halo);
+}
+body.marathon-ui.impeccable-ui.salud-ui .side :focus-visible{--focus-ring:#fff;--focus-halo:#07513c}
+@media(forced-colors:active){body.marathon-ui.impeccable-ui.salud-ui :focus-visible{outline:3px solid Highlight;box-shadow:none}}
+@media(max-width:740px){
+ body.marathon-ui.impeccable-ui.salud-ui :is(.topbar,.detail-head,.appbar){flex-wrap:wrap;gap:8px;height:auto;min-height:44px}
+ body.marathon-ui.impeccable-ui.salud-ui :is(#workspace,#login,dialog) :is(input:not([type=checkbox]):not([type=radio]),select,textarea){font-size:16px;max-width:100%;box-sizing:border-box}
+ body.marathon-ui.impeccable-ui.salud-ui :is(#workspace,#login,dialog) label{min-width:0}
+}

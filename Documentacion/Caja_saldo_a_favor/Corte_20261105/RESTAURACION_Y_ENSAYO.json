@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "database": "marathon_saldo_corte_20261105_12664",
+  "backup": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Respaldos\\Supabase_completo_20261105_002814\\database.dump",
+  "sha256": "9364aa23e98c70e66a5403687740649d303649df7c5756f2f590d52f2a158a1d",
+  "crm_restore_verified": true,
+  "auth_service_simulated_locally": true,
+  "migrations": 12,
+  "unchanged_original_records": true,
+  "reconciliation": true,
+  "balance": {
+    "activo": false,
+    "fuentes": 43,
+    "saldo_total": 166000.0,
+    "aplicaciones": 44,
+    "saldo_carlos": 40000.0,
+    "saldo_pruebas_gonzalo": 0
+  }
+}

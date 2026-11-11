@@ -1,0 +1,10 @@
+{
+  "application": "Marathon CRM",
+  "edition": "2026-10-30-0140-agenda-recurrente-supabase-real",
+  "platform": "Windows x64",
+  "node": "v24.22.1",
+  "node_source": "https://nodejs.org/dist/v24.22.1/node-v24.22.1-win-x64.zip",
+  "node_archive_sha256": "d2046d28c2c3dcd211ac5145c0bf30e2047ef9dfb306693c8c6e2eccd8b95fa5",
+  "data": "Supabase compartido; no incluye copias de pacientes ni credenciales privadas",
+  "production_url": "https://marathon-crm-liart.vercel.app/"
+}

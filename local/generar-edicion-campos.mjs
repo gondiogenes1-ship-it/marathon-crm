@@ -1,0 +1,31 @@
+import fs from 'node:fs/promises';
+const root=new URL('../',import.meta.url);
+const defs=JSON.parse(await fs.readFile(new URL('local/editar-campos-defs.json',root),'utf8'));
+const replace=(s,a,b)=>{if(!s.includes(a))throw Error('No se encontró: '+a);return s.replaceAll(a,()=>b);};
+let run=defs.find(d=>d.proname==='turn_series_run').definition;
+run=replace(run,'quotes_kept int:=0;','quotes_kept int:=0;new_therapy text;therapy_minutes int;');
+run=replace(run,"'coverage','notes']","'coverage','notes','therapy']");
+run=replace(run,"new_date=marathon.agenda_date(p_data->>'date');",`new_date=marathon.agenda_date(p_data->>'date');
+  if p_data?'therapy'then
+   new_therapy=marathon.master_text(p_data,'therapy',100,true);
+   select duracion_min into therapy_minutes from marathon.terapias where id=new_therapy and estado='ACTIVO';
+   if therapy_minutes is null then raise exception 'Seleccioná una terapia activa.'using errcode='22023';end if;
+  end if;`);
+run=replace(run,'new_hour,rule.duracion_min)','new_hour,case when new_therapy is not null and new_therapy<>coalesce(rule.terapia_override,p.terapia_id)then therapy_minutes else rule.duracion_min end)');
+run=replace(run,'new_hour,member.duracion_min)','new_hour,case when new_therapy is not null and new_therapy<>member.terapia_id then therapy_minutes else member.duracion_min end)');
+run=replace(run,'importe_override,coverage_override,observaciones_override)','importe_override,coverage_override,observaciones_override,terapia_override)');
+run=replace(run,'coalesce(memo,rule.observaciones_override))returning','coalesce(memo,rule.observaciones_override),coalesce(new_therapy,rule.terapia_override))returning');
+run=replace(run,'prof,member.terapia_id,new_hour','prof,coalesce(new_therapy,member.terapia_id),new_hour');
+run=replace(run,"profesional_id=prof,duracion_min=duration,estado='PENDIENTE'","profesional_id=prof,terapia_id=coalesce(new_therapy,member.terapia_id),terapia_override=coalesce(new_therapy,member.terapia_override),duracion_min=duration,estado='PENDIENTE'");
+let virt=defs.find(d=>d.proname==='agenda_virtual').definition;
+virt=replace(virt,'h.profesional_id,p.terapia_id,h.hora','h.profesional_id,coalesce(h.terapia_override,p.terapia_id),h.hora');
+let guard=await fs.readFile(new URL('local/editar-campos-guard.sql',root),'utf8');
+guard=replace(guard,'select t.plan_id into new.plan_id from marathon.turnos t where t.id=new.recovered_from;','select t.plan_id,t.terapia_override into new.plan_id,new.terapia_override from marathon.turnos t where t.id=new.recovered_from;');
+guard=replace(guard,'new.terapia_id<>p.terapia_id',"new.terapia_id<>coalesce(new.terapia_override,(select h.terapia_override from marathon.agenda_horarios h where h.id=new.horario_id and h.plan_id=p.id),p.terapia_id)");
+// Instalación con verificación de todos los datos, sin reescribir ninguna reserva.
+const prior=await fs.readFile(new URL('supabase/migrations/20261105141935_nueva_serie_desde_reserva_anterior.sql',root),'utf8');
+let snapshot=prior.match(/create temporary table _continue_before on commit drop as ([\s\S]*?);\r?\n/)[1];
+snapshot=snapshot.replaceAll('to_jsonb(x)',"(to_jsonb(x)-'terapia_override')");
+const sql=`-- Habilita cambios de terapia futuros sin alterar el historial ni Caja.\nbegin;\nset local lock_timeout='5s';\nselect pg_advisory_xact_lock(hashtextextended('marathon:master-write:v1',0));\ncreate temporary table _edit_fields_before on commit drop as ${snapshot};\nalter table marathon.agenda_horarios add column terapia_override text references marathon.terapias(id);\nalter table marathon.turnos add column terapia_override text references marathon.terapias(id);\n${virt};\n${run};\n${guard};\nrevoke all on function marathon.turn_series_run(text,jsonb),marathon.agenda_virtual(date),marathon.agenda_turno_guard()from public,anon,authenticated;\ndo $guard$declare actual jsonb;begin select snapshot into actual from(${snapshot})s;if actual is distinct from(select snapshot from _edit_fields_before)then raise exception 'La instalación cambió registros existentes. Se revierte.';end if;end$guard$;\nnotify pgrst,'reload schema';\ncommit;\n`;
+await fs.writeFile(new URL('supabase/migrations/20261105150833_agenda_edicion_campos_completos.sql',root),sql);
+console.log('Migración generada',sql.length);

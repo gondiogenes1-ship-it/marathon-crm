@@ -1,0 +1,45 @@
+{
+  "datos": "Ficticios, base marathon_saldo_demo_20261104 en localhost",
+  "inicio_cobrar": {
+    "paciente_precargado": true,
+    "importe_total_editable": "28000.00",
+    "ingresos_fisicos_agregados": 1
+  },
+  "reintegro_cuota": {
+    "importe_liberado": "5000.00",
+    "saldo_resultante": "5000.00",
+    "deuda_cuota": "0.00",
+    "egresos_fisicos_agregados": 0
+  },
+  "devolucion_superior_al_saldo": {
+    "solicitado": "6000.00",
+    "disponible": "5000.00",
+    "rechazado": true,
+    "confirmar_habilitado": false
+  },
+  "devolucion_separada": {
+    "importe": "1500.00",
+    "saldo_resultante": "3500.00",
+    "egresos_fisicos_agregados": 1
+  },
+  "caja_final": {
+    "ingresos": "45000.00",
+    "egresos": "1500.00",
+    "neto": "43500.00",
+    "cantidad_movimientos": 4
+  },
+  "pago_profesional": {
+    "paciente_oculto": true,
+    "profesional_y_terapia": true,
+    "revisado": true,
+    "confirmado": false
+  },
+  "adaptabilidad": {
+    "ancho_css": 537,
+    "columnas_formulario": 1,
+    "desbordamiento_horizontal": false,
+    "fuente_control": "14px",
+    "altura_control_css": "44px"
+  },
+  "captura": "ficha-saldo-demo.png"
+}

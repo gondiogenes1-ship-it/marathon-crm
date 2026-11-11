@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {saldoEnabled} from '../public/saldo-state.js';
+let calls=0,active=false;
+const api={session:{access_token:'test-session-a'},rpc:async()=>{calls++;return {activo:active};}};
+assert.equal(await saldoEnabled(api),false);assert.equal(await saldoEnabled(api),false);assert.equal(calls,1);
+active=true;assert.equal(await saldoEnabled(api,{fresh:true}),true);assert.equal(calls,2);
+api.session.access_token='test-session-b';await saldoEnabled(api);assert.equal(calls,3);
+assert.equal(await saldoEnabled({rpc:async()=>{throw Object.assign(Error('RPC ausente'),{code:'PGRST202'});}}),false);
+await assert.rejects(()=>saldoEnabled({rpc:async()=>{throw Object.assign(Error('Sin conexión'),{code:'NETWORK'});}}),/Sin conexión/);
+await assert.rejects(()=>saldoEnabled({rpc:async()=>{throw Object.assign(Error('Sin permiso'),{code:'42501'});}}),/Sin permiso/);
+console.log('OK: circuito anterior sin RPC/activo=false; activación y sesión nuevas; fallos de conexión o permisos no se ocultan.');

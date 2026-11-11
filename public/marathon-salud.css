@@ -1,0 +1,74 @@
+/* Marathon Salud. Estilo aprobado el 29/10/2026. Mantiene los verdes y la marca vigentes. */
+/* Alertas de inventario: fondos translúcidos sin atenuar el texto ni las acciones. */
+body.marathon-ui.salud-ui #ortho-list .daily-table tr[data-stock-status="low"]>td{background-color:rgba(245,185,0,.14)}
+body.marathon-ui.salud-ui #ortho-list .daily-table tr[data-stock-status="empty"]>td{background-color:rgba(220,38,38,.10)}
+body.marathon-ui.salud-ui #ortho-list .daily-table tr[data-stock-status="low"]:hover>td{background-color:rgba(245,185,0,.20)}
+body.marathon-ui.salud-ui #ortho-list .daily-table tr[data-stock-status="empty"]:hover>td{background-color:rgba(220,38,38,.16)}
+@media(forced-colors:active){body.marathon-ui.salud-ui #ortho-list .daily-table tr:is([data-stock-status="low"],[data-stock-status="empty"])>td{border-bottom:2px solid CanvasText}}
+body.marathon-ui.impeccable-ui.salud-ui{
+ --bg:#f1f5f2;--card:#fff;--tx:#13201a;--mu:#55665c;--bd:#d6e0d9;
+ --ac:#016237;--side:#07513c;--salud-soft:#e6efe9;
+ font-family:'Segoe UI',system-ui,sans-serif;font-size:var(--fs-md);line-height:1.45;
+ font-variant-numeric:tabular-nums;
+}
+.salud-ui :is(h1,h2,h3){font-family:'Segoe UI',system-ui,sans-serif;font-weight:600;letter-spacing:-.01em;color:var(--tx)}
+.salud-ui h1,.salud-ui .home-topbar h1{font-size:36px;line-height:44px;letter-spacing:-.02em}
+.salud-ui h2{font-size:24px;line-height:32px}
+.salud-ui h3{font-size:16px;line-height:24px}
+.salud-ui .brand,.salud-ui .brand .mark{font-family:'Segoe UI',system-ui,sans-serif}
+.salud-ui .side{background:#07513c;padding:24px 16px 20px;gap:24px}
+.salud-ui #nav button{font-family:'Segoe UI',system-ui,sans-serif;color:#d2e5d9;font-size:var(--fs-md);min-height:42px;font-weight:400;padding:10px 12px}
+.salud-ui #nav button.b{background:#016237;color:#fff;font-weight:600}
+.salud-ui #nav button:hover:not(.b){background:#ffffff12;color:#fff}
+.salud-ui .content{padding-inline:32px;padding-bottom:32px}
+.salud-ui .appbar{margin-inline:-32px;padding-inline:32px;background:#fff;border-bottom:1px solid var(--bd);min-height:72px;margin-bottom:32px}
+.salud-ui .topbar{margin-bottom:24px}
+.salud-ui .subtitle{font-size:var(--fs-md);line-height:20px;color:var(--mu)}
+.salud-ui .card,.salud-ui .home-day{background:#fff;border:1px solid var(--bd);border-radius:12px;padding:20px;box-shadow:none}
+.salud-ui :is(.agenda-filter,#home-filter){background:#fff;border:1px solid var(--bd);gap:20px;padding:20px;border-radius:12px}
+.salud-ui label{font-size:var(--fs-md);font-weight:500;color:#3f4941;gap:8px}
+.salud-ui :is(input:not([type=checkbox]):not([type=radio]),textarea,select){font-family:inherit;font-size:var(--fs-md);font-weight:400;min-height:40px;border:1px solid var(--bd);border-radius:8px;padding:9px 12px;color:var(--tx);background:#fff}
+.salud-ui :is(input,textarea)::placeholder{color:#63776b;opacity:1}
+.salud-ui :is(input,select,textarea):hover{border-color:#8a9e92}
+.salud-ui :is(input,select,textarea):focus-visible{outline:2px solid #016237;outline-offset:2px;border-color:#016237;box-shadow:0 0 0 3px #0162371f}
+.salud-ui :is(button.b,button.s){font-family:inherit;font-size:var(--fs-md);font-weight:600;line-height:20px;min-height:40px;border-radius:8px;padding:9px 14px;box-shadow:none}
+.salud-ui button.b{background:#016237;border-color:#016237;color:#fff}
+.salud-ui button.b:hover{background:#07513c;border-color:#07513c}
+.salud-ui button.s{background:#fff;color:#016237;border-color:var(--bd)}
+.salud-ui button.s:hover{background:#f1f5f2;border-color:#016237}
+.salud-ui button:disabled{background:#e9efea;border-color:var(--bd);color:#55665c}
+.salud-ui :is(button,a):focus-visible{outline:2px solid #016237;outline-offset:3px}
+.salud-ui .side :is(button,a):focus-visible{outline-color:#fff}
+.salud-ui table{font-family:inherit;font-size:var(--fs-md);font-weight:500;font-variant-numeric:tabular-nums}
+.salud-ui th{font-size:var(--fs-md);font-weight:600;letter-spacing:.02em;background:#f9faf9;color:#55665c;border-bottom:1px solid var(--bd);padding:12px;line-height:18px}
+.salud-ui td{font-size:var(--fs-md);line-height:18px;padding:12px;border-color:#e6ece8}
+.salud-ui tbody tr:hover{background:#f4f8f5}
+.salud-ui .pill{border-radius:9999px;font-size:var(--fs-md);letter-spacing:.04em;font-weight:600;padding:4px 10px;line-height:16px}
+.salud-ui dialog{border:1px solid var(--bd);border-radius:12px;background:#fff;box-shadow:0 16px 32px -6px #062b191f,0 6px 12px -3px #062b190f}
+.salud-ui dialog::backdrop{background:#062b1973;backdrop-filter:blur(4px)}
+.salud-ui .patient-item[aria-pressed=true]{background:#ebf3ee;border-color:#b8c8bd;box-shadow:inset 3px 0 #016237}
+.salud-ui .form-section-heading{background:#e6efe9;color:#016237}
+.salud-ui .patient-ficha-grid{background:#f4f8f5;border-color:var(--bd)}
+.salud-ui .trial-banner{background:#e6efe9;border-bottom:1px solid var(--bd);color:#244e35;font-size:var(--fs-md);gap:12px}
+.salud-ui .trial-banner a{color:#016237}
+.salud-ui .salud-ui-links{display:flex;gap:18px;flex-wrap:wrap}
+.salud-ui #patient-reports .pps-heading h2{font-family:'Segoe UI',system-ui,sans-serif;font-size:24px;line-height:32px;font-weight:600}
+.salud-ui #patient-reports .pps-columns{gap:24px}
+.salud-ui #patient-reports .pps-panel{padding:20px}
+.salud-ui #patient-reports .pps-panel h2{font-size:20px;line-height:28px}
+.salud-ui #patient-reports .pps-stat{padding:24px 20px}
+.salud-ui #patient-reports .pps-stat h3{font-size:var(--fs-md);line-height:20px;font-weight:400}
+.salud-ui #patient-reports .pps-stat>strong{font-family:'Segoe UI',system-ui,sans-serif;font-size:36px;line-height:44px;font-weight:600;color:#016237;letter-spacing:-.02em}
+.salud-ui #patient-reports .pps-stat :is(p,small){font-size:var(--fs-md);line-height:18px}
+.salud-ui #patient-reports .pps-notice{background:#e6efe9;border-color:#d6e0d9;padding:12px 16px;border-radius:8px}
+.salud-ui #patient-reports .pps-track{background:#e6efe9}
+.salud-ui #patient-reports .pps-state-absent{background:#c05640}
+.salud-ui #patient-reports .pps-state-pending{background:#d97706}
+.salud-ui #patient-reports .pps-trend text{font-family:'Segoe UI',system-ui,sans-serif}
+@media(min-width:1101px){.salud-ui .shell{grid-template-columns:260px minmax(0,1fr)}}
+@media(min-width:981px) and (max-width:1100px){.salud-ui .side{padding-inline:12px}.salud-ui .content{padding-inline:24px}.salud-ui .appbar{margin-inline:-24px;padding-inline:24px}}
+@media(max-width:980px){.salud-ui .side{height:auto;padding:16px;gap:16px}.salud-ui .content{padding-inline:20px}.salud-ui .appbar{margin-inline:-20px;padding-inline:20px;margin-bottom:24px}.salud-ui #nav button{min-height:44px}.salud-ui .side-foot{padding:0}}
+@media(max-width:740px){.salud-ui .content{padding-inline:16px}.salud-ui .appbar{margin-inline:-16px;padding-inline:16px}.salud-ui h1,.salud-ui .home-topbar h1{font-size:28px;line-height:36px}.salud-ui .card,.salud-ui .home-day{padding:16px}.salud-ui :is(button.b,button.s){min-height:44px}.salud-ui .side-foot .s{min-height:36px}.salud-ui #patient-reports .pps-panel{padding:16px}.salud-ui #patient-reports .pps-stat{padding:16px}.salud-ui #patient-reports .pps-stat>strong{font-size:28px;line-height:36px}.salud-ui #patient-reports .pps-heading h2{font-size:24px}.salud-ui .trial-banner{padding-inline:16px;align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){.salud-ui *{transition:none!important;animation:none!important}}
+
+

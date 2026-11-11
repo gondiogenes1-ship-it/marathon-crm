@@ -1,0 +1,361 @@
+{
+  "audits": [
+    {
+      "targetWidth": 1440,
+      "screen": "login",
+      "client": 1440,
+      "scroll": 1440,
+      "short": [],
+      "small": [],
+      "width": 1440
+    },
+    {
+      "targetWidth": 1440,
+      "screen": "home",
+      "client": 1417,
+      "scroll": 1417,
+      "short": [],
+      "small": [],
+      "width": 1440
+    },
+    {
+      "targetWidth": 1440,
+      "screen": "agenda",
+      "client": 1417,
+      "scroll": 1417,
+      "short": [],
+      "small": [],
+      "width": 1440
+    },
+    {
+      "targetWidth": 1440,
+      "screen": "patients",
+      "client": 1417,
+      "scroll": 1417,
+      "short": [],
+      "small": [],
+      "width": 1440
+    },
+    {
+      "targetWidth": 1440,
+      "screen": "wait",
+      "client": 1417,
+      "scroll": 1417,
+      "short": [],
+      "small": [],
+      "width": 1440
+    },
+    {
+      "targetWidth": 1440,
+      "screen": "cash",
+      "client": 1417,
+      "scroll": 1417,
+      "short": [],
+      "small": [],
+      "width": 1440
+    },
+    {
+      "targetWidth": 1440,
+      "screen": "ortho",
+      "client": 1417,
+      "scroll": 1417,
+      "short": [],
+      "small": [],
+      "width": 1440
+    },
+    {
+      "targetWidth": 1440,
+      "screen": "reports",
+      "client": 1417,
+      "scroll": 1417,
+      "short": [],
+      "small": [],
+      "width": 1440
+    },
+    {
+      "targetWidth": 1440,
+      "screen": "masters",
+      "client": 1417,
+      "scroll": 1417,
+      "short": [],
+      "small": [],
+      "width": 1440
+    },
+    {
+      "targetWidth": 1440,
+      "screen": "catalog",
+      "client": 1417,
+      "scroll": 1417,
+      "short": [],
+      "small": [],
+      "width": 1440
+    },
+    {
+      "targetWidth": 1440,
+      "screen": "users",
+      "client": 1417,
+      "scroll": 1417,
+      "short": [],
+      "small": [],
+      "width": 1440
+    },
+    {
+      "targetWidth": 820,
+      "screen": "login",
+      "client": 819,
+      "scroll": 819,
+      "short": [],
+      "small": [],
+      "width": 819
+    },
+    {
+      "targetWidth": 820,
+      "screen": "home",
+      "client": 797,
+      "scroll": 797,
+      "short": [],
+      "small": [],
+      "width": 819
+    },
+    {
+      "targetWidth": 820,
+      "screen": "agenda",
+      "client": 797,
+      "scroll": 797,
+      "short": [],
+      "small": [],
+      "width": 819
+    },
+    {
+      "targetWidth": 820,
+      "screen": "patients",
+      "client": 797,
+      "scroll": 797,
+      "short": [],
+      "small": [],
+      "width": 819
+    },
+    {
+      "targetWidth": 820,
+      "screen": "wait",
+      "client": 797,
+      "scroll": 797,
+      "short": [],
+      "small": [],
+      "width": 819
+    },
+    {
+      "targetWidth": 820,
+      "screen": "cash",
+      "client": 819,
+      "scroll": 819,
+      "short": [],
+      "small": [],
+      "width": 819
+    },
+    {
+      "targetWidth": 820,
+      "screen": "ortho",
+      "client": 797,
+      "scroll": 797,
+      "short": [],
+      "small": [],
+      "width": 819
+    },
+    {
+      "targetWidth": 820,
+      "screen": "reports",
+      "client": 797,
+      "scroll": 797,
+      "short": [],
+      "small": [],
+      "width": 819
+    },
+    {
+      "targetWidth": 820,
+      "screen": "masters",
+      "client": 797,
+      "scroll": 797,
+      "short": [],
+      "small": [],
+      "width": 819
+    },
+    {
+      "targetWidth": 820,
+      "screen": "catalog",
+      "client": 797,
+      "scroll": 797,
+      "short": [],
+      "small": [],
+      "width": 819
+    },
+    {
+      "targetWidth": 820,
+      "screen": "users",
+      "client": 797,
+      "scroll": 797,
+      "short": [],
+      "small": [],
+      "width": 819
+    },
+    {
+      "targetWidth": 390,
+      "screen": "login",
+      "client": 389,
+      "scroll": 389,
+      "short": [],
+      "small": [],
+      "width": 389
+    },
+    {
+      "targetWidth": 390,
+      "screen": "home",
+      "client": 367,
+      "scroll": 367,
+      "short": [],
+      "small": [],
+      "width": 389
+    },
+    {
+      "targetWidth": 390,
+      "screen": "agenda",
+      "client": 367,
+      "scroll": 367,
+      "short": [],
+      "small": [],
+      "width": 389
+    },
+    {
+      "targetWidth": 390,
+      "screen": "patients",
+      "client": 367,
+      "scroll": 367,
+      "short": [],
+      "small": [],
+      "width": 389
+    },
+    {
+      "targetWidth": 390,
+      "screen": "wait",
+      "client": 367,
+      "scroll": 367,
+      "short": [],
+      "small": [],
+      "width": 389
+    },
+    {
+      "targetWidth": 390,
+      "screen": "cash",
+      "client": 367,
+      "scroll": 367,
+      "short": [],
+      "small": [],
+      "width": 389
+    },
+    {
+      "targetWidth": 390,
+      "screen": "ortho",
+      "client": 367,
+      "scroll": 367,
+      "short": [],
+      "small": [],
+      "width": 389
+    },
+    {
+      "targetWidth": 390,
+      "screen": "reports",
+      "client": 367,
+      "scroll": 367,
+      "short": [],
+      "small": [],
+      "width": 389
+    },
+    {
+      "targetWidth": 390,
+      "screen": "masters",
+      "client": 367,
+      "scroll": 367,
+      "short": [],
+      "small": [],
+      "width": 389
+    },
+    {
+      "targetWidth": 390,
+      "screen": "catalog",
+      "client": 367,
+      "scroll": 367,
+      "short": [],
+      "small": [],
+      "width": 389
+    },
+    {
+      "targetWidth": 390,
+      "screen": "users",
+      "client": 367,
+      "scroll": 367,
+      "short": [],
+      "small": [],
+      "width": 389
+    }
+  ],
+  "contrastAudits": [
+    {
+      "screen": "login",
+      "failing": []
+    },
+    {
+      "screen": "home",
+      "failing": []
+    },
+    {
+      "screen": "agenda",
+      "failing": []
+    },
+    {
+      "screen": "patients",
+      "failing": [
+        {
+          "bg": [
+            239,
+            246,
+            238
+          ],
+          "cls": "",
+          "color": "rgb(125, 157, 132)",
+          "id": "",
+          "ratio": 2.715870425085378,
+          "tag": "SPAN",
+          "text": "+"
+        }
+      ]
+    },
+    {
+      "screen": "wait",
+      "failing": []
+    },
+    {
+      "screen": "cash",
+      "failing": []
+    },
+    {
+      "screen": "ortho",
+      "failing": []
+    },
+    {
+      "screen": "reports",
+      "failing": []
+    },
+    {
+      "screen": "masters",
+      "failing": []
+    },
+    {
+      "screen": "catalog",
+      "failing": []
+    },
+    {
+      "screen": "users",
+      "failing": []
+    }
+  ]
+}

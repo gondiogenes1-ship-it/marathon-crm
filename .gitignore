@@ -1,0 +1,29 @@
+# Runtime de Node empaquetado (~90 MB, se re-descarga con marathon-install.json)
+runtime/
+
+# Logs y temporales locales
+local/logs/
+*.log
+
+# Cachés de Python
+**/__pycache__/
+*.pyc
+
+# Temporales de Supabase CLI
+supabase/.temp/
+
+# Reportes de validación locales
+.report-validation/
+
+# Dependencias (por si se agregan)
+node_modules/
+
+# Sistema operativo
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
+*.swp

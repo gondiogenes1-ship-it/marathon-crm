@@ -1,0 +1,14 @@
+MARATHON CRM — ACTUALIZADO EL 06/11/2026
+
+La carpeta public coincide con la revisión editar-secretarias-1.
+Aplicación: https://marathon-crm-liart.vercel.app/?revision=editar-secretarias-1
+
+Leer README.md y Documentacion/ESTADO_ACTUAL.md.
+El informe y el manual vigentes están referenciados en Documentacion.
+Para continuar con otra IA usar el ZIP del 06/11/2026 en Para otras IA.
+
+ABRIR MARATHON.cmd utiliza el runtime incluido en esta instalación completa.
+El ZIP de desarrollo omite ese ejecutable; con Node instalado puede usarse:
+node local/servidor.cjs 8123
+
+Los datos siguen en Supabase compartido. Esta organización no modifica registros.

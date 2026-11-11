@@ -1,0 +1,9 @@
+MARATHON CRM 0.14.0 — revisión actual 01/11/2026
+
+ABRIR MARATHON.cmd: aplicación real.
+DETENER MARATHON.cmd: detiene el servidor local.
+
+Producción: https://marathon-crm-liart.vercel.app/
+Documentación vigente: Documentacion/ESTADO_ACTUAL.md
+Las demostraciones y los paquetes anteriores se archivaron en Versiones anteriores/Organizacion_20261101.
+El código compartible para otras IA está en Para otras IA, en la carpeta CRM SUPABASE.

@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {exportCash} from '../public/cash-export.js';
+const filters={from:'2026-11-01',to:'2026-11-04',sede:'Centro',medium:'',category:'',prof:'P1',actor:'A1'};
+const totals={EFECTIVO:{income:100,expense:30,net:70},TRANSFERENCIA:{income:0,expense:20,net:-20}};
+const base={fecha:'2026-11-04',hora:'10:00',sede:'Centro',paciente:'Paciente ficticio',dni:'000001',actor:'Prueba',associated:'Profesional ficticio',category_label:'Prueba'};
+const calls=[],files=[];
+const api={rpc:async(name,args)=>{assert.equal(name,'marathon_cash_search');assert.deepEqual(args.p_filters,filters);calls.push(args);return args.p_after?{rows:[{...base,id:'3',tipo:'EGRESO',medio:'TRANSFERENCIA',monto:20,concepto:'=1+1'}],totals,next:null}:{rows:[{...base,id:'1',tipo:'INGRESO',medio:'EFECTIVO',monto:100},{...base,id:'2',tipo:'EGRESO',medio:'EFECTIVO',monto:30}],totals,next:{fecha:'2026-11-04',hora:'10:00',id:'2'}};}};
+const count=await exportCash(api,filters,{},(bytes,name)=>files.push({bytes,name}));
+assert.equal(count,3);assert.equal(calls.length,2);assert.equal(calls[0].p_after,null);assert.equal(calls[1].p_after.id,'2');assert.equal(files.length,1);assert(files[0].name.endsWith('.xlsx'));
+const text=new TextDecoder().decode(files[0].bytes);assert(text.includes('TOTAL EFECTIVO'));assert(text.includes('TOTAL TRANSFERENCIA'));assert(text.includes('TOTAL GENERAL'));assert(text.includes('=1+1'));assert(!text.includes('<f>'));assert(text.includes('70'));assert(text.includes('-20'));assert(text.includes('2026-11-01'));
+let empty;assert.equal(await exportCash({rpc:async()=>({rows:[],totals:{},next:null})},filters,{},b=>empty=b),0);assert(empty.length>0);
+await assert.rejects(()=>exportCash({rpc:async()=>{throw Error('Fallo de red');}},filters,{},()=>assert.fail('No debe descargar datos parciales')),/Fallo de red/);
+await assert.rejects(()=>exportCash({rpc:async()=>({rows:[],totals:{},next:{id:'repetido'}})},filters,{},()=>assert.fail()),/completar/);
+console.log('OK: todas las páginas, filtros conservados, resumen por medio y general, XLSX válido, textos sin fórmulas, consulta vacía y fallos sin descargas parciales.');

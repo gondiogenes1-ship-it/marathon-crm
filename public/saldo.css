@@ -1,0 +1,30 @@
+/* Circuito de Caja: conserva la marca Marathon y la tipografía de la aplicación. */
+.saldo-form{display:grid;gap:16px;font-size:14px;line-height:1.55;min-width:0}
+.saldo-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.saldo-form label{display:flex;flex-direction:column;gap:6px;color:#183d33;font-weight:600;min-width:0}
+.saldo-form input,.saldo-form select,.saldo-form textarea{font:inherit;min-height:44px;border:1px solid #93aca4;border-radius:7px;background:#fff;color:#16392f;padding:10px;box-sizing:border-box;max-width:100%}
+.saldo-form textarea{min-height:88px;resize:vertical;font-weight:400}
+.saldo-form button,.saldo-history button{min-height:44px;white-space:normal;font-size:14px}
+.saldo-form :focus-visible,.saldo-history :focus-visible{outline:3px solid #086749;outline-offset:3px}
+.saldo-explanation{margin:0;background:#edf5f1;border-left:4px solid #086749;padding:12px 14px;color:#254c3e}
+.saldo-patient{border:1px solid #b4c9c0;border-radius:9px;padding:16px;display:grid;gap:10px;background:#fbfdfc}
+.saldo-patient-results{display:grid;gap:8px}
+.saldo-patient-results button{text-align:left}
+.saldo-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.saldo-metric{padding:14px;border:1px solid #bfd1ca;border-radius:8px;background:white;display:grid;gap:8px;min-width:0}
+.saldo-metric span{font-size:13px;color:#365d4e}
+.saldo-metric strong{font-size:21px;line-height:1.3;color:#153e2f;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.saldo-credit{background:#eaf5ee;border-color:#9ac3aa}
+.saldo-review{background:#f3f8f5;border:1px solid #a9c7b7;border-radius:9px;padding:16px;display:grid;gap:12px}
+.saldo-review h3,.saldo-review p{margin:0}
+.saldo-application{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;border-top:1px solid #ccdcd4;padding-top:10px;color:#214636}
+.saldo-application small{flex-basis:100%;font-size:13px}
+.saldo-history-row{padding:16px 0;border-bottom:1px solid #c6d8d0;color:#214636;overflow-wrap:anywhere}
+.saldo-history-row small{font-size:13px;color:#3c5d50}
+.saldo-form [hidden],.saldo-form-grid[hidden]{display:none!important}
+.saldo-form details{padding:12px;border:1px solid #c6d8d0;border-radius:8px}
+.saldo-form details[open]{display:grid;gap:12px}
+.saldo-form summary{cursor:pointer;min-height:32px;color:#214f3a;font-weight:600}
+.saldo-form .subtitle,.saldo-form small,.saldo-history small{font-size:13px;line-height:1.5}
+.saldo-demo-banner{background:#fff1be;color:#4b3800;padding:12px 20px;font:600 14px/1.5 'Segoe UI',sans-serif;border-bottom:1px solid #b39632;position:relative;z-index:101}
+@media(max-width:560px){.saldo-form-grid{grid-template-columns:1fr}.saldo-patient,.saldo-review{padding:12px}.saldo-metrics{grid-template-columns:1fr}.saldo-metric strong{font-size:20px}}

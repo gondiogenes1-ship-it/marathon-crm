@@ -1,0 +1,65 @@
+/* Jerarquía explícita de acciones. No se asignan variantes según el texto. */
+body.marathon-ui.salud-ui{
+ --button-primary:#016237;--button-primary-hover:#07513c;
+ --button-secondary:#e6efe9;--button-secondary-hover:#d6e5dc;
+ --button-danger:#b42318;--button-danger-hover:#912018;
+}
+body.marathon-ui.salud-ui :is(button,summary)[data-variant]{
+ display:inline-flex;align-items:center;justify-content:center;gap:8px;
+ border:1px solid transparent;border-radius:8px;padding:9px 14px;
+ min-height:40px;font-family:inherit;font-size:var(--fs-md);font-weight:600;line-height:20px;
+ text-align:center;text-decoration:none;cursor:pointer;box-shadow:none;
+ transition:background-color 120ms ease,border-color 120ms ease,color 120ms ease,transform 120ms ease;
+}
+body.marathon-ui.salud-ui :is(button,summary)[data-variant=default]{background:var(--button-primary);border-color:var(--button-primary);color:#fff}
+body.marathon-ui.salud-ui :is(button,summary)[data-variant=default]:hover:not(:disabled){background:var(--button-primary-hover);border-color:var(--button-primary-hover)}
+body.marathon-ui.salud-ui :is(button,summary)[data-variant=secondary]{background:var(--button-secondary);border-color:var(--button-secondary);color:#194b30}
+body.marathon-ui.salud-ui :is(button,summary)[data-variant=secondary]:hover:not(:disabled){background:var(--button-secondary-hover);border-color:#c5d9cc}
+body.marathon-ui.salud-ui :is(button,summary)[data-variant=ghost],body.marathon-ui.salud-ui button[data-modal-x=true]{background:transparent;border-color:transparent;color:#41594b;box-shadow:none}
+body.marathon-ui.salud-ui :is(button,summary)[data-variant=ghost]:hover:not(:disabled),body.marathon-ui.salud-ui button[data-modal-x=true]:hover:not(:disabled){background:#e6efe9;border-color:transparent;color:#07513c}
+body.marathon-ui.salud-ui :is(button,summary)[data-variant=destructive]{background:var(--button-danger);border-color:var(--button-danger);color:#fff}
+body.marathon-ui.salud-ui :is(button,summary)[data-variant=destructive]:hover:not(:disabled){background:var(--button-danger-hover);border-color:var(--button-danger-hover)}
+body.marathon-ui.salud-ui :is(button,summary)[data-variant]:focus-visible{outline:2px solid #016237;outline-offset:3px}
+body.marathon-ui.salud-ui :is(button,summary)[data-variant=destructive]:focus-visible{outline-color:#b42318}
+body.marathon-ui.salud-ui :is(button,summary)[data-variant]:disabled,body.marathon-ui.salud-ui :is(button,summary)[data-variant][aria-disabled=true]{background:#e9efea;border-color:#d6e0d9;color:#68786d;box-shadow:none;cursor:not-allowed;transform:none}
+body.marathon-ui.salud-ui.motion-pointer button[data-variant]:active:not(:disabled){transform:scale(.97)}
+body.marathon-ui.salud-ui .planilla-table .row-actions{width:176px;min-width:176px;max-width:176px;gap:8px;align-items:stretch;flex-direction:column}
+body.marathon-ui.salud-ui .planilla-table .row-actions :is(button,summary)[data-variant]{min-height:36px;font-size:var(--fs-md);line-height:18px;padding:8px 12px;max-width:100%;white-space:normal}
+body.marathon-ui.salud-ui .planilla-table .row-actions>button[data-variant],body.marathon-ui.salud-ui .planilla-table .row-more>summary[data-variant],body.marathon-ui.salud-ui .planilla-table .row-more-menu>button[data-variant]{width:100%;box-sizing:border-box}
+body.marathon-ui.salud-ui .planilla-table .row-actions>.row-more{width:100%;flex:0 0 auto}
+body.marathon-ui.salud-ui .planilla-table .row-more-menu{box-sizing:border-box;flex-direction:column;align-items:stretch}
+body.marathon-ui.salud-ui .planilla-table .row-more>summary[data-variant=ghost]{list-style:none;border-style:solid}
+body.marathon-ui.salud-ui .row-more[open]>summary[data-variant=ghost]{background:#e6efe9;color:#07513c}
+body.marathon-ui.salud-ui .planilla-table .row-more-menu{padding:8px 0;gap:8px;background:transparent;border:0;border-top:1px solid #d6e0d9;border-radius:0}
+@media(prefers-reduced-motion:reduce){body.marathon-ui.salud-ui :is(button,summary)[data-variant]{transition:none!important;transform:none!important}}
+@media(forced-colors:active){body.marathon-ui.salud-ui :is(button,summary)[data-variant]{border-color:ButtonText}}
+/* Caja: dirección del movimiento, además del texto Ingreso/Egreso. */
+body.marathon-ui.salud-ui select[data-cash-type=INGRESO]{background:#e6efe9;border-color:#016237;color:#07513c;font-weight:600}
+body.marathon-ui.salud-ui select[data-cash-type=EGRESO]{background:#fff0ed;border-color:#b42318;color:#912018;font-weight:600}
+body.marathon-ui.salud-ui .cash-patient-picker{padding:16px;border:1px solid var(--bd);border-radius:12px;background:#f6faf7;min-width:0}
+body.marathon-ui.salud-ui .cash-patient-picker h3{margin:0 0 12px}
+body.marathon-ui.salud-ui .cash-patient-picker .form-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+body.marathon-ui.salud-ui .cash-patient-picker button{width:100%;box-sizing:border-box;white-space:normal}
+body.marathon-ui.salud-ui #cash-patient-results{display:grid;gap:8px;margin-top:12px}
+body.marathon-ui.salud-ui #cash-patient-selected{font-weight:600;overflow-wrap:anywhere}
+body.marathon-ui.salud-ui #cash-list .row-actions{display:flex;flex-direction:column;align-items:stretch;gap:8px;min-width:176px;max-width:176px}
+body.marathon-ui.salud-ui #cash-list .row-actions button{width:176px;box-sizing:border-box}
+body.marathon-ui.salud-ui #document-list .document-delete{min-width:176px}
+body.marathon-ui.salud-ui #document-list .card>button{width:176px;max-width:100%;box-sizing:border-box}
+body.marathon-ui.salud-ui #ortho-list .row-actions{display:flex;flex-direction:column;gap:8px;min-width:176px;max-width:176px}
+body.marathon-ui.salud-ui #ortho-list .row-actions button{width:176px;box-sizing:border-box}
+@media(max-width:420px){body.marathon-ui.salud-ui .cash-patient-picker .form-actions{grid-template-columns:1fr}}
+/* Caja: tintes del 7 % sobre blanco; la opacidad no afecta al texto. */
+body.marathon-ui.salud-ui #cash-totals article[data-cash-direction=income]{background-color:rgba(1,98,55,.07);border-color:rgba(1,98,55,.22)}
+body.marathon-ui.salud-ui #cash-totals article[data-cash-direction=expense]{background-color:rgba(180,35,24,.07);border-color:rgba(180,35,24,.22)}
+body.marathon-ui.salud-ui #cash-totals article[data-cash-direction=income] :is(.metric-label,strong){color:#07513c}
+body.marathon-ui.salud-ui #cash-totals article[data-cash-direction=expense] :is(.metric-label,strong){color:#912018}
+body.marathon-ui.salud-ui #cash-list tr[data-cash-direction=income]{--cash-row-tint:rgba(1,98,55,.07);--cash-row-hover:rgba(1,98,55,.11)}
+body.marathon-ui.salud-ui #cash-list tr[data-cash-direction=expense]{--cash-row-tint:rgba(180,35,24,.07);--cash-row-hover:rgba(180,35,24,.11)}
+body.marathon-ui.salud-ui #cash-list tr[data-cash-direction],body.marathon-ui.salud-ui #cash-list tr[data-cash-direction]>td{background-color:var(--cash-row-tint)}
+body.marathon-ui.salud-ui #cash-list tr[data-cash-direction]{background-color:transparent}
+@media(hover:hover){body.marathon-ui.salud-ui #cash-list tr[data-cash-direction]:hover>td{background-color:var(--cash-row-hover)}}
+@media(max-width:760px){
+ body.marathon-ui.salud-ui #cash-list tr[data-cash-direction]{background-color:var(--cash-row-tint)}
+ body.marathon-ui.salud-ui #cash-list tr[data-cash-direction]>td,body.marathon-ui.salud-ui #cash-list tr[data-cash-direction]:hover>td{background-color:transparent}
+}

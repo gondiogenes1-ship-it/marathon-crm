@@ -1,0 +1,9 @@
+{
+  "deployment": "dpl_AraCKuudz8k3wY3qBKjcAGo6xKSn",
+  "state": "READY",
+  "url": "https://marathon-crm-liart.vercel.app/?revision=campos-visibles-1",
+  "verifiedFiles": 54,
+  "differences": [],
+  "databaseChanges": false,
+  "browser": "Categoría y profesional o secretaría visibles directamente, sin desplegable"
+}

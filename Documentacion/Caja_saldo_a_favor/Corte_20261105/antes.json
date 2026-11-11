@@ -1,0 +1,34 @@
+{
+  "tables": {
+    "turnos": {
+      "hash": "5485406afe39e411fd690f634f2cf13d",
+      "count": 1140
+    },
+    "anticipos": {
+      "hash": "bf1b07f9dd2afcb55c5d951540f1cb2c",
+      "count": 3
+    },
+    "bonos_serie": {
+      "hash": "bfdfca8d22ce5cf15a2917b341f54b97",
+      "count": 9
+    },
+    "movimientos": {
+      "hash": "8c10376d3456d5bd6429156c08cbc443",
+      "count": 53
+    },
+    "agenda_cuotas": {
+      "hash": "2b804063f9d2ef0e5957a1d87eda7ecb",
+      "count": 2
+    },
+    "agenda_ajustes": {
+      "hash": "d751713988987e9331980363e24189ce",
+      "count": 0
+    },
+    "anticipo_eventos": {
+      "hash": "60f004f4d64ef358bfc61e5049d0bc8e",
+      "count": 8
+    }
+  },
+  "cuentas": 321,
+  "movimientos": 53
+}

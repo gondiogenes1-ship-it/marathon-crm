@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-06",
+  "base_version": "0.14.0",
+  "revision": "editar-secretarias-1",
+  "deployment": "dpl_3vspdZu7ivx6LjuAzcPDQrwTGXho",
+  "state": "READY",
+  "publicFilesVerified": 55,
+  "differences": [],
+  "latestMigration": "20261106225955_caja_edicion_secretarias.sql",
+  "report": "INFORME_PPS_ACTUALIZADO.md",
+  "manual": "MANUAL_USO_ACTUAL.md",
+  "googleDoc": "https://docs.google.com/document/d/1AaFatHQC4AlTSQbED4gsKWHAfAcwdSn9rEUtGULYcD8",
+  "schema": {
+    "tables": 51,
+    "columns": 520,
+    "dataRowsIncluded": false
+  },
+  "package": "Marathon_CRM_0.14.0_actual_2026-11-06.zip",
+  "databaseChangesDuringOrganization": false,
+  "applicationCodeChangesDuringOrganization": false,
+  "oldArtifactsArchived": true
+}

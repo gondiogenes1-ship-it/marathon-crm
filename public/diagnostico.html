@@ -1,0 +1,60 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="referrer" content="no-referrer"><title>Marathon · Comprobar conexión</title><style>
+body{font:16px/1.5 system-ui,sans-serif;background:#f1f5f2;color:#13201a;margin:0;padding:24px}main{max-width:740px;margin:20px auto;background:white;border:1px solid #d6e0d9;border-radius:14px;padding:28px}h1{color:#016237;font-size:27px;margin-top:0}button{padding:12px 18px;background:#016237;color:white;border:0;border-radius:8px;font:inherit;cursor:pointer}button:disabled{opacity:.6}li{padding:12px 0;border-bottom:1px solid #e3e9e5}.error{color:#b42318}.ok{color:#016237}pre{white-space:pre-wrap;background:#f1f5f2;padding:16px;border-radius:8px;font:14px/1.6 system-ui,sans-serif}p{color:#55665c}a{color:#016237}
+</style></head><body><main><h1>Comprobar conexión de Marathon</h1><p>Esta comprobación no pide contraseña, no muestra claves y no lee ni modifica pacientes. Revisará config.js y el servicio de autenticación.</p><button id="start">Comprobar ahora</button><ol id="steps" aria-live="polite"></ol><h2>Resultado para compartir</h2><pre id="summary">Pulsá Comprobar ahora.</pre><p><a href="./">Volver al ingreso de Marathon</a></p></main><script>
+'use strict';
+const EXPECTED_HOST='dcqhkuzqkacumjdvhwwy.supabase.co';
+function validateConfiguration(c){
+ if(!c||typeof c!=='object')return {error:'No se encontró la configuración. Verificá que el archivo se llame config.js y no config.js.txt.'};
+ if(typeof c.supabaseUrl!=='string')return {error:'Falta supabaseUrl en config.js.'};
+ let u;try{u=new URL(c.supabaseUrl);}catch{return {error:'La URL no es válida. Copiá únicamente la dirección https:// del proyecto.'};}
+ if(u.protocol!=='https:'||u.hostname!==EXPECTED_HOST||u.username||u.password||u.port||u.search||u.hash||!['','/'].includes(u.pathname))return {error:'La URL no coincide con el proyecto de prueba o contiene texto adicional. Debe ser https://'+EXPECTED_HOST};
+ if(c.supabaseUrl!==c.supabaseUrl.trim())return {error:'La URL tiene espacios al comienzo o al final. Quitalos en config.js.'};
+ if(typeof c.publishableKey!=='string'||!c.publishableKey)return {error:'Falta publishableKey en config.js.'};
+ const k=c.publishableKey;
+ if(k.startsWith('sb_secret_'))return {error:'Se configuró una clave secreta. Reemplazala por la Publishable key; no compartas este archivo.'};
+ if(!k.startsWith('sb_publishable_'))return {error:'La clave no empieza con sb_publishable_. Copiá la Publishable key desde Settings → API Keys.'};
+ if(/\s/.test(k))return {error:'La clave contiene espacios o saltos de línea. Pegala completa, en una sola línea, entre las comillas.'};
+ if(/[^\x21-\x7E]/.test(k))return {error:'La clave tiene caracteres que no pertenecen a una clave publicable. Borrá el valor y copialo de nuevo con el botón de copiar de Supabase.'};
+ if(/YOUR_|PEGA_|AQUI|\.\.\./i.test(k)||k.length<25)return {error:'La clave parece incompleta o todavía contiene texto de ejemplo. Copiá el valor completo.'};
+ return {url:u.origin,key:k};
+}
+function loadConfiguration(){return new Promise((resolve,reject)=>{
+ const script=document.createElement('script');let done=false;
+ const finish=(ok)=>{if(done)return;done=true;clearTimeout(timer);ok?resolve(window.MARATHON_CONFIG):reject(new Error('No se pudo cargar config.js. Comprobá que esté dentro de la misma carpeta web.'));};
+ const timer=setTimeout(()=>finish(false),8000);script.onload=()=>finish(true);script.onerror=()=>finish(false);script.src='./config.js?diagnostico='+Date.now();document.head.append(script);
+});}
+async function request(url,key){
+ const controller=new AbortController();const timeout=setTimeout(()=>controller.abort(),12000);
+ try{const r=await fetch(url+'/auth/v1/health',{method:'GET',headers:key?{apikey:key}:{},cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',signal:controller.signal});return r.status;}
+ finally{clearTimeout(timeout);}
+}
+async function run(){
+ const start=document.getElementById('start');start.disabled=true;document.getElementById('steps').replaceChildren();const notes=[];
+ const line=(text,ok)=>{notes.push((ok?'OK: ':'REVISAR: ')+text);const li=document.createElement('li');li.className=ok?'ok':'error';li.textContent=notes.at(-1);document.getElementById('steps').append(li);document.getElementById('summary').textContent=notes.join('\n');};
+ try{
+  if(location.protocol!=='http:'||!['127.0.0.1','localhost'].includes(location.hostname)){line('Abrí esta página desde http://127.0.0.1:8080/diagnostico.html, con el servidor local abierto.',false);return;}
+  let c;try{c=await loadConfiguration();}catch(e){line(e.message,false);return;}
+  const checked=validateConfiguration(c);if(checked.error){line(checked.error,false);return;}
+  line('Archivo config.js y formato de URL/clave correctos.',true);
+  let status;try{status=await request(checked.url,null);}catch{line('La petición desde la aplicación local falló sin usar clave. Posible bloqueo de red, navegador o CORS; todavía no se probó la contraseña.',false);return;}
+  if(status!==401&&status!==200){line('El servicio devolvió HTTP '+status+' sin clave. Revisar el estado del proyecto en Supabase.',false);return;}
+  line('El navegador puede comunicarse con el servicio desde la aplicación local.',true);
+  try{status=await request(checked.url,checked.key);}catch{line('La petición con cabecera apikey falló. Revisar la clave copiada y posibles bloqueos de solicitudes del navegador o la red.',false);return;}
+  if(status===200){
+   line('El servicio de autenticación acepta la clave publicable.',true);
+   const body=JSON.stringify({});const options={method:'POST',headers:{apikey:checked.key,'Content-Type':'application/json'},body,cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',signal:AbortSignal.timeout(12000)};
+   let post;try{post=await fetch(checked.url+'/auth/v1/token?grant_type=password',options);}catch(e){line('El navegador no pudo enviar POST al ingreso ('+(e.name==='TimeoutError'?'TIMEOUT':'BROWSER_FETCH')+'). Las comprobaciones GET anteriores sí funcionaron.',false);return;}
+   line('POST al ingreso recibe HTTP '+post.status+' con datos vacíos. Todavía no se probó ninguna contraseña.',true);
+   let mod;try{mod=await import('./api.js?v=20261019-0110');}catch{line('No se pudo cargar el archivo api.js de la revisión 0.11.0.',false);return;}
+   try{const client=new mod.MarathonApi(c);await client.http('/auth/v1/token?grant_type=password',{});line('El cliente actualizado envía solicitudes.',true);}catch(e){
+    if(e.code==='NETWORK')line(e.message,false);
+    else if(['400','401','403','422','validation_failed','invalid_credentials'].includes(String(e.code)))line('El cliente actualizado recibe la respuesta de Supabase (código '+e.code+'). Ahora probá ingresar desde Marathon.',true);
+    else line('El cliente actualizado recibió una respuesta con código '+String(e.code||'CLIENT_ERROR').replace(/[^a-zA-Z0-9_-]/g,'').slice(0,40)+'.',false);
+   }
+  }
+  else if(status===401||status===403){line('La clave fue rechazada (HTTP '+status+'). Copiá la Publishable key de ESTE proyecto; no cambies todavía la contraseña.',false);}
+  else line('El servicio respondió HTTP '+status+' al probar la clave. Revisar el estado del proyecto.',false);
+ }finally{start.disabled=false;}
+}
+document.getElementById('start').addEventListener('click',run);
+</script></body></html>

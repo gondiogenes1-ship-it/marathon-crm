@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-05",
+  "deployment": "dpl_4zxCoBDNYG7L4U3qce3FfkCpaeKM",
+  "status": "READY",
+  "url": "https://marathon-crm-liart.vercel.app/?revision=informes-excel-3",
+  "scope": "Informes / Gestión de pacientes / cinco pestañas",
+  "sourceFiles": [
+    "public/patient-report-workbook.js",
+    "public/patient-reports.js",
+    "public/xlsx.js",
+    "public/patient-reports.css",
+    "public/reports.js",
+    "public/app.js",
+    "public/index.html"
+  ],
+  "publicFilesVerified": 54,
+  "differences": [],
+  "tests": [
+    "Cinco pestañas individuales y completo PASS",
+    "Vacío y texto literal seguro PASS",
+    "ZIP/XML y relaciones PASS",
+    "Series y referencias de gráficos PASS",
+    "Importación y render Artifact Tool PASS",
+    "Descargas por UI en demostración local PASS",
+    "Filtros modificados deshabilitan exportación PASS"
+  ],
+  "databaseChanges": false,
+  "productionDataWrites": false,
+  "research": [
+    "https://support.microsoft.com/en-us/excel/guidelines-for-organizing-and-formatting-data-on-a-worksheet",
+    "https://support.microsoft.com/en-us/accessibility/excel/accessibility-best-practices-with-excel-spreadsheets",
+    "https://support.microsoft.com/en-us/excel/select-data-for-a-chart"
+  ]
+}

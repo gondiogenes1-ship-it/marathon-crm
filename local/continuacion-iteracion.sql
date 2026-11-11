@@ -1,0 +1,61 @@
+-- Solo instala el circuito: no crea ni cierra ninguna serie al aplicar la migración.
+begin;
+set local lock_timeout='5s';
+select pg_advisory_xact_lock(hashtextextended('marathon:master-write:v1',0));
+create or replace function public.marathon_extension_context(p_id text)returns jsonb language plpgsql stable security definer set search_path=''as $$
+declare t marathon.turnos%rowtype;p marathon.agenda_planes%rowtype;b marathon.bonos_serie%rowtype;h jsonb;rules jsonb;days jsonb;
+ last_date date;after_date date;local_now timestamp:=(statement_timestamp()at time zone'America/Argentina/Buenos_Aires');fee numeric;quantity int;billing text;begin
+ if not marathon.active_user()then raise exception 'Acceso no autorizado.'using errcode='42501';end if;
+ select *into t from marathon.turnos where id=p_id;
+ if t.id is null then select *into t from marathon.turnos where plan_id::text=p_id order by fecha desc,hora desc,id limit 1;end if;
+ if t.id is null then raise exception 'El turno ya no está disponible. Actualizá la planilla.'using errcode='PT404';end if;
+ select max(fecha)into last_date from marathon.turnos where dni=t.dni and terapia_id=t.terapia_id and estado in('PENDIENTE','PRESENTE');
+ after_date=greatest(local_now::date+case when t.hora<=local_now::time then 1 else 0 end,coalesce(last_date+1,local_now::date));
+ if t.plan_id is not null then
+  select *into p from marathon.agenda_planes where id=t.plan_id;after_date=greatest(after_date,coalesce(p.baja,after_date));
+  select coalesce(jsonb_agg(to_jsonb(x)order by x.dia),'[]')into rules from(
+   select distinct on(h.dia)h.*from marathon.agenda_horarios h where h.plan_id=t.plan_id and(h.hasta is null or h.hasta>after_date)and h.desde<=after_date+6 order by h.dia,h.desde desc)x;
+  select value into h from jsonb_array_elements(rules)x(value)order by case when(value->>'dia')::int=extract(dow from t.fecha)::int then 0 else 1 end,(value->>'dia')::int limit 1;
+  if p.modalidad='sessions'then select cantidad into quantity from marathon.agenda_autorizaciones where plan_id=p.id order by fecha desc,created_at desc limit 1;end if;
+  billing=p.facturacion;
+  fee=case when billing='monthly'then marathon.agenda_tarifa(p.id,after_date)else coalesce((h->>'importe_override')::numeric,t.importe,p.importe)end;
+ end if;
+ select *into b from marathon.bonos_serie x where x.serie_id=coalesce(t.original_id,t.id)or(t.plan_id is not null and exists(select 1 from marathon.turnos member where member.plan_id=t.plan_id and(x.serie_id=member.id or x.serie_id=member.original_id)))order by x.created_at desc limit 1;
+ if rules is null or rules='[]'::jsonb then
+  days=case when jsonb_typeof(t.series_pattern->'days')='array'and t.series_pattern->'days'<>'[]'::jsonb then t.series_pattern->'days'when cardinality(t.fixed_days)>0 then to_jsonb(t.fixed_days)else jsonb_build_array(extract(dow from t.fecha)::int)end;
+  select jsonb_agg(jsonb_build_object('dia',value::int,'sede',t.sede,'profesional_id',t.profesional_id,'hora',to_char(t.hora,'HH24:MI')))into rules from jsonb_array_elements_text(days);
+ else select jsonb_agg((value->>'dia')::int)into days from jsonb_array_elements(rules);end if;
+ if quantity is null then select count(*)into quantity from marathon.turnos x where coalesce(x.original_id,x.id)=coalesce(t.original_id,t.id);end if;
+ return jsonb_build_object('source_id',t.id,'source_huella',marathon.turn_series_context(t.id)->>'huella','plan_id',t.plan_id,'dni',t.dni,
+ 'sede',coalesce(h->>'sede',t.sede),'prof',coalesce(h->>'profesional_id',t.profesional_id),'therapy',t.terapia_id,'hora',coalesce(left(h->>'hora',5),to_char(t.hora,'HH24:MI')),
+ 'source_date',t.fecha,'after_date',after_date,'last_date',last_date,'days',days,'schedules',rules,'mode',coalesce(p.modalidad,case when t.fixed_until is not null then'fixed'else'sessions'end),
+ 'billing',coalesce(billing,case when b.id is not null then'bonus_class'when t.importe>0 then'class'else'none'end),'total',greatest(1,least(1000,coalesce(quantity,10))),
+ 'importe',coalesce(fee,t.importe),'bonus_amount',coalesce(b.importe,0),'coverage',coalesce(nullif(h->'coverage_override','null'::jsonb),t.coverage,p.coverage),'booking_notes',coalesce(h->>'observaciones_override',t.booking_notes,p.observaciones,''));
+end$$;
+revoke all on function public.marathon_extension_context(text)from public,anon;
+grant execute on function public.marathon_extension_context(text)to authenticated;
+
+create or replace function public.marathon_agenda_continue(p_request_id text,p_data jsonb)returns jsonb language plpgsql security definer set search_path=''set lock_timeout='5s'as $$
+declare previous jsonb;t marathon.turnos%rowtype;p marathon.agenda_planes%rowtype;booking jsonb;reply jsonb;start_date date;begin
+ previous=marathon.operation_begin(p_request_id,'agenda:new-series',p_data);if previous is not null then return previous;end if;
+ if p_data is null or jsonb_typeof(p_data)<>'object'or exists(select 1 from jsonb_object_keys(p_data)k where k<>all(array['source_id','source_huella','booking']))or jsonb_typeof(p_data->'booking')is distinct from'object'then raise exception 'Reserva de continuación inválida.'using errcode='22023';end if;
+ select *into t from marathon.turnos where id=p_data->>'source_id'for update;
+ if t.id is null then raise exception 'El turno de referencia ya no está disponible.'using errcode='PT404';end if;
+ if marathon.turn_series_context(t.id)->>'huella'is distinct from p_data->>'source_huella'then raise exception 'La serie anterior cambió. Volvé a abrir Agendar más sesiones.'using errcode='PT409';end if;
+ booking=p_data->'booking';start_date=marathon.agenda_date(booking->>'start');
+ if t.plan_id is not null and booking->>'dni'=t.dni then
+  select *into strict p from marathon.agenda_planes where id=t.plan_id for update;
+  if exists(select 1 from marathon.turnos x where x.plan_id=t.plan_id and x.fecha>=start_date and x.estado in('PENDIENTE','PRESENTE','AUSENTE'))then raise exception 'La serie anterior aún tiene turnos desde esa fecha. Elegí un inicio posterior al último turno agendado o revisá esos turnos primero.'using errcode='22023';end if;
+  if p.baja is null then
+   perform public.marathon_agenda_plan_command('continue-end-'||md5(p_request_id),'end',jsonb_build_object('id',p.id,'version',p.version,'date',start_date,'reason','Continuación en una nueva serie desde Reserva de turnos'));
+  elsif p.baja>start_date then raise exception 'La asignación anterior tiene una baja programada posterior al nuevo inicio. Revisá la fecha de inicio.'using errcode='22023';end if;
+ end if;
+ reply=public.marathon_agenda_plan_command('continue-create-'||md5(p_request_id),'create',booking);
+ insert into marathon.operation_audit(request_id,actor,entity,entity_id,action,after_data)values(p_request_id,auth.uid(),'agenda_plan',reply->>'id','new_series_from_previous',jsonb_build_object('source_turn',t.id,'source_plan',t.plan_id,'same_patient',booking->>'dni'=t.dni,'new_plan',reply->>'id','new_bonus',reply->'bonus'));
+ reply=reply||jsonb_build_object('message','Nueva serie reservada. Se conservaron los turnos y saldos anteriores.','source_turn',t.id);
+ update marathon.solicitudes set resultado=reply where id=p_request_id;return reply;
+end$$;
+revoke all on function public.marathon_agenda_continue(text,jsonb)from public,anon;
+grant execute on function public.marathon_agenda_continue(text,jsonb)to authenticated;
+notify pgrst,'reload schema';
+commit;

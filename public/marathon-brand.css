@@ -1,0 +1,127 @@
+/* Marathon 0.13.0 · capa visual de marca, sin cambios de comportamiento. */
+body.marathon-ui{
+ --bg:#f2f6f4;--card:#fff;--tx:#203c31;--mu:#526a5d;--bd:#cfddd4;
+ --ac:#016237;--side:#07513c;--ok:#226640;--no:#aa352c;--wa:#895b16;
+ --font-interface:"Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;
+ --font-heading:Bahnschrift,"Segoe UI Variable Display","Segoe UI",sans-serif;
+ font-family:var(--font-interface);font-size:var(--fs-md);line-height:1.5;
+ background:var(--bg);color:var(--tx);font-variant-numeric:tabular-nums;
+}
+.marathon-ui :is(h1,h2,h3){font-family:var(--font-heading);font-weight:600;color:var(--tx);letter-spacing:-.025em}
+.marathon-ui h1,.marathon-ui .home-topbar h1{font-size:28px;line-height:1.2}
+.marathon-ui h2{font-size:18px;line-height:1.35}.marathon-ui h3{font-size:15px}
+.marathon-ui .brand{font-family:var(--font-interface);letter-spacing:-.04em}
+.marathon-ui .brand .mark{font-family:var(--font-interface);font-weight:750;background:#fff;color:#016237}
+.marathon-ui .brand small{letter-spacing:.015em;font-size:var(--fs-md);line-height:1.4}
+.marathon-ui .side{background:var(--side);padding:26px 14px 18px}
+.marathon-ui .nav-heading,.marathon-ui .workspace-caption{font-size:var(--fs-md);letter-spacing:0;font-weight:500;color:#c3dbce}
+.marathon-ui #nav{gap:5px}
+.marathon-ui #nav button{position:relative;padding:11px 13px;min-height:42px;border-radius:8px;font-size:var(--fs-md);line-height:1.3;color:#e4f0e9}
+.marathon-ui #nav button:hover{background:#ffffff12}
+.marathon-ui #nav button.b{background:#f1f8f3;color:#07513c;font-weight:650;box-shadow:inset 3px 0 #82bf9b}
+.marathon-ui #nav button.b:hover{background:#f1f8f3}
+.marathon-ui .side-foot{border-top:1px solid #ffffff30;padding-top:16px}
+.marathon-ui .side-foot .s{border-color:#75a38a;color:#fff;background:transparent;min-height:36px}
+.marathon-ui .side-foot .s:hover{background:#ffffff14;color:white}
+.marathon-ui .side-foot p{color:#f1f7f3;font-size:var(--fs-md)}
+.marathon-ui .sidebar-version{line-height:1.5;color:#c2d9cb}
+.marathon-ui .content{padding:0 32px 36px}
+.marathon-ui .appbar{min-height:70px;margin:0 -32px 26px;padding:14px 32px;background:white;border-color:var(--bd)}
+.marathon-ui .breadcrumb{font-size:var(--fs-md);color:var(--mu)}
+.marathon-ui #quick-q{background:#f4f8f5;border-color:#d7e2db;min-height:40px;font-size:var(--fs-md)}
+.marathon-ui .topbar{margin-bottom:20px}
+.marathon-ui .subtitle{color:var(--mu);font-size:var(--fs-md);line-height:1.55}
+.marathon-ui .topbar .subtitle{max-width:72ch}
+.marathon-ui label{font-weight:600;font-size:var(--fs-md);color:#3e594a;line-height:1.5;gap:7px}
+.marathon-ui :is(input:not([type=checkbox]):not([type=radio]),select,textarea){font-family:var(--font-interface);font-size:var(--fs-md);min-height:42px;border:1px solid #b9cdbf;border-radius:7px;background:#fff;padding:9px 11px;box-shadow:inset 0 1px 2px #163b2504}
+.marathon-ui :is(input,select,textarea):hover{border-color:#658b73}
+.marathon-ui :is(input,select,textarea):disabled{background:#edf2ef;color:#62776a}
+.marathon-ui input::placeholder,.marathon-ui textarea::placeholder{color:#63796a;opacity:1}
+.marathon-ui :is(button.b,button.s){font-family:var(--font-interface);font-size:var(--fs-md);line-height:1.3;min-height:40px;padding:9px 14px;border-radius:7px;font-weight:600;transition:background-color .14s,border-color .14s}
+.marathon-ui button.b{background:#016237;border-color:#016237;color:#fff}
+.marathon-ui button.b:hover{background:#07513c;border-color:#07513c;filter:none}
+.marathon-ui button.s{background:#fff;border-color:#b8ccbf;color:#224c36}
+.marathon-ui button.s:hover{background:#eff6f1;border-color:#789c85}
+.marathon-ui button:disabled{opacity:.55;cursor:not-allowed}
+.marathon-ui :is(button,input,select,textarea,summary,a):focus-visible{outline:3px solid #287b52;outline-offset:3px}
+.marathon-ui .side :is(button,a):focus-visible{outline-color:#e6f3eb}
+.marathon-ui .card{border:1px solid var(--bd);border-radius:12px;padding:20px;background:#fff;box-shadow:none}
+.marathon-ui :is(.agenda-filter,#home-filter){background:#fff;border-color:var(--bd);border-radius:10px;padding:16px 18px;gap:14px}
+.marathon-ui .date-nav{padding-block:4px}
+.marathon-ui .date-nav button{min-height:40px}
+.marathon-ui .daily-shortcuts{gap:8px}
+.marathon-ui .daily-shortcuts button{font-size:var(--fs-md)}
+.marathon-ui .home-day{padding:20px;border-radius:12px;border:1px solid var(--bd);box-shadow:none;background:#fff}
+.marathon-ui .section-kicker{letter-spacing:0;font-size:var(--fs-md);font-weight:600}
+.marathon-ui table{font-family:var(--font-interface);font-size:var(--fs-md);color:#203c31}
+.marathon-ui th{font-family:var(--font-interface);font-size:var(--fs-md);font-weight:650;letter-spacing:0;text-transform:none;background:#edf4ef;color:#355e46;padding:12px}
+.marathon-ui td{padding:12px;line-height:1.45;border-color:#e1eae4}
+.marathon-ui tbody tr:hover td{background-color:#f5f9f6}
+.marathon-ui .planilla-table td[data-label="Paciente"]>div>strong{font-size:var(--fs-md);font-weight:700;line-height:1.45}
+.marathon-ui .planilla-hour-info>.planilla-professional{font-family:var(--font-interface);font-size:var(--fs-md);line-height:1.5}
+.marathon-ui .planilla-table .planilla-hour{border-radius:0}
+.marathon-ui .planilla-table .planilla-block-end td{font-size:var(--fs-md);background:#edf4ef}
+.marathon-ui .planilla-table .row-actions :is(button.b,button.s){min-height:34px;font-size:var(--fs-md);padding:7px 10px}
+.marathon-ui .planilla-table .turn-phone{font-size:var(--fs-md);color:#415f4d}
+.marathon-ui .planilla-table .row-more summary,.marathon-ui .turn-whatsapp{font-size:var(--fs-md);min-height:34px}
+.marathon-ui .status-pendiente{background:#fff6df;color:#78500f;border:1px solid #e4cc91}
+.marathon-ui .status-presente{background:#e7f4eb;color:#205d37;border:1px solid #accfb8}
+.marathon-ui .status-ausente{background:#fceeea;color:#943c31;border:1px solid #e7bfb4}
+.marathon-ui .status-cancelado{background:#edf1ee;color:#4d6255;border:1px solid #ccd8cf}
+.marathon-ui .patient-layout{gap:22px}
+.marathon-ui .patient-item{border-radius:8px;border:1px solid transparent;padding-block:14px}
+.marathon-ui .patient-item:hover{background:#f3f8f4}
+.marathon-ui .patient-item[aria-pressed=true]{background:#eaf5ed;border-color:#92bda1;box-shadow:inset 3px 0 #016237}
+.marathon-ui .patient-ficha-grid{background:#f6f9f7;border-color:#d7e2da;border-radius:9px;padding:20px}
+.marathon-ui .patient-ficha-grid dt{font-size:var(--fs-md);color:#4d6857}
+.marathon-ui .patient-ficha-grid dd{font-size:var(--fs-md);line-height:1.5}
+.marathon-ui .form-section-heading{background:#edf4ef;color:#355c44;border-left:3px solid #82b893;border-radius:0 6px 6px 0;padding:11px 12px}
+.marathon-ui .form-grid{gap:18px}
+.marathon-ui :is(.tabs,.patient-tabs){gap:6px;border-bottom:1px solid #cfddd4;padding-bottom:10px}
+.marathon-ui .tabs button[aria-selected=true],.marathon-ui .patient-tabs button[aria-selected=true]{background:#e9f4ec;color:#07513c;border-color:#93b9a0}
+.marathon-ui .kanban-column{background:#eaf1ec;border:1px solid #d2e0d6;border-radius:10px;padding:12px}
+.marathon-ui .kanban-column>h2{font-size:var(--fs-md);padding:5px 3px 10px}
+.marathon-ui .turn-card{border-radius:9px;border-color:#d2e0d6;padding:16px;box-shadow:none}
+.marathon-ui .turn-card p{font-size:var(--fs-md);line-height:1.5}
+.marathon-ui .agenda-availability{background:#edf6ef;border-color:#b8d2c0;border-radius:10px;padding:15px 17px}
+.marathon-ui .slot{min-height:58px;border-radius:8px;border-color:#a9c6b2;font-size:var(--fs-md)}
+.marathon-ui .slot[aria-pressed=true]{background:#07513c;border-color:#07513c;outline-color:#79ad8b}
+.marathon-ui dialog{border-radius:14px;padding:26px;border-color:#bfd1c5;box-shadow:0 20px 70px #173b3038}
+.marathon-ui dialog::backdrop{background:#153b2d80;backdrop-filter:blur(2px)}
+.marathon-ui dialog h2{font-size:22px}
+.marathon-ui dialog .detail-head{margin-bottom:20px;padding-bottom:16px}
+.marathon-ui dialog .modal-close-x{width:40px;height:40px;border-color:#aec9b8;border-radius:8px;background:#f6f9f7;color:#1d4d34}
+.marathon-ui .management-block{border-radius:12px;border-color:var(--bd);padding:24px}
+.marathon-ui .management-block h2{font-family:var(--font-heading);font-size:20px;color:#244c35}
+.marathon-ui .management-stats{gap:0;border:1px solid #d7e4da;border-radius:9px;background:#f4f8f5;overflow:hidden}
+.marathon-ui .management-stat{border:0;border-right:1px solid #d7e4da;border-radius:0;background:transparent;padding:18px}
+.marathon-ui .management-stat:last-child{border-right:0}
+.marathon-ui .management-stat strong{font-family:var(--font-heading);font-weight:600;font-size:28px;color:#07513c}
+.marathon-ui .management-stat span{font-size:var(--fs-md);color:#415e4b}
+.marathon-ui .management-stat small{font-size:var(--fs-md);color:#526a5b}
+.marathon-ui .management-block .subtitle{font-size:var(--fs-md);max-width:92ch}
+.marathon-ui .management-block summary{padding-block:9px;font-size:var(--fs-md)}
+.marathon-ui .management-notice{border-left-color:#016237;background:#e9f4ec;color:#2a563b;border-radius:0 9px 9px 0;padding:15px 18px}
+.marathon-ui .management-note{background:#fff7e7;color:#70511a;border:1px solid #ead6ad}
+.marathon-ui .management-block table{font-size:var(--fs-md)}
+.marathon-ui #feedback:not([hidden]){border-radius:8px;line-height:1.5}
+.marathon-ui .pagination{font-size:var(--fs-md);gap:12px}
+.marathon-ui .empty-note{font-size:var(--fs-md);line-height:1.6;color:#526a5b;padding:18px}
+.marathon-ui .login{border:1px solid #c9dbcf;border-top:5px solid #016237;border-radius:16px;padding:38px 40px;box-shadow:0 14px 55px #16432b0c;background:#fff;max-width:440px}
+.marathon-ui .login::before{display:none}
+.marathon-ui .login .brand{margin-bottom:32px;font-size:29px}
+.marathon-ui .login .brand small{color:#4c705b}
+.marathon-ui .login .mark{background:#016237;color:white;width:48px;height:48px}
+.marathon-ui .login h1{font-size:29px;line-height:1.2}
+.marathon-ui .login-intro{font-family:var(--font-interface);font-size:15px;line-height:1.6;color:#526a5b;max-width:32ch;margin:12px 0 25px}
+.marathon-ui .login-kicker{font-size:var(--fs-md);letter-spacing:0;text-transform:none;color:#526a5b;margin:0 0 20px}
+.marathon-ui #login-form{gap:18px}
+.marathon-ui #login-form button{min-height:44px;font-size:var(--fs-md)}
+.marathon-ui #build-version{font-size:var(--fs-md);margin-top:20px}
+@media(min-width:1101px){.marathon-ui .shell{grid-template-columns:224px minmax(0,1fr)}}
+@media(min-width:1360px){.marathon-ui .daily-shortcuts{max-width:none;flex-wrap:nowrap;gap:6px}.marathon-ui .daily-shortcuts button{padding-inline:11px}}
+@media(max-width:1100px) and (min-width:981px){.marathon-ui .content{padding:0 22px 30px}.marathon-ui .appbar{margin:0 -22px 22px;padding:14px 22px}.marathon-ui #nav button{padding:10px;font-size:var(--fs-md)}.marathon-ui .side{padding-inline:10px}}
+@media(max-width:980px){.marathon-ui .side{height:auto;padding:16px 18px 10px}.marathon-ui #nav{gap:6px}.marathon-ui #nav button{min-height:42px;white-space:nowrap}.marathon-ui #nav button.b{box-shadow:inset 0 -3px #82bf9b}.marathon-ui .side-foot{padding-top:0}.marathon-ui .content{padding:0 20px 28px}.marathon-ui .appbar{margin:0 -20px 22px;padding:14px 20px}}
+@media(max-width:740px){.marathon-ui .content{padding:0 14px 24px}.marathon-ui .appbar{margin:0 -14px 20px;padding:12px 14px}.marathon-ui h1,.marathon-ui .home-topbar h1{font-size:25px}.marathon-ui .brand{font-size:23px}.marathon-ui .side-foot .s{min-height:36px;font-size:var(--fs-md)}.marathon-ui .card,.marathon-ui .home-day{padding:16px;border-radius:10px}.marathon-ui .management-block{padding:17px}.marathon-ui .management-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.marathon-ui .management-stat{border-bottom:1px solid #d7e4da;padding:13px}.marathon-ui .management-stat:nth-child(even){border-right:0}.marathon-ui .management-stat:last-child{border-bottom:0}.marathon-ui .management-stat strong{font-size:25px}.marathon-ui .management-stat small{font-size:var(--fs-md)}.marathon-ui :is(button.b,button.s){min-height:42px}.marathon-ui dialog{padding:20px}.marathon-ui .login{padding:30px 24px;width:calc(100% - 28px);margin:30px auto}.marathon-ui .login .brand{margin-bottom:24px}.marathon-ui .login h1{font-size:27px}.marathon-ui .side{padding-inline:14px}.marathon-ui .topbar{gap:12px}.marathon-ui .table-scroll{max-width:100%}}
+@media(prefers-reduced-motion:reduce){.marathon-ui *{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+@media print{.marathon-ui .side,.marathon-ui .appbar,.marathon-ui #feedback,.marathon-ui .trial-banner{display:none!important}.marathon-ui .shell{display:block}.marathon-ui .content{padding:0}.marathon-ui .management-block,.marathon-ui .card{break-inside:avoid;box-shadow:none}.marathon-ui .management-stats{background:#fff}}

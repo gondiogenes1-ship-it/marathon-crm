@@ -1,0 +1,28 @@
+{
+  "deployment": "dpl_GuZZCDMi4C5YAf6sr3XpNS2Ceku1",
+  "state": "READY",
+  "url": "https://marathon-crm-liart.vercel.app/?revision=editar-ingreso-1",
+  "migration": "20261106224224_caja_editar_ingresos_admin.sql",
+  "verifiedFiles": 55,
+  "differences": [],
+  "productionDataInstallationGuard": "PASS: movimientos, fuentes, aplicaciones y eventos íntegros",
+  "productionEdits": 0,
+  "tests": [
+    "Edición SQL dos copias PASS",
+    "Cinco variantes de ingreso histórico: sesión, bono, anticipo, cuota y general PASS",
+    "Preview sin escrituras, concurrencia e idempotencia PASS",
+    "Cambio de medio conserva aplicaciones PASS",
+    "Cambio de paciente/importe corrige pagos y deudas PASS",
+    "Reclasificación de ingreso general a saldo del paciente PASS",
+    "Metadatos de ingreso con devolución conservan saldo; cambio financiero bloqueado hasta conciliación PASS",
+    "Permisos base y UI exclusivos de ADMIN PASS",
+    "Profesional/aplicaciones e integración con excepción PASS",
+    "Navegador local: 12000 efectivo a 9000 transferencia, guardado y totales correctos PASS"
+  ],
+  "limits": [
+    "Ingresos anulados o reemplazados se conservan como historial",
+    "Paciente/importe de ingresos con devoluciones requieren conciliación previa",
+    "Ventas de ortopedia mantienen su circuito para cambios de paciente/importe"
+  ],
+  "security": "Tres RPC con is_admin y helpers privados. Tabla cash_edits privada con RLS sin acceso de clientes. PK/FK e índices. Avisos esperados: 19 INFO privados sin políticas y 71 RPC definer protegidos; sin nuevas FK sin índice."
+}

@@ -1,0 +1,28 @@
+{
+  "status": "PUBLICADO_VERIFICADO",
+  "date": "2026-11-05",
+  "deployment": "dpl_21QAaFbXiKtBHqSJNtfZBXDw97e8",
+  "url": "https://marathon-crm-liart.vercel.app/",
+  "originalMovements": 53,
+  "cashMovements": 41,
+  "transferMovements": 12,
+  "backupMediumDifferences": 0,
+  "originalTablesChecked": 41,
+  "originalRowDifferences": [],
+  "migration": "20261105040446_saldo_historial_medio_original.sql",
+  "assetsVerified": 52,
+  "changes": [
+    "Historia interna conserva medio de Caja nulo y agrega medio_origen del recibo asociado, sin inventar un cobro.",
+    "El historial distingue el medio del pago original del medio real de una devolución.",
+    "Caja muestra ingresos, egresos y neto por cada medio. Filas y filtros conservan el medio registrado."
+  ],
+  "verification": [
+    "verificar-medio-historial.mjs PASS",
+    "verificar-excel-caja.mjs PASS",
+    "saldo_medio_historial.sql PASS local:87 eventos, filtros y totales ambos medios",
+    "saldo_medio_historial.sql PASS producción; solo lectura",
+    "Comparación de 41 tablas originales sin diferencias",
+    "Vercel READY y 52 archivos servidos SHA1 coincidentes"
+  ],
+  "financialWrites": 0
+}

@@ -1,0 +1,141 @@
+{
+  "fecha_utc": "2026-11-05T00:58:25.574328+00:00",
+  "estado": "Solo local; no publicado ni aplicado en Supabase",
+  "archivos": [
+    {
+      "ruta": "public/app.js",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\public\\app.js",
+      "sha256": "9cfd711e87a7bd81bda853ce7e45140a52558150b1bc123610d46e2bee3edd88"
+    },
+    {
+      "ruta": "public/operations.js",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\public\\operations.js",
+      "sha256": "37b928bde7faebf7240fedb6d0b40cb21bcb0db647e0efbb6d057d3f97f59031"
+    },
+    {
+      "ruta": "public/api.js",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\public\\api.js",
+      "sha256": "4e680ee1a1a556f5660d5f2f3b31ac759bd321085fa89e50ed6c4592926141f2"
+    },
+    {
+      "ruta": "public/patient-history.js",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\public\\patient-history.js",
+      "sha256": "c59446f164c34c303f885b8ea236707b01840a5364dc62b141ec77c436c3fcdb"
+    },
+    {
+      "ruta": "public/agenda.js",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\public\\agenda.js",
+      "sha256": "ae71bc2a04974efa84163a5b4033197540c88eeb0f72e05412a05f459de3ab78"
+    },
+    {
+      "ruta": "public/agenda-recurrente.js",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\public\\agenda-recurrente.js",
+      "sha256": "355f4fe28d8a767c801696af53324d3dc943f78b99b3e4b3562e16961b3f5d6f"
+    },
+    {
+      "ruta": "public/index.html",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\public\\index.html",
+      "sha256": "cf514db6194c3015a895ad199ade0b0f12eb281b011bcb790acc5038e27a877b"
+    },
+    {
+      "ruta": "public/saldo.js",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\public\\saldo.js",
+      "sha256": "e0073414b7a6a936ff79ced2e0473f0ad1e150e3bc4ace4e82361dcb71849370"
+    },
+    {
+      "ruta": "public/saldo.css",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\public\\saldo.css",
+      "sha256": "f75594a8796dfa25e4fc7fa6035727eb55bb81ca4b24bf3aacf42ac7241b922a"
+    },
+    {
+      "ruta": "public/saldo-state.js",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\public\\saldo-state.js",
+      "sha256": "c12bca2d1767465daa7b73c2f764eac5b8977b0acf30bf15ca88792fb6dae0c2"
+    },
+    {
+      "ruta": "tests/verificar-anticipo.mjs",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\tests\\verificar-anticipo.mjs",
+      "sha256": "e02122a2e848b1b30d6d0f3d9b7009cb11e0f3faa981bbad47544069dc6b76b3"
+    },
+    {
+      "ruta": "tests/verificar-saldo-estado.mjs",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\tests\\verificar-saldo-estado.mjs",
+      "sha256": "bb6755b16631517ab3be006146f138c357a4faaa09580826fb3b022d65496a11"
+    },
+    {
+      "ruta": "local/saldo-demo.cjs",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\local\\saldo-demo.cjs",
+      "sha256": "eb86781e9c4514a2a7811c8ad392552445498f7585dcf9cd8a6d1d8a3c17962c"
+    },
+    {
+      "ruta": "local/saldo-demo-rpc.sql",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\local\\saldo-demo-rpc.sql",
+      "sha256": "e926cc0de623f49ec9b6c82a910c60fa33bfc5d72fc51ab54c37366d002005bb"
+    },
+    {
+      "ruta": "local/saldo-demo-seed.sql",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\local\\saldo-demo-seed.sql",
+      "sha256": "d810a644f870b65f4dc83d0e4c3c11b5b45b7d6e0a2f69bb72057850c0e01cca"
+    },
+    {
+      "ruta": "supabase/migrations/20261104213159_caja_saldo_paciente.sql",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\supabase\\migrations\\20261104213159_caja_saldo_paciente.sql",
+      "sha256": "153c844e76a1a5d7998e1b61bfca342fbfae6c64e5cc5fa5ded189ea63449136"
+    },
+    {
+      "ruta": "supabase/migrations/20261104234313_caja_saldo_unificado.sql",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\supabase\\migrations\\20261104234313_caja_saldo_unificado.sql",
+      "sha256": "229921a0c31c7fdc2172c80866007a05a5f47c6cc2957b8e3661ca848d965399"
+    },
+    {
+      "ruta": "supabase/migrations/20261104235052_caja_saldo_eventos.sql",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\supabase\\migrations\\20261104235052_caja_saldo_eventos.sql",
+      "sha256": "a429eda0474fc54360bf4d6c6086d086b33e1acd04f96a4f3a0caec1280239e2"
+    },
+    {
+      "ruta": "supabase/migrations/20261104235514_caja_saldo_integracion.sql",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\supabase\\migrations\\20261104235514_caja_saldo_integracion.sql",
+      "sha256": "7fac8354363ec4de10e8059d49c77ff3c7fc7b0fa310fa9344378fa35324cd63"
+    },
+    {
+      "ruta": "supabase/migrations/20261104235643_caja_saldo_controles.sql",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\supabase\\migrations\\20261104235643_caja_saldo_controles.sql",
+      "sha256": "4cd34c1121e6c9ba8bb2428705ce4fc168694754db2126052a3652c1f3bc760c"
+    },
+    {
+      "ruta": "supabase/migrations/20261104235809_caja_saldo_importacion.sql",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\supabase\\migrations\\20261104235809_caja_saldo_importacion.sql",
+      "sha256": "a854d18ed9faab4648bd90226175a94748fb2e35043110deeb5e9cce286ad685"
+    },
+    {
+      "ruta": "supabase/migrations/20261105000334_caja_saldo_consultas.sql",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\supabase\\migrations\\20261105000334_caja_saldo_consultas.sql",
+      "sha256": "3f6623201c05ba1420699b1a25b13467e720426bf6952a1aa33c5145e945a142"
+    },
+    {
+      "ruta": "supabase/migrations/20261105000749_caja_saldo_cierre_seguro.sql",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\supabase\\migrations\\20261105000749_caja_saldo_cierre_seguro.sql",
+      "sha256": "ccb1e558cc72711973d15e5253e04c3560d45d5b1f11209ba2d9d40201b8057a"
+    },
+    {
+      "ruta": "supabase/migrations/20261105001051_caja_saldo_permisos_finales.sql",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\supabase\\migrations\\20261105001051_caja_saldo_permisos_finales.sql",
+      "sha256": "77a7f96cec4156c29b86a544102419521b492ee23812599aa82c17495058e71e"
+    },
+    {
+      "ruta": "supabase/migrations/20261105001331_caja_saldo_trazabilidad.sql",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\supabase\\migrations\\20261105001331_caja_saldo_trazabilidad.sql",
+      "sha256": "498c8d5d71347d7706a1fa7d8a876cc0b7095013892c041af8dd6b26774f760b"
+    },
+    {
+      "ruta": "supabase/migrations/20261105002908_caja_saldo_reintegro_cuota.sql",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\supabase\\migrations\\20261105002908_caja_saldo_reintegro_cuota.sql",
+      "sha256": "e0e35017d03a5e5e1fec0c1bc724bc0edc6ff36c1cd127066b023a88e77dd3b9"
+    },
+    {
+      "ruta": "supabase/migrations/20261105004520_caja_saldo_lectura_historial.sql",
+      "absoluta": "C:\\Users\\Gonzalo\\OneDrive\\Desktop\\CRM SUPABASE\\Ultima version del CRM\\supabase\\migrations\\20261105004520_caja_saldo_lectura_historial.sql",
+      "sha256": "08ab9ddf0faeae2c2677990ae5025a01c937672524cb66ecb6989a66b31e6881"
+    }
+  ]
+}

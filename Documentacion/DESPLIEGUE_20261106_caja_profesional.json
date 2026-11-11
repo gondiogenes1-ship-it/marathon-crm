@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-06",
+  "deployment": "dpl_3SeFY2ZQorG5qrhGajfTHbVgxNht",
+  "state": "READY",
+  "url": "https://marathon-crm-liart.vercel.app/?revision=caja-profesional-1",
+  "migration": "20261106215440_caja_profesional_aplicaciones.sql",
+  "publicFilesVerified": 54,
+  "differences": [],
+  "dataGuard": "PASS: movimientos, fuentes, aplicaciones y eventos íntegros",
+  "historicalReconciliation": "PASS: ningún movimiento sin conciliar",
+  "productionTestPayments": false,
+  "tests": [
+    "SQL fixture: dos profesionales, sesiones/bono/cuota, filtros cruzados, efectivo/transferencia, remanente, devoluciones, paginación y permisos PASS",
+    "Atención excepcional y cobro PASS",
+    "Navegador: filtros, detalle de aplicaciones e importe original PASS",
+    "Excel descargado y totales/atribución verificados PASS"
+  ],
+  "advisors": "Sin nuevos avisos de seguridad; mismos conteos 18/68/1. Sin nuevas claves foráneas o índices."
+}

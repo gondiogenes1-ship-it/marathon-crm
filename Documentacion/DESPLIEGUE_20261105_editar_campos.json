@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-05",
+  "deployment": "dpl_DLx9i5q6KNiRqUCgABT54yhnBqa7",
+  "url": "https://marathon-crm-liart.vercel.app/?revision=editar-campos-5",
+  "migration": "20261105150833_agenda_edicion_campos_completos.sql",
+  "tests": [
+    "agenda_series_scope PASS",
+    "agenda_condiciones_scope PASS",
+    "agenda_nueva_serie PASS",
+    "agenda_edicion_terapia PASS",
+    "Browser complete demo edit PASS",
+    "Production authenticated secretary read PASS",
+    "53 public files SHA1 PASS"
+  ],
+  "productionTestWrites": false,
+  "advisors": "18 private RLS tables, 66 existing authorized SECURITY DEFINER endpoints, existing leaked-password-protection notice; unchanged"
+}

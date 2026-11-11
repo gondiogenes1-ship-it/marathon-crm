@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-06",
+  "deployment": "dpl_5AuBrJXb2maGr2tXWkXSsTAx2JVb",
+  "state": "READY",
+  "url": "https://marathon-crm-liart.vercel.app/?revision=excepcional-1",
+  "migration": "20261106204407_atencion_excepcional_puntual.sql",
+  "publicFilesVerified": 54,
+  "differences": [],
+  "productionDataInstallationGuard": "PASS",
+  "productionTestBookings": false,
+  "tests": [
+    "Atención excepcional dos copias PASS",
+    "Cobro por transferencia con saldo activo PASS",
+    "Domingo sin horarios configurados PASS",
+    "Superposición de paciente y profesional en otra sede rechazadas PASS",
+    "Previsualización y reintento PASS",
+    "Permisos usuario activo y anonimato PASS",
+    "Agenda normal y condiciones PASS",
+    "Mensual con inicio y fin PASS",
+    "Navegador mismo formulario y toggle conserva datos PASS"
+  ],
+  "security": "Dos RPC nuevos SECURITY DEFINER, ejecutables solo por authenticated y con control active_user/operation_begin; helpers internos privados."
+}
