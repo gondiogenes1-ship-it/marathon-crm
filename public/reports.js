@@ -1,10 +1,11 @@
 import {createPatientReports} from './patient-reports.js?v=20261111-obra-social';
 import {createManagement} from './management.js?v=20261111-informes-tabs';
 import {createTrends} from './trends.js?v=20261111-tendencias';
+import {createBilling} from './billing.js?v=20261111-facturacion';
 import {BillingXlsx} from './xlsx.js?v=20261019-0110';
 export function createReports(ctx){
  const $=s=>document.querySelector(s),el=(t,s)=>{const e=document.createElement(t);if(s!==undefined)e.textContent=s;return e;};
- const management=createManagement(ctx),patients=createPatientReports(ctx),trends=createTrends(ctx);
+ const management=createManagement(ctx),patients=createPatientReports(ctx),trends=createTrends(ctx),billing=createBilling(ctx);
  let tab='patients',sub='resumen',patientOptions=null;
  let pages=[null],page=0,next=null,last=null,filters=null;
  const rpc=(n,a={})=>ctx.getApi().rpc(n,a);
@@ -15,22 +16,24 @@ export function createReports(ctx){
  function mode(){
   if(tab==='ortho')return {engine:'management',view:'ortho'};
   if(tab==='cash'&&sub==='resumen')return {engine:'management',view:'cash'};
-  if(tab==='cash'&&sub==='facturacion')return {engine:'report',kind:'billing'};
+  if(tab==='cash'&&sub==='facturacion')return {engine:'billing'};
   return {engine:'report',kind:'cash'};
  }
  function applyFields(){
-  const m=mode();
+  const m=mode(),bill=m.engine==='billing';
   const showMonth=tab!=='ortho';
-  const showTherapy=(m.engine==='management'&&m.view==='cash')||(m.engine==='report'&&m.kind==='cash');
-  const showInsurance=m.engine==='report'&&m.kind==='billing';
+  const showTherapy=(m.engine==='management'&&m.view==='cash')||bill||(m.engine==='report'&&m.kind==='cash');
+  const mod=$('#report-modality').value;
+  const showInsurance=bill&&(mod===''||mod==='OBRA_SOCIAL');
   $('#report-month-label').hidden=!showMonth;
   $('#report-therapy-label').hidden=!showTherapy;
+  $('#report-modality-label').hidden=!bill;
   $('#report-insurance-label').hidden=!showInsurance;
   $('#report-pagination').hidden=m.engine!=='report';
   $('#report-note').textContent=
    tab==='ortho'?'Inventario: foto actual por sede. El mes no aplica; se usa el corte de consulta. Validá existencias físicas y mínimos antes de reponer.'
    :m.engine==='management'?'Caja: usa el mes elegido. Saldos por cobrar: foto actual. Con terapia, Ortopedia queda fuera de la cobranza.'
-   :m.kind==='billing'?'Realizadas: Presente en el mes elegido. Pendientes: Pendiente en el mes siguiente. Obra social y afiliado de la ficha actual. No emite comprobantes fiscales.'
+   :bill?'Pacientes atendidos en el mes, según la cobertura de cada atención. Tildá "Cargado" a medida que cargás en la plataforma de la obra social; la marca es compartida entre secretarias. Filtrá por modalidad, obra social o terapia (algunas no se facturan por OS).'
    :'Movimientos del mes: clínica, ortopedia y caja manual. Con filtro de terapia, solo movimientos vinculados a turnos de esa terapia.';
  }
  function show(){
@@ -44,13 +47,11 @@ export function createReports(ctx){
   $('#report-export').hidden=!legacy;
   if(legacy)applyFields();
  }
- function sync(){patients.sync();const m=mode();$('#report-prev').disabled=ctx.isBusy()||!page;$('#report-next').disabled=ctx.isBusy()||!next;$('#report-export').disabled=ctx.isBusy()||(m.engine==='management'?!management.hasData():!last?.rows?.length);}
+ function sync(){patients.sync();const m=mode();$('#report-prev').disabled=ctx.isBusy()||!page;$('#report-next').disabled=ctx.isBusy()||!next;$('#report-export').disabled=ctx.isBusy()||(m.engine==='management'?!management.hasData():m.engine==='billing'?!billing.hasData():!last?.rows?.length);}
  function readFilters(){
   const m=mode(),month=$('#report-month').value||currentMonth(),f={month,sede:$('#report-sede').value};
-  if(m.engine==='management')f.therapy=$('#report-therapy').value;
-  else if(m.kind==='billing')f.insurance=$('#report-insurance').value;
-  else f.therapy=$('#report-therapy').value;
-  return f;
+  if(m.engine==='billing'){const mod=$('#report-modality').value;f.therapy=$('#report-therapy').value;f.modality=mod;f.insurance=(mod===''||mod==='OBRA_SOCIAL')?$('#report-insurance').value:'';return f;}
+  f.therapy=$('#report-therapy').value;return f;
  }
  function drawTable(kind,r){last=r;next=r.next;$('#report-results').classList.remove('management-results');$('#report-results').replaceChildren();
   const s=r.summary||{};
@@ -61,6 +62,7 @@ export function createReports(ctx){
  }
  async function load(){
   const m=mode();filters=readFilters();
+  if(m.engine==='billing'){await billing.load(filters);$('#report-summary').textContent='Facturación por cobertura · '+filters.month;$('#report-generated').textContent='';last=null;next=null;sync();return;}
   if(m.engine==='management'){
    const r=await rpc('marathon_management',{p_filters:filters});last=r;next=null;
    management.draw(r,filters,m.view);
@@ -79,12 +81,13 @@ export function createReports(ctx){
  $('#report-tab-cash').addEventListener('click',()=>ctx.work(async()=>{tab='cash';sub='resumen';await go();}));
  for(const [id,val]of [['report-sub-resumen','resumen'],['report-sub-facturacion','facturacion'],['report-sub-movimientos','movimientos']])$('#'+id).addEventListener('click',()=>ctx.work(async()=>{sub=val;await go();}));
  $('#report-filter').addEventListener('submit',e=>{e.preventDefault();ctx.work(async()=>{page=0;pages=[null];await load();});});
- $('#report-filter').addEventListener('change',()=>resetResults('Filtros modificados. Presioná Consultar.'));
+ $('#report-filter').addEventListener('change',()=>{if(tab==='ortho'||tab==='cash')applyFields();resetResults('Filtros modificados. Presioná Consultar.');});
  $('#report-next').addEventListener('click',()=>ctx.work(async()=>{if(next){pages=pages.slice(0,page+1);pages.push(next);page++;await load();}}));
  $('#report-prev').addEventListener('click',()=>ctx.work(async()=>{if(page){page--;await load();}}));
  $('#report-export').addEventListener('click',()=>ctx.work(async()=>{
   const m=mode();
   if(m.engine==='management'){management.exportFile(m.view);return;}
+  if(m.engine==='billing'){billing.exportFile();return;}
   if(!filters||!last?.rows?.length)return;
   const r=await rpc('marathon_report',{p_kind:m.kind,p_filters:filters,p_after:null,p_limit:10000});
   if(r.next)throw Error('Reducí los filtros para exportar el informe completo.');
@@ -96,5 +99,5 @@ export function createReports(ctx){
   for(const [id,rows,initial]of [['report-sede',opts.sedes,'Todas las sedes'],['report-therapy',opts.therapies,'Todas las terapias'],['report-insurance',[{id:'__PARTICULAR__',label:'Particular'},...opts.insurances],'Todas las obras sociales']]){const v=$('#'+id).value;$('#'+id).replaceChildren();for(const [value,title]of [['',initial],...rows.map(r=>[r.id,r.label+(r.estado==='INACTIVO'?' (inactiva)':'')])]){const o=el('option',title);o.value=value;$('#'+id).append(o);}$('#'+id).value=v;}
   if(!$('#report-month').value)$('#report-month').value=currentMonth();
   await go();},
-  reset:()=>{patients.reset();management.reset();trends.reset();tab='patients';sub='resumen';patientOptions=null;pages=[null];page=0;next=null;last=null;filters=null;$('#report-filter').reset();$('#report-results').replaceChildren();$('#report-summary').textContent='';$('#report-generated').textContent='';}};
+  reset:()=>{patients.reset();management.reset();trends.reset();billing.reset();tab='patients';sub='resumen';patientOptions=null;pages=[null];page=0;next=null;last=null;filters=null;$('#report-filter').reset();$('#report-results').replaceChildren();$('#report-summary').textContent='';$('#report-generated').textContent='';}};
 }
