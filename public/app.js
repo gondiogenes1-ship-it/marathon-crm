@@ -16,7 +16,7 @@ import {createMasters} from './masters.js?v=20261112-horarios-revision';
 import {createAgenda} from './agenda.js?v=20261111-continuidad';
 import {createHorariosRevision} from './horarios-revision.js?v=20261112-horarios-revision-2';
 import {createOperations} from './operations.js?v=20261106-editar-secretarias-1';
-import {createOrtho} from './ortho.js?v=20261029-caja-pacientes';
+import {createOrtho} from './ortho.js?v=20261112-traslado-sede';
 import {createModalUI} from './modal-ui.js?v=20261027-0128';
 const $=s=>document.querySelector(s);
 let saldoActive=false;
