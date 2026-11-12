@@ -88,7 +88,9 @@ export function createMasters(ctx){
   if(!pending||ctx.isBusy())return;ctx.setBusy(true);
   try{
    const reply=await rpc('marathon_master_save',pending,true);pending=null;
-   try{await load(reply.id);page=0;pages=[null];await list();ctx.message(reply.message);}catch{ctx.message('Guardado confirmado. Volvé a cargar el listado para ver los cambios.',true);}
+   try{await load(reply.id);page=0;pages=[null];await list();ctx.message(reply.message);
+    if(entity==='professional'){try{const c=await rpc('marathon_profesional_horarios_conflicto',{p_prof:reply.id});if(c.rows&&c.rows.length){const det=c.rows.map(x=>x.paciente+' ('+['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][x.dia]+' '+x.hora+')').join('; ');ctx.message('Guardado. ATENCIÓN: '+c.rows.length+' turno(s) quedaron fuera de la agenda del profesional: '+det+'. Revisalos en Turnos → «Horarios a revisar».',true);}}catch{}}
+   }catch{ctx.message('Guardado confirmado. Volvé a cargar el listado para ver los cambios.',true);}
   }catch(e){if(e.uncertain){ctx.message(e.message,true);if(!$('#retry-master')){const retry=action('Verificar guardado',send);retry.id='retry-master';$('#master-detail').append(retry);}}else{pending=null;ctx.message(e.message,true);}}
   finally{if(!pending)$('#retry-master')?.remove();ctx.setBusy(false);}
  }

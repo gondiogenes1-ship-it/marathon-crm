@@ -12,8 +12,9 @@ import {createCatalogs} from './catalogs.js?v=20261019-0110';
 import {createReports} from './reports.js?v=20261111-roles';
 import {createDocuments} from './documents.js?v=20261029-caja-pacientes';
 import {MarathonApi} from './api.js?v=20261104-saldo';
-import {createMasters} from './masters.js?v=20261028-0131-espacio';
+import {createMasters} from './masters.js?v=20261112-horarios-revision';
 import {createAgenda} from './agenda.js?v=20261111-continuidad';
+import {createHorariosRevision} from './horarios-revision.js?v=20261112-horarios-revision-2';
 import {createOperations} from './operations.js?v=20261106-editar-secretarias-1';
 import {createOrtho} from './ortho.js?v=20261029-caja-pacientes';
 import {createModalUI} from './modal-ui.js?v=20261027-0128';
@@ -43,6 +44,7 @@ const home=createHome({exportTurns:exportTurnList,getApi:()=>api,getUser:()=>use
  else if(target==='new-cash'){await operations.openCashAt(filter.date,filter.site);await operations.newCash();}
  else if(target==='ortho')await ortho.open();
 }});
+const horarios=createHorariosRevision({getApi:()=>api,getUser:()=>user,isBusy:()=>busy,work,message:msg,sync,setBusy:value=>{busy=value;sync();},onChanged:async()=>{if(!$('#agenda-screen').hidden)await agenda.reload();await home.reloadVisible();}});
 const users=createUsers({getApi:()=>api,getUser:()=>user,isBusy:()=>busy,work,message:msg,sync,show:showSection,setBusy:value=>{busy=value;sync();},refreshSession:async()=>{user=await api.rpc('marathon_session',{});$('#current-user').textContent=user.name+' · '+(user.role==='ADMIN'?'Administración':'Secretaría');}});
 const whatsapp=createWhatsApp({getApi:()=>api,getUser:()=>user,isBusy:()=>busy,work,message:msg,setBusy:value=>{busy=value;sync();}});
 const help=createHelp({saldoActive:()=>saldoActive,getApi:()=>api,getUser:()=>user,isBusy:()=>busy,work});
@@ -65,7 +67,7 @@ async function work(fn){if(busy||pending||(masters.isPending()||agenda.isPending
 // Los controles se bloquean mientras se guarda; al terminar se devuelve el foco para no perder el lugar al trabajar con teclado.
 function restoreFocus(el){if(!el||el===document.body||!el.isConnected||el.disabled||(document.activeElement&&document.activeElement!==document.body&&document.activeElement.isConnected))return;if(el.closest?.('[hidden]'))return;try{el.focus({preventScroll:true});}catch{}}
 function clearScreen(){
-  ++searchGeneration;++detailGeneration;masters.reset();agenda.reset();operations.reset();ortho.reset();catalogs.reset();reports.reset();documents.reset();home.reset();users.reset();whatsapp.reset();help.reset();editing.reset();patientHistory.reset();hideOperations();$('#agenda-screen').hidden=true;$('#nav-agenda').className='';$('#masters-screen').hidden=true;$('#patients-screen').hidden=false;$('#nav-masters').hidden=true;$('#nav-catalog').hidden=true;$('#nav-users').hidden=true;$('#nav-patients').className='b';$('#nav-masters').className='';
+  ++searchGeneration;++detailGeneration;masters.reset();agenda.reset();operations.reset();ortho.reset();catalogs.reset();reports.reset();documents.reset();home.reset();users.reset();whatsapp.reset();help.reset();horarios.reset();editing.reset();patientHistory.reset();hideOperations();$('#agenda-screen').hidden=true;$('#nav-agenda').className='';$('#masters-screen').hidden=true;$('#patients-screen').hidden=false;$('#nav-masters').hidden=true;$('#nav-catalog').hidden=true;$('#nav-users').hidden=true;$('#nav-patients').className='b';$('#nav-masters').className='';
   saldoActive=false;operations.updateSaldoLabels();user=null;catalog=[];pages=[null];page=0;next=null;selected=null;pending=null;query='';patientsLoaded=false;quickReset();
   $('#patient-list').replaceChildren();$('#detail').replaceChildren();$('#search').value='';$('#current-user').textContent='';msg('');
   $('#workspace').hidden=true;$('#login').hidden=false;$('#login-form').reset();
@@ -205,7 +207,8 @@ function hideOperations(){for(const n of ['home','wait','cash','ortho','catalog'
 $('#nav-ortho').addEventListener('click',()=>work(()=>ortho.open()));
 $('#nav-wait').addEventListener('click',()=>work(()=>operations.openWait()));
 $('#nav-cash').addEventListener('click',()=>work(()=>operations.openCash()));
-$('#nav-agenda').addEventListener('click',()=>work(()=>agenda.open()));
+$('#nav-agenda').addEventListener('click',()=>work(async()=>{await agenda.open();await horarios.refreshBadge();}));
+$('#agenda-review-schedules').addEventListener('click',()=>work(()=>horarios.open()));
 $('#nav-masters').addEventListener('click',()=>work(async()=>{hideOperations();$('#agenda-screen').hidden=true;$('#nav-agenda').className='';await masters.open();}));
 $('#nav-patients').addEventListener('click',()=>work(async()=>{hideOperations();$('#agenda-screen').hidden=true;$('#nav-agenda').className='';$('#masters-screen').hidden=true;$('#patients-screen').hidden=false;$('#nav-masters').className='';$('#nav-patients').className='b';if(!patientsLoaded)await search();else if(selected&&!$('#patient-form'))await patientHistory.reload();}));
 
