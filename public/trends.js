@@ -93,11 +93,16 @@ export function createTrends(ctx){
   const d=el('details');d.append(el('summary','Ver tabla y descargar Excel'));table(d,s);const bar=el('div',undefined,'trend-actions'),b=el('button','Descargar Excel','s');b.type='button';b.addEventListener('click',()=>ctx.work(()=>exportFile(s)));bar.append(b);d.append(bar);h.append(d);
  }
  function fillSites(rows){const sel=$('#trends-sede'),v=sel.value;sel.replaceChildren();for(const[value,label]of [['','Todas las sedes'],...rows.map(r=>[r.id,r.label+(r.estado==='INACTIVO'?' (inactiva)':'')])]){const o=el('option',label);o.value=value;sel.append(o);}sel.value=v;}
+ const currentMonth=()=>new Intl.DateTimeFormat('sv-SE',{timeZone:'America/Argentina/Buenos_Aires'}).format(new Date()).slice(0,7);
+ const shiftMonth=(ym,n)=>{const [y,m]=ym.split('-').map(Number),d=new Date(Date.UTC(y,m-1+n,1));return d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0');};
  async function run(){const task=++generation;data=null;cleanup();host().replaceChildren();$('#trends-status').textContent='Calculando la evolución mensual…';
-  try{const r=await rpc('marathon_trends',{p_filters:{sede:$('#trends-sede').value,months:$('#trends-months').value||'12'}});if(task!==generation)return;data=r;$('#trends-status').textContent=`${r.from} a ${r.to} · ${r.months} meses · Actualizado ${new Date(r.generated_at).toLocaleString('es-AR',{timeZone:'America/Argentina/Buenos_Aires'})}`;draw();}
+  try{const r=await rpc('marathon_trends',{p_filters:{sede:$('#trends-sede').value,from:$('#trends-from').value,to:$('#trends-to').value}});if(task!==generation)return;data=r;$('#trends-status').textContent=`${r.from} a ${r.to} · ${r.months} meses · Actualizado ${new Date(r.generated_at).toLocaleString('es-AR',{timeZone:'America/Argentina/Buenos_Aires'})}`;draw();}
   catch(e){if(task===generation){$('#trends-status').textContent='No se pudo calcular la evolución. '+e.message;}throw e;}
  }
  $('#trends-filter').addEventListener('submit',e=>{e.preventDefault();ctx.work(run);});
  $('#trends-filter').addEventListener('change',()=>ctx.work(run));
- return {open:async options=>{optionsCache=options;fillSites(options?.sedes||[]);if(!data)await run();},sync:()=>{},isPending:()=>false,reset:()=>{generation++;data=null;cleanup();host().replaceChildren();$('#trends-status').textContent='';}};
+ return {open:async options=>{optionsCache=options;fillSites(options?.sedes||[]);
+  const now=currentMonth();$('#trends-from').max=now;$('#trends-to').max=now;
+  if(!$('#trends-to').value){$('#trends-to').value=now;$('#trends-from').value=shiftMonth(now,-11);}
+  if(!data)await run();},sync:()=>{},isPending:()=>false,reset:()=>{generation++;data=null;cleanup();host().replaceChildren();$('#trends-status').textContent='';}};
 }
