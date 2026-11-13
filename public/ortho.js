@@ -29,7 +29,7 @@ export function createOrtho(ctx){
  async function open(){show();sites=await rpc('marathon_ortho_sites');options($('#ortho-sede'),sites,'Todas las sedes');
   if(orthoOnly())options($('#ortho-actor'),[],'Todas las personas');
   else{const lookup=await rpc('marathon_daily_options');options($('#ortho-actor'),lookup.actors,'Todas las personas');}
-  if(!$('#ortho-from').value)$('#ortho-from').value=new Date().toISOString().slice(0,7)+'-01';if(!$('#ortho-to').value)$('#ortho-to').value=new Intl.DateTimeFormat('sv-SE',{timeZone:'America/Argentina/Buenos_Aires'}).format(new Date());$('#ortho-sede').value=filter.sede;$('#ortho-tab-catalog').hidden=!admin();$('#ortho-new-product').hidden=!admin();$('#ortho-sale').textContent=orthoOnly()?'Venta':'Venta / alquiler';await list();}
+  if(!$('#ortho-from').value)$('#ortho-from').value=new Date().toISOString().slice(0,7)+'-01';if(!$('#ortho-to').value)$('#ortho-to').value=new Intl.DateTimeFormat('sv-SE',{timeZone:'America/Argentina/Buenos_Aires'}).format(new Date());$('#ortho-sede').value=filter.sede;$('#ortho-tab-catalog').hidden=!admin();$('#ortho-new-product').hidden=!admin();$('#ortho-sale').textContent=orthoOnly()?'Venta':'Venta / alquiler';$('#ortho-transfer').hidden=orthoOnly();await list();}
  async function refresh(){page=0;pages=[null];await list();await ctx.refreshCash?.();}
  async function choose(which){tab=which;page=0;pages=[null];filter={...filter,query:'',dni:'',kind:''};$('#ortho-query').value='';$('#ortho-dni').value='';$('#ortho-kind').value='';await list();}
  async function list(){
@@ -60,7 +60,7 @@ export function createOrtho(ctx){
   if(tab==='stock'&&p.estado==='ACTIVO'){
    if(p.modalidad.includes('VENTA'))actions.append(button('Vender',()=>ctx.work(()=>operationForm('sale',p))));
    if(p.modalidad.includes('ALQUILER')&&!orthoOnly())actions.append(button('Alquilar',()=>ctx.work(()=>operationForm('rent',p))));
-   actions.append(button('Transferir',()=>ctx.work(()=>operationForm('transfer',p))));
+   if(!orthoOnly())actions.append(button('Transferir',()=>ctx.work(()=>operationForm('transfer',p))));
    if(admin())for(const [key,label]of[['purchase','Comprar'],['adjust_in','Ajuste positivo'],['adjust_out','Ajuste negativo']])actions.append(button(label,()=>ctx.work(()=>operationForm(key,p))));
   }
   if(admin()){actions.append(button('Editar producto',()=>ctx.work(()=>productForm(p.id))),button('Configurar por sede',()=>ctx.work(()=>configForm(p.id))));}
