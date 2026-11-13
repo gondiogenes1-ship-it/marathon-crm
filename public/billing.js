@@ -7,7 +7,7 @@ export function createBilling(ctx){
  let data=null;
  const host=()=>$('#report-results');
  function metaText(row){return row.marked?('Cargado'+(row.marked_by?' por '+row.marked_by:'')+(row.marked_at?' · '+when(row.marked_at):'')):'';}
- function updateCount(){const t=$('#billing-progress');if(!t)return;const marked=data.rows.filter(r=>r.marked).length;t.textContent=marked+' de '+data.rows.length+' cargados en la plataforma de la obra social';}
+ function updateCount(){const t=$('#billing-progress');if(!t)return;const marked=data.rows.filter(r=>r.marked).length,total=data.rows.length,pct=total?Math.round(100*marked/total):0;t.textContent=marked+' de '+total+' cargados en la plataforma de la obra social';const fill=$('#billing-progress-fill');if(fill)fill.style.width=pct+'%';const track=$('#billing-progress-track');if(track)track.setAttribute('aria-label',marked+' de '+total+' pacientes cargados ('+pct+'%)');}
  async function toggleMark(row,input,metaEl,cardEl){
   input.disabled=true;
   try{const r=await rpc('marathon_billing_mark',{p_periodo:data.month,p_modality:row.modality,p_os_id:row.os_id||'',p_dni:row.dni,p_marked:input.checked});
@@ -36,8 +36,12 @@ export function createBilling(ctx){
   const tile=(l,v,n,alert)=>{const b=el('article',undefined,'management-stat'+(alert?' stat-alert':''));b.append(el('span',l),el('strong',v));if(n)b.append(el('small',n));return b;};
   band.append(tile('Pacientes',String(s.patients??0),(s.lines??0)+' líneas de cobertura'),tile('Atenciones',String(s.sessions??0),'Realizadas en el mes'),tile('Sin afiliado',String(s.missing_affiliate??0),'Obra social o ART a completar',Number(s.missing_affiliate)>0));
   h.append(band);
-  const prog=el('p','','subtitle billing-progress');prog.id='billing-progress';h.append(prog);
-  if(!data.rows.length){h.append(el('p','No hay atenciones realizadas con estos filtros.','subtitle'));return;}
+  const progWrap=el('div',undefined,'billing-progress-wrap');
+  const prog=el('p','','subtitle billing-progress');prog.id='billing-progress';
+  const track=el('div',undefined,'mgmt-track');track.id='billing-progress-track';track.setAttribute('role','img');
+  const fill=el('span',undefined,'mgmt-fill ok');fill.id='billing-progress-fill';track.append(fill);
+  progWrap.append(prog,track);h.append(progWrap);
+  if(!data.rows.length){h.append(el('p','No hay atenciones realizadas con estos filtros.','subtitle'));updateCount();return;}
   const list=el('div',undefined,'billing-list');for(const row of data.rows)list.append(card(row));h.append(list);
   updateCount();
  }

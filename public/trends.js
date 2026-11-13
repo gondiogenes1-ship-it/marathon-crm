@@ -44,6 +44,11 @@ export function createTrends(ctx){
   );
   parent.append(grid);
  }
+ function exportProfessionalFile(rows){
+  const cols=[['profesional','Profesional'],['present','Presentes'],['absent','Ausentes'],['total','Turnos finalizados'],['absenteeism','Ausentismo %']];
+  const bytes=BillingXlsx.buildGrid({title:'Marathon · Ausentismo por profesional',sheetName:'Ausentismo',columns:cols.map(([key,name])=>({name,numeric:key!=='profesional',width:24})),rows:rows.map(r=>cols.map(([key])=>key==='profesional'?String(r[key]??''):Number(r[key])||0)),metadata:[['Período',data.from+' a '+data.to,'Meses',String(data.months)],['Consulta',data.generated_at,'Umbral de alerta',ABSENTEEISM_ALERT+'%']],note:'Ausentismo acumulado en el período, la sede y los filtros elegidos en Tendencias. No incluye identificadores de pacientes.'});
+  const url=URL.createObjectURL(new Blob([bytes],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})),a=el('a');a.href=url;a.download='Marathon_Ausentismo_profesional_'+data.to+'.xlsx';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);ctx.message('Ausentismo por profesional descargado.');
+ }
  function absenceByProfessional(rows){
   const box=panel('Ausentismo por profesional','Turnos finalizados en el período y los filtros elegidos arriba. Resaltado en rojo: ausentismo ≥ '+ABSENTEEISM_ALERT+'% — conviene conversarlo con el profesional.');
   if(!rows.length){box.append(el('p','No hay suficientes turnos finalizados en el período para calcular esto.','subtitle'));return box;}
@@ -60,6 +65,7 @@ export function createTrends(ctx){
    list.append(row);
   }
   box.append(list);
+  const bar=el('div',undefined,'trend-actions'),b=el('button','Descargar Excel','s');b.type='button';b.addEventListener('click',()=>ctx.work(()=>exportProfessionalFile(rows)));bar.append(b);box.append(bar);
   return box;
  }
  function noticeEl(){const d=el('div',undefined,'management-notice');d.append(el('strong',window.MARATHON_CONFIG?.supabaseUrl==='https://marathon-demo.invalid'?'Demostración · Datos ficticios. ':'Registro en validación. '),el('span','La evolución describe lo cargado mes a mes. El último mes (*) está en curso y no es comparable a un mes completo.'));return d;}
