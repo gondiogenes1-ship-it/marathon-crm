@@ -3,10 +3,10 @@ import {createWhatsApp} from './whatsapp.js?v=20261029-0131-icono';
 import {createMotion} from './motion.js?v=20261028-0131';
 import {appendTurnWhatsApp,exportTurns} from './turn-tools.js?v=20261030-0140';
 import {createPatientHistory} from './patient-history.js?v=20261104-saldo';
-import {createUsers} from './users.js?v=20261019-0110';
+import {createUsers} from './users.js?v=20261113-secretaria-ortopedia';
 import {appendPatientCoverages,patientPayload,patientCoverages,appendPatientPhone} from './coverage.js?v=20261027-0120';
 import {createEditing} from './editing.js?v=20261029-caja-pacientes';
-import {createHelp} from './help.js?v=20261105-saldo';
+import {createHelp} from './help.js?v=20261113-secretaria-ortopedia';
 import {createHome} from './home.js?v=20261102-cancelados';
 import {createCatalogs} from './catalogs.js?v=20261019-0110';
 import {createReports} from './reports.js?v=20261113-pendientes-primero';
@@ -16,7 +16,7 @@ import {createMasters} from './masters.js?v=20261112-horarios-revision';
 import {createAgenda} from './agenda.js?v=20261111-continuidad';
 import {createHorariosRevision} from './horarios-revision.js?v=20261112-horarios-revision-2';
 import {createOperations} from './operations.js?v=20261106-editar-secretarias-1';
-import {createOrtho} from './ortho.js?v=20261112-traslado-sede';
+import {createOrtho} from './ortho.js?v=20261113-secretaria-ortopedia';
 import {createModalUI} from './modal-ui.js?v=20261027-0128';
 const $=s=>document.querySelector(s);
 let saldoActive=false;
@@ -45,7 +45,7 @@ const home=createHome({exportTurns:exportTurnList,getApi:()=>api,getUser:()=>use
  else if(target==='ortho')await ortho.open();
 }});
 const horarios=createHorariosRevision({getApi:()=>api,getUser:()=>user,isBusy:()=>busy,work,message:msg,sync,setBusy:value=>{busy=value;sync();},onChanged:async()=>{if(!$('#agenda-screen').hidden)await agenda.reload();await home.reloadVisible();}});
-const users=createUsers({getApi:()=>api,getUser:()=>user,isBusy:()=>busy,work,message:msg,sync,show:showSection,setBusy:value=>{busy=value;sync();},refreshSession:async()=>{user=await api.rpc('marathon_session',{});$('#current-user').textContent=user.name+' · '+(user.role==='ADMIN'?'Administración':'Secretaría');}});
+const users=createUsers({getApi:()=>api,getUser:()=>user,isBusy:()=>busy,work,message:msg,sync,show:showSection,setBusy:value=>{busy=value;sync();},refreshSession:async()=>{user=await api.rpc('marathon_session',{});$('#current-user').textContent=user.name+' · '+({ADMIN:'Administración',SECRETARIA:'Secretaría',SECRETARIA_ORTOPEDIA:'Secretaria de ortopedia'}[user.role]||user.role);}});
 const whatsapp=createWhatsApp({getApi:()=>api,getUser:()=>user,isBusy:()=>busy,work,message:msg,setBusy:value=>{busy=value;sync();}});
 const help=createHelp({saldoActive:()=>saldoActive,getApi:()=>api,getUser:()=>user,isBusy:()=>busy,work});
 const patientHistory=createPatientHistory({saldoActive:()=>saldoActive,onSaldo:dni=>work(()=>operations.openSaldo({dni})),onSaldoHistory:dni=>work(()=>operations.saldoHistory(dni)),isBusy:()=>busy||!!pending||agenda.isPending()||operations.isPending()||ortho.isPending()||masters.isPending()||catalogs.isPending()||documents.isPending()||users.isPending()||whatsapp.isPending(),getApi:()=>api,getCatalog:()=>catalog,onClose:()=>{selected=null;renderPatientEmpty();highlight();},onEdit:p=>work(async()=>editPatient(await api.rpc('marathon_patient_get',{p_dni:p.dni}))),onBook:p=>work(()=>agenda.bookFor(p)),onWait:p=>work(async()=>{await operations.openWait();await operations.newWait(p);}),onAccount:dni=>work(()=>operations.openAccount(dni)),onDocuments:dni=>work(()=>documents.open(dni)),onAdvance:(kind,id)=>work(()=>operations.openAdvance(kind,id)),onBonus:(kind,id)=>work(()=>operations.openBonus(kind,id)),onAgenda:t=>work(()=>agenda.openAt(t.fecha,t.sede))});
@@ -160,12 +160,14 @@ $('#login-form').addEventListener('submit',async event=>{
   event.preventDefault();const form=event.currentTarget;const submit=form.querySelector('button');submit.disabled=true;$('#login-error').textContent='';
   try{
     api??=new MarathonApi(window.MARATHON_CONFIG);api.onDenied=()=>{if(!user)return;const current=api;clearScreen();current.signOut();$('#login-error').textContent='Tu sesión o tus permisos cambiaron. Volvé a ingresar.';};
-    user=await api.signIn($('#login-email').value,$('#login-password').value);form.reset();saldoActive=await saldoEnabled(api,{fresh:true});operations.updateSaldoLabels();
-    catalog=await api.rpc('marathon_patient_catalog',{});
+    user=await api.signIn($('#login-email').value,$('#login-password').value);form.reset();
+    const orthoOnly=user.role==='SECRETARIA_ORTOPEDIA';
+    if(!orthoOnly){saldoActive=await saldoEnabled(api,{fresh:true});operations.updateSaldoLabels();catalog=await api.rpc('marathon_patient_catalog',{});}
     $('#nav-users').hidden=user.role!=='ADMIN';$('#nav-catalog').hidden=user.role!=='ADMIN';$('#nav-masters').hidden=user.role!=='ADMIN';$('#ortho-new-product').hidden=user.role!=='ADMIN';$('#ortho-tab-catalog').hidden=user.role!=='ADMIN';
-    $('#current-user').textContent=user.name+' · '+(user.role==='ADMIN'?'Administración':'Secretaría');
+    if(orthoOnly)for(const n of ['home','agenda','patients','wait','cash','reports'])$('#nav-'+n).hidden=true;
+    $('#current-user').textContent=user.name+' · '+({ADMIN:'Administración',SECRETARIA:'Secretaría',SECRETARIA_ORTOPEDIA:'Secretaria de ortopedia'}[user.role]||user.role);
     $('#workspace').hidden=false;$('#login').hidden=true;
-    await work(()=>home.open());
+    await work(()=>orthoOnly?ortho.open():home.open());
   }catch(e){if(api)await api.signOut();clearScreen();$('#login-error').textContent=e.message;}
   finally{submit.disabled=false;}
 });
