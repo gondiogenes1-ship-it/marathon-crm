@@ -74,7 +74,7 @@ export function createOrtho(ctx){
   if(o.tipo==='ALQUILER'&&Number(o.pending)>0)actions.append(button('Devolver unidades',()=>ctx.work(()=>settleForm('return',o.id))));
   if(['VENTA','ALQUILER'].includes(o.tipo)){if(Number(o.debt)>0)actions.append(button('Registrar cobro',()=>ctx.work(()=>settleForm('pay',o.id))));if(Number(o.paid)>0)actions.append(button('Registrar reintegro',()=>ctx.work(()=>settleForm('refund',o.id))));}
   if(o.tipo==='COMPRA'&&Number(o.debt)>0&&admin())actions.append(button('Pagar compra',()=>ctx.work(()=>settleForm('purchase_pay',o.id))));
-  if(o.tipo==='VENTA')actions.append(button('Anular venta',()=>ctx.work(()=>voidForm(o.id))));
+  if(o.tipo==='VENTA'){if(o.anulada)card.append(el('p','ANULADA','ui-debt'));else{const voidBtn=button('Anular venta',()=>ctx.work(()=>voidForm(o.id)));voidBtn.dataset.variant='destructive';actions.append(voidBtn);}}
   card.append(actions);
  }
  async function productForm(id=null){if(!admin())throw Error('Solo ADMIN puede administrar productos.');const p=id?await rpc('marathon_ortho_product',{p_id:id}):null;const panel=modal(p?'Editar producto':'Nuevo producto');const{f,finish}=form(panel,'ortho-product-form','Guardar producto',()=>{const data=Object.fromEntries(new FormData(f));for(const k of ['costo','precio_venta','precio_alquiler'])data[k]=data[k]===''?null:Number(data[k]);if(p){data.id=p.id;data.version=p.version;}command('marathon_ortho_product_save',data,async()=>{tab='catalog';await refresh();});});
