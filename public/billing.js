@@ -42,7 +42,9 @@ export function createBilling(ctx){
   const fill=el('span',undefined,'mgmt-fill ok');fill.id='billing-progress-fill';track.append(fill);
   progWrap.append(prog,track);h.append(progWrap);
   if(!data.rows.length){h.append(el('p','No hay atenciones realizadas con estos filtros.','subtitle'));updateCount();return;}
-  const list=el('div',undefined,'billing-list');for(const row of data.rows)list.append(card(row));h.append(list);
+  h.append(el('p','Pendientes de cargar primero; ya cargados al final.','subtitle'));
+  const sorted=data.rows.slice().sort((a,b)=>(a.marked?1:0)-(b.marked?1:0));
+  const list=el('div',undefined,'billing-list');for(const row of sorted)list.append(card(row));h.append(list);
   updateCount();
  }
  async function load(f){data=await rpc('marathon_billing',{p_filters:f});draw();}

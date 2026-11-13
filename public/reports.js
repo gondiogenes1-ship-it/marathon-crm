@@ -1,7 +1,7 @@
 import {createPatientReports} from './patient-reports.js?v=20261113-indicadores-visuales';
 import {createManagement} from './management.js?v=20261113-stock-por-sede';
 import {createTrends} from './trends.js?v=20261113-rango-fechas';
-import {createBilling} from './billing.js?v=20261113-progreso-facturacion';
+import {createBilling} from './billing.js?v=20261113-pendientes-primero';
 import {BillingXlsx} from './xlsx.js?v=20261019-0110';
 export function createReports(ctx){
  const $=s=>document.querySelector(s),el=(t,s)=>{const e=document.createElement(t);if(s!==undefined)e.textContent=s;return e;};
