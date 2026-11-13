@@ -1,5 +1,5 @@
 import {createPatientReports} from './patient-reports.js?v=20261113-indicadores-visuales';
-import {createManagement} from './management.js?v=20261113-indicadores-visuales';
+import {createManagement} from './management.js?v=20261113-stock-por-sede';
 import {createTrends} from './trends.js?v=20261113-ausentismo-profesional';
 import {createBilling} from './billing.js?v=20261113-indicadores-visuales';
 import {BillingXlsx} from './xlsx.js?v=20261019-0110';
