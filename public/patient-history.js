@@ -4,16 +4,16 @@ import {patientCoverages,coverageLabel,patientPhoneNumber} from './coverage.js?v
 export function createPatientHistory(ctx){
  const el=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
  const button=(text,fn)=>{const b=el('button',text,'s');b.type='button';b.addEventListener('click',fn);return b;};
- let generation=0,parent=null,patient=null,kind='clinic',page=0,pages=[null],next=null,loading=false,view=null;
+ let generation=0,parent=null,patient=null,kind='clinic',page=0,pages=[null],next=null,loading=false,view=null,filters={},therapies=[];
  const isSaldo=()=>ctx.saldoActive?.()===true;
  const locked=()=>loading||!!ctx.isBusy?.();
- function reset(){++generation;parent=null;patient=null;view=null;loading=false;}
+ function reset(){++generation;parent=null;patient=null;view=null;loading=false;filters={};}
  function age(birth){
   if(!/^\d{4}-\d{2}-\d{2}$/.test(birth||''))return '';
   const today=DailyUI.today(),years=Number(today.slice(0,4))-Number(birth.slice(0,4))-(today.slice(5)<birth.slice(5)?1:0);
   return years>=0&&years<130?years+' años · '+birth.split('-').reverse().join('/'):birth;
  }
- function sync(){if(!view)return;view.previous.disabled=locked()||page===0;view.next.disabled=locked()||!next;view.refresh.disabled=locked();for(const [key,b]of Object.entries(view.tabs)){b.disabled=locked();b.setAttribute('aria-pressed',String(kind===key));}}
+ function sync(){if(!view)return;view.previous.disabled=locked()||page===0;view.next.disabled=locked()||!next;view.refresh.disabled=locked();for(const [key,b]of Object.entries(view.tabs)){b.disabled=locked();b.setAttribute('aria-pressed',String(kind===key));}view.filterBox.querySelectorAll('select').forEach(s=>s.disabled=locked());}
  function renderSummary(summary){
   view.summary.replaceChildren();
   const financial=isSaldo()?[['Deuda clínica total',DailyUI.money(Number(summary.clinical_debt||0)+Number(summary.bonus_debt||0))],['Saldo a favor',DailyUI.money(summary.saldo_disponible??summary.advance_available??0)],['Sesiones y cuotas',DailyUI.money(summary.clinical_debt)],['Bonos iniciales',DailyUI.money(summary.bonus_debt||0)],['Ortopedia · cuenta aparte',DailyUI.money(summary.ortho_debt)]]:[['Saldo total',DailyUI.money(summary.debt)],['Saldo clínico',DailyUI.money(summary.clinical_debt)],['Saldo ortopedia',DailyUI.money(summary.ortho_debt)],['Saldo bonos',DailyUI.money(summary.bonus_debt||0)],['Anticipos disponibles',DailyUI.money(summary.advance_available||0)]];
@@ -23,7 +23,7 @@ export function createPatientHistory(ctx){
  }
  function renderRows(rows){
   view.rows.replaceChildren();
-  if(!rows.length){view.rows.append(el('p',kind==='clinic'?'No hay turnos registrados para este paciente.':kind==='advance'?'No hay anticipos registrados para este paciente.':kind==='bonus'?'No hay bonos registrados para este paciente.':'No hay operaciones de ortopedia registradas para este paciente.'));return;}
+  if(!rows.length){const withFilter=Object.keys(filters).length>0;view.rows.append(el('p',(kind==='clinic'?'No hay turnos registrados para este paciente.':kind==='advance'?'No hay anticipos registrados para este paciente.':kind==='bonus'?'No hay bonos registrados para este paciente.':'No hay operaciones de ortopedia registradas para este paciente.').replace('.',withFilter?' con ese filtro.':'.')));return;}
   if(kind==='clinic'){
    const body=DailyUI.table(view.rows,['Fecha / hora','Terapia / profesional','Sede','Estado','Cobertura','Importe','Cobrado neto','Saldo exigible','Acción']);
    for(const t of rows){const therapy=el('div');therapy.append(el('strong',t.terapia),el('small',t.profesional));
@@ -49,7 +49,7 @@ export function createPatientHistory(ctx){
  async function load(){
   if(!parent||!patient)return;const token=++generation,target=parent,v=view;loading=true;v.error.textContent='';v.rows.replaceChildren(el('p','Cargando historial…'));v.info.textContent='';sync();
   try{
-   const data=await ctx.getApi().rpc('marathon_patient_history',{p_dni:patient.dni,p_kind:kind,p_after:pages[page],p_limit:25});
+   const data=await ctx.getApi().rpc('marathon_patient_history',{p_dni:patient.dni,p_kind:kind,p_after:pages[page],p_limit:25,p_filters:filters});
    if(token!==generation||!target.isConnected)return;
    next=data.next;renderSummary(data.summary);renderRows(data.rows);
    v.info.textContent=data.rows.length+' registros en esta página. Los saldos incluyen todo el historial. Ausentes y cancelados no generan deuda clínica.';
@@ -58,7 +58,9 @@ export function createPatientHistory(ctx){
   finally{if(token===generation){loading=false;sync();}}
  }
  async function mount(target,p){
-  reset();parent=target;patient=p;kind='clinic';page=0;pages=[null];next=null;target.replaceChildren();
+  reset();const token=generation;parent=target;patient=p;kind='clinic';page=0;pages=[null];next=null;filters={};target.replaceChildren();
+  try{therapies=(await ctx.getApi().rpc('marathon_agenda_options')).therapies||[];}catch{therapies=[];}
+  if(token!==generation||!target.isConnected)return;
   const header=el('div',undefined,'detail-head'),identity=el('div');identity.append(el('h2',[p.apellido,p.nombre,p.segundo_nombre].filter(Boolean).join(' ')),el('p','DNI '+p.dni+(age(p.nacimiento)?' · '+age(p.nacimiento):''),'patient-id'));
   header.append(identity,button('Cerrar ficha',()=>ctx.onClose()));target.append(header);
   const actions=el('div',undefined,'patient-quick-actions');for(const [label,fn]of [['Editar ficha',()=>ctx.onEdit(p)],['Reservar turno',()=>ctx.onBook(p)],['Agregar a lista de espera',()=>ctx.onWait(p)],['Cuenta clínica',()=>ctx.onAccount(p.dni)],...(isSaldo()?[['Registrar movimiento',()=>ctx.onSaldo(p.dni)],['Historial de saldo',()=>ctx.onSaldoHistory(p.dni)]]:[['Recibir anticipo',()=>ctx.onAdvance('deposit',p.dni)],['Aplicar anticipos a deuda',()=>ctx.onAdvance('apply',p.dni)]]),['Documentos',()=>ctx.onDocuments(p.dni)]])actions.append(button(label,fn));target.append(actions);
@@ -68,11 +70,28 @@ export function createPatientHistory(ctx){
   const whatsapp=patientPhoneNumber(p.telefono);if(whatsapp){const link=el('a','Abrir WhatsApp');link.href='https://wa.me/'+whatsapp;link.target='_blank';link.rel='noopener noreferrer';link.className='s';link.setAttribute('aria-label','Abrir WhatsApp del paciente');target.append(link);}
   const summary=el('div',undefined,'patient-stats');summary.setAttribute('aria-label','Resumen del paciente');target.append(summary);
   const controls=el('div',undefined,'patient-history-controls'),tabs={};
-  for(const [key,label]of [['clinic','Historial clínico'],['ortho','Historial de ortopedia'],['bonus','Bonos iniciales'],['advance',isSaldo()?'Anticipos históricos':'Anticipos']]){tabs[key]=button(label,()=>{if(locked())return;kind=key;page=0;pages=[null];next=null;load();});controls.append(tabs[key]);}
-  const refresh=button('Actualizar historial',()=>{if(locked())return;page=0;pages=[null];load();});controls.append(refresh);target.append(el('h3','Cuenta e historial'),controls);
+  const filterBox=el('div',undefined,'patient-history-filters');
+  function renderFilters(){
+   filterBox.replaceChildren();
+   const onChange=()=>{if(locked())return;page=0;pages=[null];next=null;load();};
+   const addSelect=(labelText,options,key)=>{
+    const label=el('label',labelText),select=el('select');
+    for(const [value,text]of options){const o=el('option',text);o.value=value;select.append(o);}
+    select.value=filters[key]||'';
+    select.addEventListener('change',()=>{if(select.value)filters[key]=select.value;else delete filters[key];onChange();});
+    label.append(select);filterBox.append(label);
+   };
+   if(kind==='clinic')addSelect('Estado',[['','Todos los estados'],['PENDIENTE','Pendiente'],['PRESENTE','Presente'],['AUSENTE','Ausente'],['CANCELADO','Cancelado']],'estado');
+   if(kind==='bonus')addSelect('Estado',[['','Todos los estados'],['ACTIVO','Activo'],['ANULADO','Anulado']],'estado');
+   if(kind==='ortho')addSelect('Tipo',[['','Todos los tipos'],['VENTA','Venta'],['ALQUILER','Alquiler'],['COMPRA','Compra'],['AJUSTE_POSITIVO','Ajuste positivo'],['AJUSTE_NEGATIVO','Ajuste negativo'],['DEVOLUCION','Devolución']],'tipo');
+   if(kind==='clinic'||kind==='bonus'||kind==='advance')addSelect('Terapia',[['','Todas las terapias'],...therapies.map(t=>[t.id,t.label])],'therapy');
+  }
+  for(const [key,label]of [['clinic','Historial clínico'],['ortho','Historial de ortopedia'],['bonus','Bonos iniciales'],['advance',isSaldo()?'Anticipos históricos':'Anticipos']]){tabs[key]=button(label,()=>{if(locked())return;kind=key;page=0;pages=[null];next=null;filters={};renderFilters();load();});controls.append(tabs[key]);}
+  const refresh=button('Actualizar historial',()=>{if(locked())return;page=0;pages=[null];load();});controls.append(refresh);target.append(el('h3','Cuenta e historial'),controls,filterBox);
+  renderFilters();
   const error=el('p');error.setAttribute('role','alert');const info=el('p',undefined,'subtitle'),rows=el('div'),pager=el('div',undefined,'pager'),pageLabel=el('span','Página 1');
   const previous=button('Página anterior',()=>{if(!locked()&&page>0){page--;load();}}),nextButton=button('Página siguiente',()=>{if(!locked()&&next){pages=pages.slice(0,page+1);pages.push(next);page++;load();}});
-  pager.append(previous,pageLabel,nextButton);target.append(error,info,rows,pager);view={summary,tabs,refresh,error,info,rows,previous,next:nextButton,page:pageLabel};
+  pager.append(previous,pageLabel,nextButton);target.append(error,info,rows,pager);view={summary,tabs,refresh,error,info,rows,previous,next:nextButton,page:pageLabel,filterBox};
   await load();
  }
  return{mount,reset,sync,reload:()=>{page=0;pages=[null];return load();}};
