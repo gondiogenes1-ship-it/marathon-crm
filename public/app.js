@@ -1,5 +1,5 @@
 import {saldoEnabled} from './saldo-state.js?v=20261104-saldo';
-import {createWhatsApp} from './whatsapp.js?v=20261029-0131-icono';
+import {createWhatsApp} from './whatsapp.js?v=20261113-secretaria-ortopedia';
 import {createMotion} from './motion.js?v=20261028-0131';
 import {appendTurnWhatsApp,exportTurns} from './turn-tools.js?v=20261030-0140';
 import {createPatientHistory} from './patient-history.js?v=20261104-saldo';
