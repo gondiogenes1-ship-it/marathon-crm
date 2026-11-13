@@ -1,4 +1,4 @@
-import {createRecurringAgenda} from './agenda-recurrente.js?v=20261113-inicio-retroactivo';
+import {createRecurringAgenda} from './agenda-recurrente.js?v=20261113-faltas-criticas';
 import {createTurnSeriesUI} from './turn-series.js?v=20261105-series';
 import {sessionCountLabel,loadSessionCounts} from './session-counts.js?v=20261029-0131';
 import {createAgendaPatientEditor} from './agenda-patient-editor.js?v=20261029-caja-pacientes';
@@ -202,7 +202,7 @@ export function createAgenda(ctx){
   for(const t of members){const info=el('div',undefined,'recurring-patient-info');if(selectTurn&&!t.paused)info.append(selectTurn(t));info.append(el('strong',t.paciente),el('small','DNI '+t.dni),el('small',t.telefono?'Tel.: '+t.telefono:'Teléfono sin cargar','turn-phone'));
    const state=el('span',(t.paused?'PAUSADO · RESERVA LUGAR':t.estado)+(t.attendance_auto?' · Automático':''),'pill status-'+t.estado.toLowerCase()),actions=el('div',undefined,'row-actions');
    if(t.booking_notes?.startsWith('Atención excepcional'))info.append(el('span','Atención excepcional','recurring-badge'));if(t.plan)info.append(el('span',recurring.planLabel(t.plan),'recurring-badge'));else info.append(sessionCountLabel(t));
-   if(t.plan?.absences>=2)info.append(el('p',t.plan.absences+' faltas seguidas · contactar','recurring-alert'));
+   if(t.plan?.absences>=2)info.append(el('p',t.plan.absences+' faltas seguidas · contactar'+(t.plan.absences>4?' · dar de baja':''),t.plan.absences>4?'recurring-alert-critical':'recurring-alert'));
 
    const edit=action('Editar ficha',()=>ctx.work(()=>patientEditor.open(t.dni)),'s');edit.setAttribute('aria-label','Editar ficha de '+t.paciente);info.append(edit);
    const who=' · '+t.paciente+' · '+String(t.hora).slice(0,5);
