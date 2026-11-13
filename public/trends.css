@@ -16,5 +16,17 @@
 .trend-line.c4{stroke:#c0392b}.trend-dot.c4{fill:#c0392b;stroke:#c0392b}
 .trend-line.c5{stroke:#1d5145}.trend-dot.c5{fill:#1d5145;stroke:#1d5145}
 .trend-delta{color:#56685f;font-weight:600}
+.trend-delta.good{color:#1b7a3d}
+.trend-delta.bad{color:#c0392b}
+.management-stat.trend-alert{border-color:#c0392b;background:#fdf2f0}
 .trend-actions{margin-top:12px}
-@media(max-width:600px){.trend-columns{grid-template-columns:1fr}}
+.trend-bars{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.trend-bar-row{display:grid;grid-template-columns:150px 1fr auto;gap:10px;align-items:center;font-size:.85rem}
+.trend-bar-label{color:#28433b;font-weight:600;overflow-wrap:anywhere}
+.trend-bar-track{position:relative;background:#eef3f0;border-radius:6px;height:14px;overflow:hidden}
+.trend-bar-fill{position:absolute;inset:0 auto 0 0;background:#1f7770;border-radius:6px}
+.trend-bar-fill.alert{background:#c0392b}
+.trend-bar-threshold{position:absolute;top:-3px;bottom:-3px;width:2px;background:#28433b;opacity:.45}
+.trend-bar-value{color:#50625a;font-size:.8rem;white-space:nowrap}
+.trend-bar-value.alert{color:#c0392b;font-weight:600}
+@media(max-width:600px){.trend-columns{grid-template-columns:1fr}.trend-bar-row{grid-template-columns:1fr;gap:4px}.trend-bar-value{text-align:right}}

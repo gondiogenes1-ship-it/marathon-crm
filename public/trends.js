@@ -3,6 +3,7 @@ const el=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefine
 const count=n=>Number(n??0).toLocaleString('es-AR',{maximumFractionDigits:1});
 const money=n=>new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(Number(n||0));
 const moneyShort=n=>{const v=Number(n||0);return Math.abs(v)>=1000?('$'+Math.round(v/1000)+'k'):('$'+Math.round(v));};
+const ABSENTEEISM_ALERT=30;
 export function createTrends(ctx){
  const $=s=>document.querySelector(s);let data=null,observers=[],generation=0,optionsCache=null;
  const rpc=(n,a)=>ctx.getApi().rpc(n,a);
@@ -29,19 +30,37 @@ export function createTrends(ctx){
   };
   requestAnimationFrame(draw);const ob=new ResizeObserver(draw);ob.observe(canvas);observers.push(ob);return box;
  }
- function tile(label,value,delta,note){const box=el('article',undefined,'management-stat');box.append(el('span',label),el('strong',value));if(delta)box.append(el('small',delta,'trend-delta '+(delta.startsWith('▲')?'up':delta.startsWith('▼')?'down':'flat')));if(note)box.append(el('small',note));return box;}
+ function tile(label,value,delta,note,sense,alert){const box=el('article',undefined,'management-stat'+(alert?' trend-alert':''));box.append(el('span',label),el('strong',value));if(delta){const dir=delta.startsWith('▲')?'up':delta.startsWith('▼')?'down':'flat';const cls=dir==='flat'?'flat':(sense==='down'?(dir==='down'?'good':'bad'):(dir==='up'?'good':'bad'));box.append(el('small',delta,'trend-delta '+cls));}if(note)box.append(el('small',note));return box;}
  function deltaCount(cur,prev,unit){if(prev===null||prev===undefined)return '';const d=(Number(cur)||0)-(Number(prev)||0);const a=d>0?'▲ +':d<0?'▼ ':'= ';return a+count(Math.abs(d)<1e-9?0:d)+(unit?' '+unit:'')+' vs mes previo';}
  function tiles(parent,s){
   const cur=s[s.length-1],prev=s.length>1?s[s.length-2]:null;
   const grid=el('div',undefined,'management-stats');
   grid.append(
-   tile('Atenciones',count(cur.present),prev?deltaCount(cur.present,prev.present):'',cur.partial?'Mes en curso':''),
-   tile('Pacientes nuevos',count(cur.new_patients),prev?deltaCount(cur.new_patients,prev.new_patients):'','Primera atención observada'),
-   tile('Asistencia',count(cur.attendance)+'%',prev?deltaCount(cur.attendance,prev.attendance,'pts'):'','Presentes / presentes + ausentes'),
-   tile('Ausentismo',count(cur.absenteeism)+'%',prev?deltaCount(cur.absenteeism,prev.absenteeism,'pts'):'',cur.auto_absent?count(cur.auto_absent)+' automáticas':''),
-   tile('Flujo neto',money(cur.net),prev?(()=>{const d=(Number(cur.net)||0)-(Number(prev.net)||0);return (d>0?'▲ +':d<0?'▼ ':'= ')+money(Math.abs(d))+' vs mes previo';})():'','Ingresos menos egresos del mes')
+   tile('Atenciones',count(cur.present),prev?deltaCount(cur.present,prev.present):'',cur.partial?'Mes en curso':'','up'),
+   tile('Pacientes nuevos',count(cur.new_patients),prev?deltaCount(cur.new_patients,prev.new_patients):'','Primera atención observada','up'),
+   tile('Asistencia',count(cur.attendance)+'%',prev?deltaCount(cur.attendance,prev.attendance,'pts'):'','Presentes / presentes + ausentes','up'),
+   tile('Ausentismo',count(cur.absenteeism)+'%',prev?deltaCount(cur.absenteeism,prev.absenteeism,'pts'):'',cur.auto_absent?count(cur.auto_absent)+' automáticas':'','down',Number(cur.absenteeism)>=ABSENTEEISM_ALERT),
+   tile('Flujo neto',money(cur.net),prev?(()=>{const d=(Number(cur.net)||0)-(Number(prev.net)||0);return (d>0?'▲ +':d<0?'▼ ':'= ')+money(Math.abs(d))+' vs mes previo';})():'','Ingresos menos egresos del mes','up')
   );
   parent.append(grid);
+ }
+ function absenceByProfessional(rows){
+  const box=panel('Ausentismo por profesional','Turnos finalizados en el período y los filtros elegidos arriba. Resaltado en rojo: ausentismo ≥ '+ABSENTEEISM_ALERT+'% — conviene conversarlo con el profesional.');
+  if(!rows.length){box.append(el('p','No hay suficientes turnos finalizados en el período para calcular esto.','subtitle'));return box;}
+  const list=el('div',undefined,'trend-bars');
+  for(const r of rows){
+   const alert=Number(r.absenteeism)>=ABSENTEEISM_ALERT;
+   const row=el('div',undefined,'trend-bar-row');
+   row.append(el('span',r.profesional,'trend-bar-label'));
+   const track=el('div',undefined,'trend-bar-track');
+   const marker=el('span',undefined,'trend-bar-threshold');marker.style.left=ABSENTEEISM_ALERT+'%';track.append(marker);
+   const fill=el('div',undefined,'trend-bar-fill'+(alert?' alert':''));fill.style.width=Math.min(100,Math.max(2,Number(r.absenteeism)||0))+'%';track.append(fill);
+   row.append(track);
+   row.append(el('span',count(r.absenteeism)+'% ('+r.absent+'/'+r.total+')','trend-bar-value'+(alert?' alert':'')));
+   list.append(row);
+  }
+  box.append(list);
+  return box;
  }
  function noticeEl(){const d=el('div',undefined,'management-notice');d.append(el('strong',window.MARATHON_CONFIG?.supabaseUrl==='https://marathon-demo.invalid'?'Demostración · Datos ficticios. ':'Registro en validación. '),el('span','La evolución describe lo cargado mes a mes. El último mes (*) está en curso y no es comparable a un mes completo.'));return d;}
  function table(parent,s){
@@ -63,6 +82,7 @@ export function createTrends(ctx){
   cols.append(lineChart({title:'Demanda mensual',note:'Atenciones realizadas (Presente) y pacientes nuevos observados por mes.',points:s,lines:[{key:'present',label:'Atenciones',cls:'c1'},{key:'new_patients',label:'Pacientes nuevos',cls:'c2'}],fmt:v=>count(v)}));
   cols.append(lineChart({title:'Asistencia y ausentismo',note:'Porcentaje sobre turnos con resultado definido (presentes + ausentes).',points:s,lines:[{key:'attendance',label:'Asistencia %',cls:'c3'},{key:'absenteeism',label:'Ausentismo %',cls:'c4'}],pct:true,fmt:v=>count(v)+'%'}));
   h.append(cols);
+  h.append(absenceByProfessional(data.by_professional||[]));
   h.append(lineChart({title:'Dinero: flujo neto mensual',note:'Ingresos menos egresos de cada mes. No es ganancia ni saldo bancario.',points:s,lines:[{key:'net',label:'Neto',cls:'c5'}],fmt:v=>moneyShort(v)}));
   const d=el('details');d.append(el('summary','Ver tabla y descargar Excel'));table(d,s);const bar=el('div',undefined,'trend-actions'),b=el('button','Descargar Excel','s');b.type='button';b.addEventListener('click',()=>ctx.work(()=>exportFile(s)));bar.append(b);d.append(bar);h.append(d);
  }

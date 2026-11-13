@@ -1,6 +1,6 @@
 import {createPatientReports} from './patient-reports.js?v=20261111-obra-social';
 import {createManagement} from './management.js?v=20261111-informes-tabs';
-import {createTrends} from './trends.js?v=20261111-tendencias';
+import {createTrends} from './trends.js?v=20261113-ausentismo-profesional';
 import {createBilling} from './billing.js?v=20261111-facturacion';
 import {BillingXlsx} from './xlsx.js?v=20261019-0110';
 export function createReports(ctx){
