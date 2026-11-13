@@ -73,7 +73,9 @@ export function createOrtho(ctx){
   if(o.transfer_id)card.append(el('p','Traslado vinculado: '+o.transfer_id,'subtitle'));if(o.actor)card.append(el('p','Registró: '+o.actor,'subtitle'));if(o.observaciones)card.append(el('p',o.observaciones));const actions=el('div',undefined,'form-actions');
   if(o.tipo==='ALQUILER'&&Number(o.pending)>0)actions.append(button('Devolver unidades',()=>ctx.work(()=>settleForm('return',o.id))));
   if(['VENTA','ALQUILER'].includes(o.tipo)){if(Number(o.debt)>0)actions.append(button('Registrar cobro',()=>ctx.work(()=>settleForm('pay',o.id))));if(Number(o.paid)>0)actions.append(button('Registrar reintegro',()=>ctx.work(()=>settleForm('refund',o.id))));}
-  if(o.tipo==='COMPRA'&&Number(o.debt)>0&&admin())actions.append(button('Pagar compra',()=>ctx.work(()=>settleForm('purchase_pay',o.id))));card.append(actions);
+  if(o.tipo==='COMPRA'&&Number(o.debt)>0&&admin())actions.append(button('Pagar compra',()=>ctx.work(()=>settleForm('purchase_pay',o.id))));
+  if(o.tipo==='VENTA')actions.append(button('Anular venta',()=>ctx.work(()=>voidForm(o.id))));
+  card.append(actions);
  }
  async function productForm(id=null){if(!admin())throw Error('Solo ADMIN puede administrar productos.');const p=id?await rpc('marathon_ortho_product',{p_id:id}):null;const panel=modal(p?'Editar producto':'Nuevo producto');const{f,finish}=form(panel,'ortho-product-form','Guardar producto',()=>{const data=Object.fromEntries(new FormData(f));for(const k of ['costo','precio_venta','precio_alquiler'])data[k]=data[k]===''?null:Number(data[k]);if(p){data.id=p.id;data.version=p.version;}command('marathon_ortho_product_save',data,async()=>{tab='catalog';await refresh();});});
   const grid=el('div',undefined,'form-grid');f.append(grid);for(const[k,label]of[['pieza','Pieza'],['talle','Talle'],['marca','Marca'],['descripcion','Descripción'],['codigo','Código']])field(grid,k,label,p?.[k]||'','text',['pieza','descripcion'].includes(k)).maxLength={pieza:100,talle:60,marca:100,descripcion:300,codigo:80}[k];select(grid,'modalidad','Modalidad',['VENTA','ALQUILER','VENTA Y ALQUILER'].map(x=>({id:x,label:x})),p?.modalidad||'VENTA Y ALQUILER');
@@ -123,6 +125,11 @@ export function createOrtho(ctx){
   if(o.discount_rate!=null)panel.append(el('p','Subtotal: '+money(o.subtotal)+' · Descuento: '+o.discount_rate+'% ('+money(o.discount_amount)+')'));
   const{f,finish}=form(panel,'ortho-settle-form','Registrar',()=>{const data={id:o.id,version:o.version,observaciones:$('#r-observaciones').value};if(action==='return')data.cantidad=Number($('#r-cantidad').value);else{data.monto=Number($('#r-monto').value);data.medio=$('#r-medio').value;}oc(action,data);});
   if(action==='return'){panel.append(el('p','La devolución recupera stock y conserva la deuda.'));numeric(f,'cantidad','Unidades a devolver',o.pending,1,o.pending,1);}else{numeric(f,'monto','Importe',action==='refund'?o.paid:o.debt,'0.01');select(f,'medio','Medio',mediums,'EFECTIVO');}field(f,'observaciones','Observaciones','','textarea');finish();
+ }
+ async function voidForm(id){const o=await rpc('marathon_ortho_get',{p_id:id}),panel=modal('Anular venta · '+o.producto);
+  panel.append(el('p',o.sede+' · '+o.cantidad+' unidades · Total: '+money(o.importe_total)),el('p','Repone el stock vendido. Si la venta ya tiene un cobro registrado, no se puede anular desde acá: primero hay que reintegrar el pago.','subtitle'));
+  const{f,finish}=form(panel,'ortho-void-form','Anular venta',()=>oc('void',{id:o.id,version:o.version,motivo:$('#r-motivo').value}));
+  field(f,'motivo','Motivo','','textarea',true).minLength=3;finish();f.querySelector('button[type=submit]').dataset.variant='destructive';
  }
  function openReverse(m){const panel=modal('Contrasiento de ortopedia');panel.append(el('p','Se reintegrarán '+money(m.monto)+' en '+m.medio+'. El cobro original se conserva.'));const{f,finish}=form(panel,'ortho-reverse-form','Registrar contrasiento',()=>oc('reverse',{id:m.id,version:m.version,motivo:$('#r-motivo').value},()=>ctx.refreshCash()));field(f,'motivo','Motivo','','textarea',true).minLength=3;finish();f.querySelector('button[type=submit]').dataset.variant='destructive';}
  $('#ortho-dialog').addEventListener('cancel',e=>{if(locked())e.preventDefault();});
