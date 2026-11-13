@@ -255,9 +255,9 @@ begin
 
  prev := cur;
  cur := replace(cur,
-  $frag$ into r from marathon.ortopedia_operaciones o join marathon.productos p on p.id=o.producto_id where o.id=p_id;
+  $frag$into r from marathon.ortopedia_operaciones o join marathon.productos p on p.id=o.producto_id where o.id=p_id;
  if r is null then raise sqlstate 'PT404' using message='Operación no encontrada.';end if;return r;$frag$,
-  $frag$ into r from marathon.ortopedia_operaciones o join marathon.productos p on p.id=o.producto_id where o.id=p_id;
+  $frag$into r from marathon.ortopedia_operaciones o join marathon.productos p on p.id=o.producto_id where o.id=p_id;
  if r is null then raise sqlstate 'PT404' using message='Operación no encontrada.';end if;
  if not marathon.ortho_sede_allowed(r->>'sede') then raise sqlstate '42501' using message='Esta cuenta no puede operar en esa sede.';end if;
  return r;$frag$);
