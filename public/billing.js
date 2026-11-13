@@ -33,8 +33,8 @@ export function createBilling(ctx){
   const h=host();h.classList.remove('management-results');h.replaceChildren();if(!data)return;
   const s=data.summary||{};
   const band=el('div',undefined,'management-stats');
-  const tile=(l,v,n)=>{const b=el('article',undefined,'management-stat');b.append(el('span',l),el('strong',v));if(n)b.append(el('small',n));return b;};
-  band.append(tile('Pacientes',String(s.patients??0),(s.lines??0)+' líneas de cobertura'),tile('Atenciones',String(s.sessions??0),'Realizadas en el mes'),tile('Sin afiliado',String(s.missing_affiliate??0),'Obra social o ART a completar'));
+  const tile=(l,v,n,alert)=>{const b=el('article',undefined,'management-stat'+(alert?' stat-alert':''));b.append(el('span',l),el('strong',v));if(n)b.append(el('small',n));return b;};
+  band.append(tile('Pacientes',String(s.patients??0),(s.lines??0)+' líneas de cobertura'),tile('Atenciones',String(s.sessions??0),'Realizadas en el mes'),tile('Sin afiliado',String(s.missing_affiliate??0),'Obra social o ART a completar',Number(s.missing_affiliate)>0));
   h.append(band);
   const prog=el('p','','subtitle billing-progress');prog.id='billing-progress';h.append(prog);
   if(!data.rows.length){h.append(el('p','No hay atenciones realizadas con estos filtros.','subtitle'));return;}

@@ -30,7 +30,7 @@ export function createTrends(ctx){
   };
   requestAnimationFrame(draw);const ob=new ResizeObserver(draw);ob.observe(canvas);observers.push(ob);return box;
  }
- function tile(label,value,delta,note,sense,alert){const box=el('article',undefined,'management-stat'+(alert?' trend-alert':''));box.append(el('span',label),el('strong',value));if(delta){const dir=delta.startsWith('▲')?'up':delta.startsWith('▼')?'down':'flat';const cls=dir==='flat'?'flat':(sense==='down'?(dir==='down'?'good':'bad'):(dir==='up'?'good':'bad'));box.append(el('small',delta,'trend-delta '+cls));}if(note)box.append(el('small',note));return box;}
+ function tile(label,value,delta,note,sense,alert){const box=el('article',undefined,'management-stat'+(alert?' stat-alert':''));box.append(el('span',label),el('strong',value));if(delta){const dir=delta.startsWith('▲')?'up':delta.startsWith('▼')?'down':'flat';const cls=dir==='flat'?'flat':(sense==='down'?(dir==='down'?'good':'bad'):(dir==='up'?'good':'bad'));box.append(el('small',delta,'trend-delta '+cls));}if(note)box.append(el('small',note));return box;}
  function deltaCount(cur,prev,unit){if(prev===null||prev===undefined)return '';const d=(Number(cur)||0)-(Number(prev)||0);const a=d>0?'▲ +':d<0?'▼ ':'= ';return a+count(Math.abs(d)<1e-9?0:d)+(unit?' '+unit:'')+' vs mes previo';}
  function tiles(parent,s){
   const cur=s[s.length-1],prev=s.length>1?s[s.length-2]:null;

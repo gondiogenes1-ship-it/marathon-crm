@@ -13,7 +13,7 @@ export function validatePatientPeriod(f,today=day()){
  return days;
 }
 function button(label,action,primary=false){const b=el('button',label,primary?'b':'s');b.type='button';if(action)b.addEventListener('click',action);return b;}
-function stat(label,value,note,context){const box=el('article',undefined,'pps-stat');box.append(el('h3',label),el('strong',value),el('p',note));if(context)box.append(el('small',context));return box;}
+function stat(label,value,note,context,contextCls,alert){const box=el('article',undefined,'pps-stat'+(alert?' pps-alert':''));box.append(el('h3',label),el('strong',value),el('p',note));if(context)box.append(el('small',context,contextCls?'pps-delta '+contextCls:undefined));return box;}
 function panel(title,note){const box=el('section',undefined,'card pps-panel');box.append(el('h2',title));if(note)box.append(el('p',note,'subtitle'));return box;}
 function metricBand(rows){const box=el('div',undefined,'pps-stats');for(const row of rows)box.append(stat(...row));return box;}
 function table(columns,rows,empty='No hay registros para este período y filtros.'){
@@ -22,12 +22,13 @@ function table(columns,rows,empty='No hay registros para este período y filtros
  for(const [,label]of columns){const th=el('th',label);th.scope='col';hr.append(th);}head.append(hr);tab.append(head);
  const body=el('tbody');for(const record of rows){const row=el('tr');for(const [key,,format]of columns)row.append(el('td',format?format(record[key],record):record[key]??'Sin dato'));body.append(row);}tab.append(body);wrap.append(tab);return wrap;
 }
-function bars(title,note,rows,format=count,ceiling=null){
+function bars(title,note,rows,format=count,ceiling=null,flagFn=null){
  const box=panel(title,note),max=ceiling??Math.max(1,...rows.map(r=>Number(r.value)||0));
  if(!rows.length||rows.every(r=>r.value===null||r.value===0)){box.append(el('p','No hay valores registrados para comparar en este conjunto.','pps-empty'));return box;}
  for(const r of rows.slice(0,12)){
-  const row=el('div',undefined,'pps-bar'),label=el('div',undefined,'pps-bar-label');label.append(el('span',r.label),el('strong',r.value===null?'Sin base':format(r.value)));
-  const track=el('div',undefined,'pps-track'),fill=el('span');fill.style.width=Math.max(0,Math.min(100,100*Number(r.value||0)/max))+'%';track.append(fill);track.setAttribute('role','img');track.setAttribute('aria-label',r.label+': '+(r.value===null?'Sin base':format(r.value)));row.append(label,track);box.append(row);
+  const flagged=!!(flagFn&&flagFn(r));
+  const row=el('div',undefined,'pps-bar'+(flagged?' pps-bar-alert':'')),label=el('div',undefined,'pps-bar-label');label.append(el('span',r.label),el('strong',r.value===null?'Sin base':format(r.value)));
+  const track=el('div',undefined,'pps-track'),fill=el('span',undefined,flagged?'pps-fill-alert':undefined);fill.style.width=Math.max(0,Math.min(100,100*Number(r.value||0)/max))+'%';track.append(fill);track.setAttribute('role','img');track.setAttribute('aria-label',r.label+': '+(r.value===null?'Sin base':format(r.value)));row.append(label,track);box.append(row);
  }
  if(rows.length>12)box.append(el('p','El gráfico muestra 12 grupos. El detalle incluye todos.','subtitle'));return box;
 }
@@ -102,11 +103,13 @@ export function createPatientReports(ctx){
  function overview(){
   const s=report.summary,p=report.previous,f=report.firsts;
   const compare=(v,b,unit='')=>v===null||v===undefined||b===null||b===undefined?'Sin base comparable':`${count(v-b)}${unit} frente al período anterior`;
+  const sense=(v,b)=>{if(v===null||v===undefined||b===null||b===undefined||v===b)return'';return v>b?'good':'bad';};
+  const lowAttendance=s.attendance!==null&&s.attendance!==undefined&&s.attendance<70;
   host.append(metricBand([
-   ['Pacientes atendidos',count(s.patients),'Personas distintas con atención realizada.',compare(s.patients,p.patients)],
-   ['Atenciones realizadas',count(s.present),'Una persona puede recibir varias sesiones.',compare(s.present,p.present)],
+   ['Pacientes atendidos',count(s.patients),'Personas distintas con atención realizada.',compare(s.patients,p.patients),sense(s.patients,p.patients)],
+   ['Atenciones realizadas',count(s.present),'Una persona puede recibir varias sesiones.',compare(s.present,p.present),sense(s.present,p.present)],
    ['Primeras observadas',count(f.observed),'Primera atención registrada en esta base.','Historia incompleta: no confirma un paciente nuevo.'],
-   ['Asistencia',percent(s.attendance),`${count(s.present)} presentes de ${count(s.present+s.absent)} resultados definidos.`,s.pending?`${count(s.pending)} turnos finalizados aún sin resultado.`:compare(s.attendance,p.attendance,' puntos')]
+   ['Asistencia',percent(s.attendance),`${count(s.present)} presentes de ${count(s.present+s.absent)} resultados definidos.`,s.pending?`${count(s.pending)} turnos finalizados aún sin resultado.`:compare(s.attendance,p.attendance,' puntos'),s.pending?'':sense(s.attendance,p.attendance),lowAttendance]
   ]));
   const charts=el('div',undefined,'pps-columns');charts.append(distributionPanel(),graphTrend(report.trend));host.append(charts,decisionNotes());
  }
@@ -133,6 +136,11 @@ export function createPatientReports(ctx){
   const wrap=table([['hour','Franja'],...['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map((label,i)=>['d'+(i+1),label,count])],records);
   wrap.classList.add('pps-heat');wrap.querySelectorAll('tbody tr').forEach((row,i)=>{[...row.children].slice(1).forEach((cell,j)=>{const value=records[i]['d'+(j+1)];cell.style.setProperty('--pps-density',String(value?0.08+0.25*value/max:0));cell.setAttribute('aria-label',`${records[i].hour} · ${['lunes','martes','miércoles','jueves','viernes','sábado','domingo'][j]}: ${value} turnos`);});});box.append(wrap);return box;
  }
+ function professionalRanking(rows){
+  const sorted=(rows||[]).filter(r=>Number(r.available)>0).map(r=>({label:r.label,value:r.effective_pct})).sort((a,b)=>(a.value??101)-(b.value??101));
+  if(!sorted.length)return null;
+  return bars('Profesionales a revisar (uso del tiempo)','Porcentaje del horario disponible con atención Presente registrada, de menor a mayor. Resaltado: por debajo del 50%. No es un ranking de calidad: puede reflejar horario recién cargado, licencias o agenda compartida.',sorted,v=>percent(v),100,r=>Number(r.value)<50);
+ }
  function agenda(){
   const s=report.summary,c=report.capacity,w=report.waiting;
   host.append(metricBand([
@@ -150,6 +158,7 @@ export function createPatientReports(ctx){
    time.append(el('p',`${count(c.available)} min disponibles · ${count(c.reserved)} min con turnos · ${count(c.effective)} min con Presente.`, 'subtitle'));
   }
   time.append(el('p','Con filtro de especialidad o prestación, el horario del profesional puede compartirse con otras actividades; no es oferta exclusiva. Los estados son los actuales, no una foto histórica de reservas.','subtitle'));host.append(columns);
+  const ranking=professionalRanking(c.rows);if(ranking)host.append(ranking);
   const timeRows=panel('Uso del tiempo por profesional','Interpretá cada porcentaje junto con sus minutos disponibles y la cobertura del registro. No es un ranking de calidad.');
   timeRows.append(table([['label','Profesional'],['available','Disponibles (min)',count],['reserved','Con turnos (min)',count],['effective','Con Presente (min)',count],['effective_pct','Con atención',percent]],c.rows));host.append(timeRows);
   const demand=panel('Demanda en espera','Pedidos Pendiente o Contactado por especialidad, respetando sede, prestación y profesional. Los pedidos sin profesional solo aparecen al elegir Todos.');

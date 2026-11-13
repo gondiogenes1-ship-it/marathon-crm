@@ -8,7 +8,7 @@ export function previousWeek(){const d=new Date(localDay()+'T12:00:00Z');d.setUT
 export function createManagement(ctx){
  const $=s=>document.querySelector(s);let data=null,applied=null,view='cash';
  function stats(parent,rows){const grid=el('div',undefined,'management-stats');for(const [label,value,base]of rows){const box=el('div',undefined,'management-stat');box.append(el('span',label),el('strong',value),el('small',base));grid.append(box);}parent.append(grid);}
- function table(parent,columns,rows,empty='Sin registros para estos filtros.'){if(!rows.length){parent.append(el('p',empty,'subtitle'));return;}const wrap=el('div',undefined,'table-scroll'),t=el('table'),head=el('thead'),tr=el('tr');for(const [,label]of columns){const th=el('th',label);th.scope='col';tr.append(th);}head.append(tr);t.append(head);const body=el('tbody');for(const r of rows){const row=el('tr');for(const [key,,fmt]of columns)row.append(el('td',fmt?fmt(r[key],r):r[key]??'Sin dato'));body.append(row);}t.append(body);wrap.append(t);parent.append(wrap);}
+ function table(parent,columns,rows,empty='Sin registros para estos filtros.',rowClass){if(!rows.length){parent.append(el('p',empty,'subtitle'));return;}const wrap=el('div',undefined,'table-scroll'),t=el('table'),head=el('thead'),tr=el('tr');for(const [,label]of columns){const th=el('th',label);th.scope='col';tr.append(th);}head.append(tr);t.append(head);const body=el('tbody');for(const r of rows){const row=el('tr');if(rowClass){const c=rowClass(r);if(c)row.className=c;}for(const [key,,fmt]of columns)row.append(el('td',fmt?fmt(r[key],r):r[key]??'Sin dato'));body.append(row);}t.append(body);wrap.append(t);parent.append(wrap);}
  function block(parent,title,note){const section=el('section',undefined,'management-block');section.append(el('h2',title),el('p',note,'subtitle'));parent.append(section);return section;}
  function detail(parent,title){const d=el('details'),s=el('summary',title);d.append(s);parent.append(d);return d;}
  function inventoryChart(parent,rows){
@@ -29,6 +29,25 @@ export function createManagement(ctx){
   }
   parent.append(wrap);
  }
+ function urgentRestock(parent,details){
+  const candidates=(details||[]).filter(x=>x.initial_loaded&&x.stock<=x.minimo).map(x=>({...x,deficit:x.minimo-x.stock,level:x.stock<=0?'crit':'warn'}));
+  if(!candidates.length)return;
+  candidates.sort((a,b)=>(b.level==='crit')-(a.level==='crit')||b.deficit-a.deficit);
+  parent.append(el('h3','Reponer primero'));
+  parent.append(el('p','Artículos activos en mínimo o por debajo, ordenados por urgencia (agotados o negativos primero). Se muestran hasta 8; el detalle completo está en "Consultar artículos y alertas" más abajo.','subtitle'));
+  const list=el('div',undefined,'mgmt-stock-chart');
+  for(const x of candidates.slice(0,8)){
+   const row=el('div',undefined,'mgmt-stock-row'),labelBox=el('div',undefined,'mgmt-stock-label');
+   const dot=el('span',undefined,'mgmt-dot '+x.level),head=el('div',undefined,'mgmt-stock-head');
+   head.append(el('strong',x.producto+' · '+x.sede),el('span',(x.stock<=0?'Agotado o negativo':'Bajo mínimo')+' · stock '+number(x.stock)+' / mínimo '+number(x.minimo),'mgmt-stock-sub'));
+   labelBox.append(dot,head);
+   const track=el('div',undefined,'mgmt-track'),fill=el('span',undefined,'mgmt-fill '+x.level);
+   fill.style.width=Math.max(4,Math.min(100,100*(x.minimo?x.deficit/x.minimo:1)))+'%';track.append(fill);
+   track.setAttribute('role','img');track.setAttribute('aria-label',x.producto+' en '+x.sede+': stock '+x.stock+', mínimo '+x.minimo);
+   row.append(labelBox,track);list.append(row);
+  }
+  parent.append(list);
+ }
  function methodSection(host,texts){const section=block(host,'Cómo se calculan','Las definiciones se aplican al registro disponible, sin metas ni rankings automáticos.');const method=detail(section,'Definiciones y límites de los indicadores');for(const t of texts)method.append(el('p',t));}
  function notice(host){host.append(el('div',window.MARATHON_CONFIG?.supabaseUrl==='https://marathon-demo.invalid'?'Demostración con cifras ficticias. Los filtros solo ilustran los controles en esta demostración; para calcular con datos reales usá el acceso normal al CRM.':'Registro en validación · Estos valores describen lo cargado en el CRM. Un cero registrado no demuestra ausencia de actividad real.','management-notice'));}
  function cashSection(host,r){
@@ -38,14 +57,17 @@ export function createManagement(ctx){
   if(!c.count)section.append(el('p','Sin movimientos registrados en el período.','management-note'));
   if(!b.charges)section.append(el('p','Sin cargos elegibles registrados. El cero no acredita que todos los pacientes hayan pagado.','management-note'));
   if(b.overpaid)section.append(el('p',`${b.overpaid} cargos con pagos superiores al importe: revisar conciliación.`,'management-note'));
+  const overdue=b.rows.find(x=>x.age==='Más de 90 días');
+  if(overdue&&Number(overdue.saldo)>0)section.append(el('p',`${number(overdue.cantidad)} cargos con más de 90 días de antigüedad y saldo por cobrar: ${money(overdue.saldo)}. Priorizar su seguimiento.`,'management-note'));
   table(detail(section,'Caja por medio y origen'),[['medio','Medio'],['origen','Origen'],['movimientos','Movimientos',number],['entradas','Entradas',money],['salidas','Salidas',money]],c.rows);
-  table(detail(section,'Saldos por origen y antigüedad'),[['origen','Origen'],['age','Edad del cargo'],['cantidad','Cargos',number],['saldo','Saldo',money]],b.rows,'Sin cargos con saldo registrado.');
+  table(detail(section,'Saldos por origen y antigüedad'),[['origen','Origen'],['age','Edad del cargo'],['cantidad','Cargos',number],['saldo','Saldo',money]],b.rows,'Sin cargos con saldo registrado.',row=>row.age==='Más de 90 días'&&Number(row.saldo)>0?'mgmt-row-alert':'');
   section.append(el('p','Antigüedad no significa deuda vencida. Las sesiones futuras no se exigen. Las aplicaciones de anticipos reducen el saldo, sin generar un nuevo ingreso.','subtitle'));
  }
  function orthoSection(host,r){
   const i=r.inventory;
   const section=block(host,'Ortopedia e inventario','Foto actual · Solo artículos y sedes activos. Se aplica sede; mes, terapia y profesional no se aplican. Validar existencias físicas y mínimos antes de reponer.');
   stats(section,[['Inventarios inicializados',number(i.initialized),`${i.total} pares artículo-sede activos`],['En mínimo o por debajo',number(i.alerts),percent(i.percentage)+' de los inicializados'],['Agotados o negativos',number(i.empty),`${i.negative} con stock negativo`],['Sin inicializar',number(i.unknown),'Fuera del porcentaje de alertas; stock desconocido']]);
+  urgentRestock(section,i.details);
   inventoryChart(section,i.rows);
   table(section,[['sede','Sede'],['initialized','Inicializados',number],['unknown','Sin inicializar',number],['alerts','En mínimo o debajo',number],['empty','Agotados o negativos',number]],i.rows);
   const stock=detail(section,'Consultar artículos y alertas'),controls=el('div',undefined,'management-stock-filter'),searchLabel=el('label','Buscar artículo'),search=el('input');search.type='search';search.placeholder='Nombre o código';searchLabel.append(search);

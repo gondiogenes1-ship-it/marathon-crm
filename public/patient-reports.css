@@ -22,6 +22,9 @@
 #patient-reports .pps-stat>strong{font-size:32px;font-weight:650;color:var(--side);line-height:1.15;display:block;overflow-wrap:anywhere}
 #patient-reports .pps-stat p{font-size:var(--fs-md);line-height:1.5;color:var(--mu);margin:12px 0 0}
 #patient-reports .pps-stat small{display:block;font-size:var(--fs-md);color:var(--mu);margin-top:8px;line-height:1.5}
+#patient-reports .pps-stat.pps-alert{background:color-mix(in srgb,var(--no) 7%,var(--card))}
+#patient-reports .pps-delta.good{color:var(--ok);font-weight:600}
+#patient-reports .pps-delta.bad{color:var(--no);font-weight:600}
 #patient-reports .pps-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-bottom:24px}
 #patient-reports .pps-panel{min-width:0;margin-bottom:24px;padding:24px}
 #patient-reports .pps-columns>.pps-panel{margin-bottom:0}
@@ -34,6 +37,8 @@
 #patient-reports .pps-bar-label strong{white-space:nowrap;font-weight:600;color:var(--tx)}
 #patient-reports .pps-track{height:9px;border-radius:5px;background:var(--bg);overflow:hidden}
 #patient-reports .pps-track>span{display:block;height:100%;border-radius:5px;background:var(--ac)}
+#patient-reports .pps-bar-alert .pps-bar-label strong{color:var(--no)}
+#patient-reports .pps-track>span.pps-fill-alert{background:var(--no)}
 #patient-reports .pps-stack{height:18px;border-radius:7px;display:flex;background:var(--bg);overflow:hidden;margin:18px 0}
 #patient-reports .pps-stack>span{height:100%}
 #patient-reports .pps-state-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0 0}
