@@ -51,6 +51,7 @@ export function createRecurringAgenda(ctx){
    const dt=plus(monday,n),s=data.slots.find(s=>s.fecha===dt&&s.hora===time),cell=el('div',undefined,'recurring-cell');grid.append(cell);
    if(!s){cell.classList.add('recurring-unavailable');cell.append(el('small','Sin atención'));continue;}
    const slotHead=el('div',undefined,'recurring-slot-head'),slotMeta=el('div',undefined,'recurring-slot-meta');slotMeta.append(el('strong',s.meta.remaining+' de '+s.meta.capacity+' libres','recurring-capacity'),el('small','Compartido ('+(s.meta.shared_space_count??0)+')'));slotHead.append(slotMeta);
+   if((s.meta.professional_count??0)>s.meta.capacity)slotMeta.append(el('small',s.meta.professional_count+' agendados · supera el cupo ('+s.meta.capacity+')','recurring-overcapacity'));
    if(!s.meta.blocked&&s.meta.remaining>0){
     const past=dt<today(),add=button('+',()=>{if(past||ctx.isBusy())return;return ctx.work(()=>ctx.bookAt({date:dt,sede:site,prof,therapy:s.therapy,hora:time}));},'secondary');
     add.classList.add('recurring-add');add.disabled=past;
@@ -95,10 +96,11 @@ export function createRecurringAgenda(ctx){
   }
   for(const [text,days]of[['Lunes a viernes',[1,2,3,4,5]],['Lun · Mié · Vie',[1,3,5]],['Mar · Jue',[2,4]]])shortcuts.append(button(text,()=>{controls.forEach(c=>c.check.checked=days.includes(c.day)&&!c.check.disabled);}));
   async function loadOccupancy(c){
+   c.occupancy.classList.remove('recurring-occupancy-over');
    if(read().exception){c.occupancy.textContent='Atención excepcional: se comprueban las superposiciones al revisar.';return;}
    if(!c.hour.value||!c.prof.value){c.occupancy.textContent='Sin atención';return;}
    const sequence=(c.sequence||0)+1;c.sequence=sequence;const start=read().start,dt=plus(start,(actualDay(c.day)-new Date(start+'T12:00:00').getDay()+7)%7);
-   try{const slots=await rpc('marathon_agenda_slots',{p_fecha:dt,p_sede:c.site.value,p_prof:c.prof.value,p_therapy:read().therapy});if(c.sequence!==sequence||!box.isConnected)return;const s=slots.find(s=>s.hora===c.hour.value);c.occupancy.textContent=s?`Profesional (${s.professional_count??s.capacity-s.remaining}/${s.capacity}) · Compartido (${s.shared_space_count??0})`:'Horario no disponible';}catch{c.occupancy.textContent='Actualizar al confirmar';}
+   try{const slots=await rpc('marathon_agenda_slots',{p_fecha:dt,p_sede:c.site.value,p_prof:c.prof.value,p_therapy:read().therapy});if(c.sequence!==sequence||!box.isConnected)return;const s=slots.find(s=>s.hora===c.hour.value);if(s){const count=s.professional_count??s.capacity-s.remaining;c.occupancy.textContent=`Profesional (${count}/${s.capacity}) · Compartido (${s.shared_space_count??0})`;c.occupancy.classList.toggle('recurring-occupancy-over',count>s.capacity);}else c.occupancy.textContent='Horario no disponible';}catch{c.occupancy.textContent='Actualizar al confirmar';}
   }
   const note=el('p','Los días y horarios se repiten todas las semanas. Solo los presentes consumen sesiones.','subtitle');box.append(note);const notes=field(box,'Observaciones de la reserva','textarea','',false);notes.maxLength=1000;
   const error=el('p');error.setAttribute('role','alert');box.append(error);const review=el('section',undefined,'card recurring-review');review.hidden=true;box.append(review);

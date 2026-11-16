@@ -15,3 +15,5 @@
 .recurring-grid .recurring-slot-head .recurring-add{flex:0 0 44px;width:44px;min-width:44px;max-width:44px;height:44px;min-height:44px;font-size:22px;line-height:1;padding:0;white-space:nowrap}
 .recurring-grid .recurring-slot-head .recurring-add:disabled{background:#edf1ee;color:#55665c;border:1px solid #c6d3cc;cursor:not-allowed;transform:none;box-shadow:none}
 .recurring-slot-meta .recurring-slot-past{font-size:var(--fs-md);color:#55665c}
+.recurring-overcapacity{color:var(--no);font-weight:650}
+.recurring-occupancy.recurring-occupancy-over{color:var(--no);font-weight:650}
