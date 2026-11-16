@@ -10,6 +10,7 @@ export function createRecurringAgenda(ctx){
  const date=s=>s?new Date(s+'T12:00:00').toLocaleDateString('es-AR',{day:'numeric',month:'short',year:'numeric'}):'Sin fecha';
  const plus=(d,n)=>{const x=new Date(d+'T12:00:00Z');x.setUTCDate(x.getUTCDate()+n);return x.toISOString().slice(0,10);};
  const dayNames=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+ const toMinutes=t=>{const[h,m]=t.split(':').map(Number);return h*60+m;};
  const button=(text,fn,variant='secondary')=>{const n=el('button',text,variant==='default'?'b':'s');n.type='button';n.dataset.variant=variant;n.addEventListener('click',fn);return n;};
  const field=(parent,label,type='text',value='',required=true)=>{const l=el('label',label),i=el(type==='textarea'?'textarea':'input');if(type!=='textarea')i.type=type;i.value=value;i.required=required;l.append(i);parent.append(l);return i;};
  const select=(parent,label,rows,value)=>{const l=el('label',label),i=el('select');for(const [id,text]of rows){const o=el('option',text);o.value=id;i.append(o);}i.value=value;l.append(i);parent.append(l);return i;};
@@ -51,7 +52,12 @@ export function createRecurringAgenda(ctx){
    const dt=plus(monday,n),s=data.slots.find(s=>s.fecha===dt&&s.hora===time),cell=el('div',undefined,'recurring-cell');grid.append(cell);
    if(!s){cell.classList.add('recurring-unavailable');cell.append(el('small','Sin atención'));continue;}
    const slotHead=el('div',undefined,'recurring-slot-head'),slotMeta=el('div',undefined,'recurring-slot-meta');slotMeta.append(el('strong',s.meta.remaining+' de '+s.meta.capacity+' libres','recurring-capacity'),el('small','Compartido ('+(s.meta.shared_space_count??0)+')'));slotHead.append(slotMeta);
-   if((s.meta.professional_count??0)>s.meta.capacity)slotMeta.append(el('small',s.meta.professional_count+' agendados · supera el cupo ('+s.meta.capacity+')','recurring-overcapacity'));
+   if((s.meta.professional_count??0)>s.meta.capacity){
+    slotMeta.append(el('small',s.meta.professional_count+' agendados en total · supera el cupo ('+s.meta.capacity+')','recurring-overcapacity'));
+    const start=toMinutes(time),end=start+(s.meta.duration_min||0);
+    const parts=data.slots.filter(o=>o.fecha===dt&&o.patients.length&&toMinutes(o.hora)<end&&start<toMinutes(o.hora)+(o.meta.duration_min||0)).sort((a,b)=>a.hora.localeCompare(b.hora)).map(o=>o.hora+' ('+o.patients.length+')');
+    if(parts.length)slotMeta.append(el('small','Se reparten entre los turnos de: '+parts.join(' · '),'recurring-overcapacity-detail'));
+   }
    if(!s.meta.blocked&&s.meta.remaining>0){
     const past=dt<today(),add=button('+',()=>{if(past||ctx.isBusy())return;return ctx.work(()=>ctx.bookAt({date:dt,sede:site,prof,therapy:s.therapy,hora:time}));},'secondary');
     add.classList.add('recurring-add');add.disabled=past;
