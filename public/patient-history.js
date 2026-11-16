@@ -52,7 +52,8 @@ export function createPatientHistory(ctx){
    const data=await ctx.getApi().rpc('marathon_patient_history',{p_dni:patient.dni,p_kind:kind,p_after:pages[page],p_limit:25,p_filters:filters});
    if(token!==generation||!target.isConnected)return;
    next=data.next;renderSummary(data.summary);renderRows(data.rows);
-   v.info.textContent=data.rows.length+' registros en esta página. Los saldos incluyen todo el historial. Ausentes y cancelados no generan deuda clínica.';
+   const withFilter=Object.keys(filters).length>0,noun=kind==='clinic'?'turnos':kind==='ortho'?'operaciones':kind==='bonus'?'bonos':'anticipos',total=data.total??data.rows.length;
+   v.info.textContent=total+' '+noun+(withFilter?' con este filtro':' en total')+' · '+data.rows.length+' en esta página. Los saldos incluyen todo el historial. Ausentes y cancelados no generan deuda clínica.';
    v.page.textContent='Página '+(page+1);
   }catch(e){if(token===generation&&target.isConnected){next=null;v.rows.replaceChildren();v.error.textContent='No se pudo cargar el historial. '+e.message;}}
   finally{if(token===generation){loading=false;sync();}}
