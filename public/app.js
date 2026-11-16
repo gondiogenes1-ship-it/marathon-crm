@@ -94,6 +94,7 @@ function editPatient(p){patientHistory.reset();
   head.append(button('Cerrar ficha',()=>{selected=null;renderPatientEmpty();highlight();}));detail.append(head);
   if(p){const quick=document.createElement('div');quick.className='patient-quick-actions';quick.append(button('Reservar turno',()=>work(()=>agenda.bookFor(p)),'b'),button('Agregar a lista de espera',()=>work(async()=>{await operations.openWait();await operations.newWait(p);})),button('Cuenta clínica',()=>work(()=>operations.openAccount(p.dni))),button('Documentos',()=>work(()=>documents.open(p.dni))));detail.append(quick);}
   const form=document.createElement('form');form.id='patient-form';const grid=document.createElement('div');grid.className='form-grid';
+  let dniCheckGen=0;
   const groups={dni:'01 · Identificación',obra_social_id:'02 · Cobertura',telefono:'03 · Contacto',domicilio:'04 · Domicilio',medico:'05 · Información clínica'};
   for(const [key,label,type] of fields){
     if(key==='obra_social_id'){appendPatientCoverages(grid,catalog,p,'patient');continue;}
@@ -104,13 +105,28 @@ function editPatient(p){patientHistory.reset();
     const input=document.createElement(type==='textarea'?'textarea':type==='select'?'select':'input');input.name=key;input.id='p-'+key;
     if(input.tagName==='INPUT')input.type=type;
     if(['dni','nombre','apellido'].includes(key))input.required=true;
-    if(key==='dni'){input.readOnly=!!p;input.pattern='[0-9]{1,12}';input.inputMode='numeric';input.maxLength=12;}
+    let dniHint=null;
+    if(key==='dni'){input.readOnly=!!p;input.pattern='[0-9]{1,12}';input.inputMode='numeric';input.maxLength=12;
+      if(!p){dniHint=document.createElement('small');dniHint.className='subtitle dni-duplicate-hint';dniHint.hidden=true;
+        input.addEventListener('blur',()=>{
+          const value=input.value.trim();dniHint.hidden=true;dniHint.replaceChildren();
+          if(!/^[0-9]{5,12}$/.test(value))return;
+          const gen=++dniCheckGen;
+          api.rpc('marathon_patient_get',{p_dni:value}).then(found=>{
+            if(gen!==dniCheckGen||!input.isConnected)return;
+            dniHint.hidden=false;dniHint.style.color='var(--wa)';
+            dniHint.append('Ya hay un paciente registrado con este DNI: '+[found.apellido,found.nombre].filter(Boolean).join(', ')+'. ',
+              button('Abrir esa ficha',()=>work(()=>openPatient(found.dni))));
+          }).catch(e=>{if(gen!==dniCheckGen||!input.isConnected||e?.code==='P0002')return;});
+        });
+      }
+    }
     if(type==='textarea'){box.className='wide';input.maxLength=10000;}else if(type!=='select')input.maxLength=key==='email'?254:500;
     if(type==='select'){
       const options=key==='sexo'?[['','Sin especificar'],['Masculino','Masculino'],['Femenino','Femenino'],['Otro','Otro']]:[['','Particular'],...catalog.filter(o=>o.status==='ACTIVO'||o.id===p?.obra_social_id).map(o=>[o.id,o.name+(o.status==='INACTIVO'?' (inactiva)':'')])];
       for(const [value,text] of options){const o=document.createElement('option');o.value=value;o.textContent=text;input.append(o);}
     }
-    input.value=p?.[key]??'';box.append(input);grid.append(box);
+    input.value=p?.[key]??'';box.append(input);if(dniHint)box.append(dniHint);grid.append(box);
   }
   form.append(grid);
   const actions=document.createElement('div');actions.className='form-actions patient-save-actions';
