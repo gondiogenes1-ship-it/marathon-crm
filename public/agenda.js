@@ -16,6 +16,7 @@ export function createAgenda(ctx){
  let recurring=null,bookingEdit=null,bookingSeed=null;
  let insuranceCatalog=[],coverageControl=null,coverageReady=false,coverageGeneration=0,reviewGeneration=0,reviewLoading=false;
  let infoTimer=null,infoGeneration=0;
+ let conflictGeneration=0;
  const weekday=date=>new Date(date+'T12:00:00Z').getUTCDay();
  const minutes=value=>Number(value.split(':')[0])*60+Number(value.split(':')[1]);
  const isFixed=()=>$('#a-mode')?.value==='fixed';
@@ -239,7 +240,7 @@ export function createAgenda(ctx){
   exportReady=result.rows.length>0;renderRows($('#agenda-list'),result.rows,filter.view==='week',!!next||page>0,{summary:result.summary,blocks:result.blocks,state:filter.state||'',onState:state=>ctx.work(async()=>{clearTimeout(autoTimer);filter.state=state;page=0;pages=[null];await list();})});$('#agenda-period').textContent=filter.view==='week'?'Semana · '+DailyUI.period(period.from,period.to):DailyUI.dayLabel(filter.fecha);$('#agenda-today').setAttribute('aria-pressed',String(filter.fecha===today()));
   const blockCount=groupsCount(result.rows);$('#agenda-info').textContent=result.rows.length?result.rows.length+' '+(result.rows.length===1?'paciente':'pacientes')+' en '+blockCount+' '+(blockCount===1?'bloque completo':'bloques completos')+(ctx.getUser()?.role==='SECRETARIA'?'.':'. Incluye cancelados.'):'No hay turnos para estos filtros.';$('#agenda-page').textContent='Página '+(page+1);sync();await recurring.refresh();
  }
- function invalidate(){if($('#agenda-book-form')?.dataset.legacy!=='false')recurring?.detachBooking();chosen=null;slotKey='';resetDates();selectedDays.clear();$('#agenda-session-days')?.replaceChildren();$('#agenda-slots')?.replaceChildren();if($('#agenda-slot-info'))$('#agenda-slot-info').textContent='Consultá los horarios disponibles.';sync();}
+ function invalidate(){if($('#agenda-book-form')?.dataset.legacy!=='false')recurring?.detachBooking();chosen=null;slotKey='';resetDates();selectedDays.clear();$('#agenda-session-days')?.replaceChildren();$('#agenda-slots')?.replaceChildren();if($('#agenda-slot-info'))$('#agenda-slot-info').textContent='Consultá los horarios disponibles.';if($('#agenda-patient-conflict')){$('#agenda-patient-conflict').hidden=true;$('#agenda-patient-conflict').textContent='';}sync();}
  function refreshProfessionals(){if($('#agenda-instructions'))$('#agenda-instructions').textContent='';refreshBookingFilters();}
  function clearPatientCoverage(){++coverageGeneration;++infoGeneration;clearTimeout(infoTimer);coverageReady=false;coverageControl=null;$('#agenda-coverage')?.replaceChildren();if($('#agenda-instructions'))$('#agenda-instructions').textContent='';}
  async function loadTherapyInstructions(){
@@ -260,7 +261,7 @@ export function createAgenda(ctx){
  async function choosePatient(p,full=false,initialCoverage=null){
   cancelPatientSearch();clearPatientCoverage();patient=p;resetDates();const generation=coverageGeneration;$('#agenda-patient-results')?.replaceChildren();
   if($('#agenda-instructions'))$('#agenda-instructions').textContent='';const l=[p.apellido,p.nombre,p.segundo_nombre].filter(Boolean).join(' ');$('#agenda-patient-selected').textContent='Paciente seleccionado: '+l+' · DNI '+p.dni;
-  $('#agenda-patient-results')?.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.dni===p.dni)));$('#agenda-book-form')?.dispatchEvent(new Event('change',{bubbles:true}));sync();maybeLoad();
+  $('#agenda-patient-results')?.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.dni===p.dni)));$('#agenda-book-form')?.dispatchEvent(new Event('change',{bubbles:true}));sync();maybeLoad();checkPatientConflict();
   const target=$('#agenda-coverage');target.append(el('p','Cargando coberturas de la ficha…'));
   try{
    const [detail,catalog]=await Promise.all([full?Promise.resolve(p):rpc('marathon_patient_get',{p_dni:p.dni}),rpc('marathon_patient_catalog')]);
@@ -306,7 +307,7 @@ export function createAgenda(ctx){
   const prof=select(grid,'prof','Profesional',[],'Elegir profesional');prof.addEventListener('change',()=>{invalidate();maybeLoad();});
   const instructions=el('p');instructions.id='agenda-instructions';patientStep.append(action('Ver indicaciones de la terapia',()=>ctx.work(loadTherapyInstructions)),instructions);
   const slotStep=el('section',undefined,'booking-step');slotStep.id='agenda-step-slots';slotStep.append(el('h3','2. Horario'));const query=action('Consultar horarios',()=>ctx.work(loadSlots));query.id='agenda-check-slots';slotStep.append(query);
-  const info=el('p','Consultá los horarios disponibles.','subtitle');info.id='agenda-slot-info';const slots=el('div',undefined,'slots');slots.id='agenda-slots';slotStep.append(info,slots);form.append(slotStep,patientStep);
+  const info=el('p','Consultá los horarios disponibles.','subtitle');info.id='agenda-slot-info';const slots=el('div',undefined,'slots');slots.id='agenda-slots';const conflictNotice=el('p');conflictNotice.id='agenda-patient-conflict';conflictNotice.hidden=true;conflictNotice.setAttribute('role','alert');conflictNotice.style.color='var(--no)';slotStep.append(info,slots,conflictNotice);form.append(slotStep,patientStep);
   const sessions=el('section',undefined,'booking-sessions');sessions.id='agenda-step-sessions';sessions.append(el('h3','4. Cantidad de turnos y fechas'));const sessionFields=el('div',undefined,'form-grid');sessions.append(sessionFields);
   const mode=select(sessionFields,'mode','Modalidad de reserva',[{id:'sessions',label:'Cantidad de sesiones'},{id:'fixed',label:'Horario fijo semanal'}],'Elegir modalidad');mode.value='sessions';mode.addEventListener('change',()=>{resetDates();sync();});
   const until=field(sessionFields,'fixed-until','Revisar horario fijo hasta',plusDays(filter.fecha||today(),84),'date');until.addEventListener('change',()=>{resetDates();sync();});
@@ -385,10 +386,21 @@ export function createAgenda(ctx){
   if(!$('#a-therapy').value||!$('#a-prof').value){ctx.message('La selección ya no está disponible. Revisá la terapia y el profesional.',true);sync();return;}
   await loadSlots(selection.hora);
  }
+ async function checkPatientConflict(){
+  const box=$('#agenda-patient-conflict');if(!box)return;
+  if(!patient||!chosen||!$('#a-fecha')?.value||!$('#a-therapy')?.value){box.hidden=true;box.textContent='';return;}
+  const gen=++conflictGeneration;
+  try{
+   const result=await rpc('marathon_patient_turno_conflict',{p_dni:patient.dni,p_fecha:$('#a-fecha').value,p_hora:chosen,p_therapy:$('#a-therapy').value});
+   if(gen!==conflictGeneration||!box.isConnected)return;
+   if(result.conflict){box.hidden=false;box.textContent='Atención: este paciente ya tiene un turno a las '+result.hora+' con '+result.profesional+' ('+result.therapy+' · '+result.sede+') ese día.';}
+   else{box.hidden=true;box.textContent='';}
+  }catch(e){if(gen===conflictGeneration&&box.isConnected){box.hidden=true;box.textContent='';}}
+ }
  function selectSlot(row){
   if(row.blocked||row.remaining<1)return;chosen=row.hora;resetDates();selectedDays=new Set([weekday($('#a-fecha').value)]);renderSessionDays();
   $('#agenda-slots').querySelectorAll('button').forEach(x=>{const selected=x.dataset.hora===chosen;x.classList.toggle('on',selected);x.setAttribute('aria-pressed',String(selected));});
-  $('#agenda-slot-info').textContent='Horario elegido: '+chosen;sync();
+  $('#agenda-slot-info').textContent='Horario elegido: '+chosen;checkPatientConflict();sync();
  }
  async function loadSlots(preferredHour=null){
   if(!$('#a-fecha').value||!$('#a-sede').value||!$('#a-prof').value||!$('#a-therapy').value)throw Error('Elegí fecha, sede, terapia y profesional.');
