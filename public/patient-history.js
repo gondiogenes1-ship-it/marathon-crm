@@ -18,7 +18,16 @@ export function createPatientHistory(ctx){
   const insurances=patientCoverages(p).map(c=>(ctx.getCatalog().find(o=>o.id===c.obra_social_id)?.name||c.obra_social_id)+(c.afiliado?' · N.º '+c.afiliado:''));
   return [['Obras sociales / afiliados',insurances.join(' / ')||'Sin obra social'],['Médico de cabecera',p.medico],['Teléfono',p.telefono],['Correo',p.email],['Domicilio',[p.domicilio,p.localidad,p.provincia].filter(Boolean).join(', ')],['Observaciones',p.observaciones]];
  }
- function printFicha(p){
+ let fichaToken=0;
+ async function downloadDocument(doc,status){
+  try{
+   const blob=await ctx.getApi().storageDownload(doc.storage_path);
+   const url=URL.createObjectURL(new Blob([blob],{type:'application/octet-stream'})),a=el('a');a.href=url;a.download=doc.nombre;a.click();
+   setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }catch(e){status.textContent='No se pudo descargar «'+doc.nombre+'». '+e.message;}
+ }
+ async function printFicha(p){
+  const token=++fichaToken;
   let dialog=document.getElementById('patient-ficha-print');
   if(!dialog){dialog=el('dialog');dialog.id='patient-ficha-print';document.getElementById('workspace').append(dialog);}
   dialog.replaceChildren();
@@ -26,9 +35,28 @@ export function createPatientHistory(ctx){
   const identity=el('div');identity.append(el('h3',[p.apellido,p.nombre,p.segundo_nombre].filter(Boolean).join(' ')),el('p','DNI '+p.dni+(age(p.nacimiento)?' · '+age(p.nacimiento):''),'patient-id'));
   const grid=el('dl',undefined,'patient-ficha-grid');
   for(const [label,value]of fichaFields(p)){const box=el('div');box.append(el('dt',label),el('dd',value||'—'));grid.append(box);}
-  dialog.append(title,identity,grid,el('p','Generado el '+DailyUI.today().split('-').reverse().join('/'),'subtitle'));
-  dialog.append(button('Descargar PDF',()=>window.print()),button('Cerrar',()=>dialog.close()));
+  const docsBox=el('div',undefined,'patient-ficha-docs');docsBox.append(el('h3','Archivos guardados'),el('p','Cargando archivos guardados…'));
+  const status=el('p');status.setAttribute('role','status');
+  dialog.append(title,identity,grid,docsBox,el('p','Generado el '+DailyUI.today().split('-').reverse().join('/'),'subtitle'));
+  dialog.append(button('Descargar PDF',()=>window.print()),button('Cerrar',()=>dialog.close()),status);
   if(!dialog.open)dialog.showModal();
+  try{
+   const r=await ctx.getApi().rpc('marathon_document_list',{p_dni:p.dni,p_after:null,p_limit:50});
+   if(token!==fichaToken||!dialog.isConnected)return;
+   const ready=r.rows.filter(d=>d.estado==='LISTO');
+   docsBox.replaceChildren(el('h3','Archivos guardados'));
+   if(!ready.length){docsBox.append(el('p','El paciente no tiene archivos guardados.'));return;}
+   const list=el('ul');
+   for(const doc of ready){
+    const item=el('li');item.append(el('span',doc.nombre+' '));
+    if(doc.storage_path)item.append(button('Descargar',()=>downloadDocument(doc,status)));
+    else if(doc.legacy_url){const a=el('a','Abrir enlace conservado');a.href=doc.legacy_url;a.target='_blank';a.rel='noopener noreferrer';item.append(a);}
+    list.append(item);
+   }
+   docsBox.append(list);
+   const downloadable=ready.filter(d=>d.storage_path);
+   if(downloadable.length>1)docsBox.append(button('Descargar todos los archivos',async()=>{for(const doc of downloadable){await downloadDocument(doc,status);}}));
+  }catch(e){if(token===fichaToken&&dialog.isConnected)docsBox.replaceChildren(el('h3','Archivos guardados'),el('p','No se pudieron cargar los archivos guardados. '+e.message));}
  }
  function renderSummary(summary){
   view.summary.replaceChildren();
