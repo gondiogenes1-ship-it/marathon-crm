@@ -1,4 +1,4 @@
-import {createSaldoUI} from './saldo.js?v=20261106-campos-visibles-1';
+import {createSaldoUI} from './saldo.js?v=20261117-terapia-asociada';
 import {createCashPatientPicker} from './cash-patient-picker.js?v=20261106-editar-ingreso-1';
 import {openCashEditor} from './cash-editor.js?v=20261106-editar-secretarias-1';
 import {openEgresoEditor} from './egreso-editor.js?v=20261117-editar-egreso-1';

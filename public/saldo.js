@@ -43,6 +43,7 @@ export function createSaldoUI(ctx){
   }catch(e){if(current(v))v.status.textContent=e.message;}
   finally{if(current(v)){loading=false;sync();}}
  }
+ function fillAssociatedTherapy(){const v=view,id=v.associated.value.startsWith('P:')?v.associated.value.slice(2):'',p=v.options.professionals.find(x=>x.id===id);choices(v.associatedTherapy,p?v.options.therapies.filter(t=>p.therapy_ids?.includes(t.id)):[],'Sin terapia');v.associatedTherapy.parentElement.hidden=!id||v.kind.value==='PAGO_PROFESIONAL';}
  function kindChanged(){const v=view;invalidate();const kind=v.kind.value,isPersonal=personal(kind),internal=['REINTEGRO_SESION','REINTEGRO_CUOTA'].includes(kind);
   v.patient.hidden=!isPersonal;v.assignment.hidden=kind!=='PAGO_PROFESIONAL';v.assignment.querySelectorAll('select').forEach(n=>n.required=kind==='PAGO_PROFESIONAL');
   v.session.parentElement.hidden=!internal;v.session.required=internal;v.session.parentElement.firstChild.textContent=kind==='REINTEGRO_CUOTA'?'Cuota a reintegrar al saldo':'Sesión a reintegrar';
@@ -53,7 +54,7 @@ export function createSaldoUI(ctx){
   if(kind==='SALDO_DEVOLUCION'&&v.account)v.amount.value=Number(v.account.saldo)>0?v.account.saldo:'';
   else if(kind==='SALDO_INGRESO'&&v.account)v.amount.value=Number(v.account.deuda)>0?v.account.deuda:'';
   else if(!isPersonal)v.amount.value='';
-  fillSessions();sync();
+  fillSessions();fillAssociatedTherapy();sync();
  }
  function data(){const v=view,k=v.kind.value;const d={subtipo:k,observaciones:v.reason.value.trim()};
   if(personal(k)){if(!v.dni)throw Error('Buscá y elegí un paciente.');d.dni=v.dni;}
@@ -62,7 +63,7 @@ export function createSaldoUI(ctx){
   else{if(!/^\d{1,10}(\.\d{1,2})?$/.test(v.amount.value)||Number(v.amount.value)<=0)throw Error('Indicá un importe positivo, con hasta dos decimales.');Object.assign(d,{monto:v.amount.value,medio:v.medium.value,sede:v.site.value,fecha:v.date.value});
    if(v.category.value.trim())d.categoria=v.category.value.trim();
    if(k==='PAGO_PROFESIONAL'){d.profesional=v.prof.value;d.terapia=v.therapy.value;}
-   else if(v.associated.value.startsWith('P:'))d.profesional=v.associated.value.slice(2);
+   else if(v.associated.value.startsWith('P:')){d.profesional=v.associated.value.slice(2);if(v.associatedTherapy.value)d.terapia=v.associatedTherapy.value;}
    else if(v.associated.value.startsWith('S:'))d.secretaria=v.associated.value.slice(2);
   }return d;
  }
@@ -107,6 +108,7 @@ export function createSaldoUI(ctx){
   v.therapy=field(v.assignment,'therapy','Terapia','select');const fillTherapies=()=>{const p=options.professionals.find(p=>p.id===v.prof.value);choices(v.therapy,options.therapies.filter(t=>p?.therapy_ids?.includes(t.id)),'Elegir terapia');};v.prof.addEventListener('change',fillTherapies);fillTherapies();
   v.extra=el('div',undefined,'saldo-form-grid');form.append(v.extra);v.category=field(v.extra,'category','Categoría (opcional)');v.category.maxLength=100;
   v.associated=field(v.extra,'associated','Profesional o secretaría asociada','select');choices(v.associated,[...options.professionals.map(p=>({id:'P:'+p.id,label:'Profesional · '+p.label})),...(daily.secretaries||[]).filter(s=>s.estado==='ACTIVO').map(s=>({id:'S:'+s.id,label:'Secretaría · '+s.label}))],'Sin asociar');
+  v.associatedTherapy=field(v.extra,'associated_therapy','Terapia del profesional (opcional)','select');v.associated.addEventListener('change',fillAssociatedTherapy);
   v.reason=field(form,'reason','Concepto / observaciones','textarea');v.reason.maxLength=1000;
   v.previewButton=button('Revisar movimiento',preview);form.append(v.previewButton);v.review=el('section',undefined,'saldo-review');v.review.setAttribute('aria-live','polite');form.append(v.review);
   v.status=el('p');v.status.setAttribute('role','status');v.status.setAttribute('aria-live','polite');form.append(v.status);
