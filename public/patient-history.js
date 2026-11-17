@@ -14,6 +14,22 @@ export function createPatientHistory(ctx){
   return years>=0&&years<130?years+' años · '+birth.split('-').reverse().join('/'):birth;
  }
  function sync(){if(!view)return;view.previous.disabled=locked()||page===0;view.next.disabled=locked()||!next;view.refresh.disabled=locked();for(const [key,b]of Object.entries(view.tabs)){b.disabled=locked();b.setAttribute('aria-pressed',String(kind===key));}view.filterBox.querySelectorAll('select').forEach(s=>s.disabled=locked());}
+ function fichaFields(p){
+  const insurances=patientCoverages(p).map(c=>(ctx.getCatalog().find(o=>o.id===c.obra_social_id)?.name||c.obra_social_id)+(c.afiliado?' · N.º '+c.afiliado:''));
+  return [['Obras sociales / afiliados',insurances.join(' / ')||'Sin obra social'],['Médico de cabecera',p.medico],['Teléfono',p.telefono],['Correo',p.email],['Domicilio',[p.domicilio,p.localidad,p.provincia].filter(Boolean).join(', ')],['Observaciones',p.observaciones]];
+ }
+ function printFicha(p){
+  let dialog=document.getElementById('patient-ficha-print');
+  if(!dialog){dialog=el('dialog');dialog.id='patient-ficha-print';document.getElementById('workspace').append(dialog);}
+  dialog.replaceChildren();
+  const title=el('h2','Ficha del paciente');title.id='patient-ficha-print-title';dialog.setAttribute('aria-labelledby','patient-ficha-print-title');
+  const identity=el('div');identity.append(el('h3',[p.apellido,p.nombre,p.segundo_nombre].filter(Boolean).join(' ')),el('p','DNI '+p.dni+(age(p.nacimiento)?' · '+age(p.nacimiento):''),'patient-id'));
+  const grid=el('dl',undefined,'patient-ficha-grid');
+  for(const [label,value]of fichaFields(p)){const box=el('div');box.append(el('dt',label),el('dd',value||'—'));grid.append(box);}
+  dialog.append(title,identity,grid,el('p','Generado el '+DailyUI.today().split('-').reverse().join('/'),'subtitle'));
+  dialog.append(button('Descargar PDF',()=>window.print()),button('Cerrar',()=>dialog.close()));
+  if(!dialog.open)dialog.showModal();
+ }
  function renderSummary(summary){
   view.summary.replaceChildren();
   const financial=isSaldo()?[['Deuda clínica total',DailyUI.money(Number(summary.clinical_debt||0)+Number(summary.bonus_debt||0))],['Saldo a favor',DailyUI.money(summary.saldo_disponible??summary.advance_available??0)],['Sesiones y cuotas',DailyUI.money(summary.clinical_debt)],['Bonos iniciales',DailyUI.money(summary.bonus_debt||0)],['Ortopedia · cuenta aparte',DailyUI.money(summary.ortho_debt)]]:[['Saldo total',DailyUI.money(summary.debt)],['Saldo clínico',DailyUI.money(summary.clinical_debt)],['Saldo ortopedia',DailyUI.money(summary.ortho_debt)],['Saldo bonos',DailyUI.money(summary.bonus_debt||0)],['Anticipos disponibles',DailyUI.money(summary.advance_available||0)]];
@@ -64,10 +80,9 @@ export function createPatientHistory(ctx){
   if(token!==generation||!target.isConnected)return;
   const header=el('div',undefined,'detail-head'),identity=el('div');identity.append(el('h2',[p.apellido,p.nombre,p.segundo_nombre].filter(Boolean).join(' ')),el('p','DNI '+p.dni+(age(p.nacimiento)?' · '+age(p.nacimiento):''),'patient-id'));
   header.append(identity,button('Cerrar ficha',()=>ctx.onClose()));target.append(header);
-  const actions=el('div',undefined,'patient-quick-actions');for(const [label,fn]of [['Editar ficha',()=>ctx.onEdit(p)],['Reservar turno',()=>ctx.onBook(p)],['Agregar a lista de espera',()=>ctx.onWait(p)],['Cuenta clínica',()=>ctx.onAccount(p.dni)],...(isSaldo()?[['Registrar movimiento',()=>ctx.onSaldo(p.dni)],['Historial de saldo',()=>ctx.onSaldoHistory(p.dni)]]:[['Recibir anticipo',()=>ctx.onAdvance('deposit',p.dni)],['Aplicar anticipos a deuda',()=>ctx.onAdvance('apply',p.dni)]]),['Documentos',()=>ctx.onDocuments(p.dni)]])actions.append(button(label,fn));target.append(actions);
+  const actions=el('div',undefined,'patient-quick-actions');for(const [label,fn]of [['Editar ficha',()=>ctx.onEdit(p)],['Descargar ficha (PDF)',()=>printFicha(p)],['Reservar turno',()=>ctx.onBook(p)],['Agregar a lista de espera',()=>ctx.onWait(p)],['Cuenta clínica',()=>ctx.onAccount(p.dni)],...(isSaldo()?[['Registrar movimiento',()=>ctx.onSaldo(p.dni)],['Historial de saldo',()=>ctx.onSaldoHistory(p.dni)]]:[['Recibir anticipo',()=>ctx.onAdvance('deposit',p.dni)],['Aplicar anticipos a deuda',()=>ctx.onAdvance('apply',p.dni)]]),['Documentos',()=>ctx.onDocuments(p.dni)]])actions.append(button(label,fn));target.append(actions);
   const ficha=el('dl',undefined,'patient-ficha-grid');
-  const insurances=patientCoverages(p).map(c=>(ctx.getCatalog().find(o=>o.id===c.obra_social_id)?.name||c.obra_social_id)+(c.afiliado?' · N.º '+c.afiliado:''));
-  for(const [label,value]of [['Obras sociales / afiliados',insurances.join(' / ')||'Sin obra social'],['Médico de cabecera',p.medico],['Teléfono',p.telefono],['Correo',p.email],['Domicilio',[p.domicilio,p.localidad,p.provincia].filter(Boolean).join(', ')],['Observaciones',p.observaciones]]){const box=el('div');box.append(el('dt',label),el('dd',value||'—'));ficha.append(box);}target.append(ficha);
+  for(const [label,value]of fichaFields(p)){const box=el('div');box.append(el('dt',label),el('dd',value||'—'));ficha.append(box);}target.append(ficha);
   const whatsapp=patientPhoneNumber(p.telefono);if(whatsapp){const link=el('a','Abrir WhatsApp');link.href='https://wa.me/'+whatsapp;link.target='_blank';link.rel='noopener noreferrer';link.className='s';link.setAttribute('aria-label','Abrir WhatsApp del paciente');target.append(link);}
   const summary=el('div',undefined,'patient-stats');summary.setAttribute('aria-label','Resumen del paciente');target.append(summary);
   const controls=el('div',undefined,'patient-history-controls'),tabs={};
