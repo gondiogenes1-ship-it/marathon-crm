@@ -65,10 +65,16 @@ export function createRecurringAgenda(ctx){
     add.title=past?'No se pueden reservar turnos en fechas pasadas':'Reservar turno en este horario';slotHead.append(add);
     if(past){const note=el('small','Fecha pasada','recurring-slot-past');slotMeta.append(note);}
    }cell.append(slotHead);
+   const patientsBox=el('div',undefined,'recurring-patients');patientsBox.hidden=true;
+   if(s.patients.length){
+    const toggle=button('Ver pacientes ('+s.patients.length+')',()=>{const show=patientsBox.hidden;patientsBox.hidden=!show;toggle.textContent=(show?'Ocultar pacientes (':'Ver pacientes (')+s.patients.length+')';toggle.setAttribute('aria-expanded',String(show));},'ghost');
+    toggle.classList.add('recurring-toggle-patients');toggle.setAttribute('aria-expanded','false');cell.append(toggle);
+   }
+   cell.append(patientsBox);
    for(const p of s.patients){const card=el('article',undefined,'recurring-patient');if(p.paused)card.classList.add('recurring-paused');else if(p.plan?.absences>4)card.classList.add('recurring-critical');else if(p.plan?.absences>=2)card.classList.add('recurring-follow');
     const pick=button(p.paciente,()=>ctx.work(()=>p.plan_id?openPlan(p.plan_id):ctx.editPatient(p.dni)),'ghost');pick.className='recurring-patient-open';pick.append(el('small','DNI '+p.dni),el('small',therapyName(p.therapy)+' · '+p.hora+' a '+p.end_hour));if(p.plan)pick.append(el('span',planLabel(p.plan),'recurring-badge'));if(p.paused)pick.append(el('small','Pausado · conserva lugar'));if(p.plan?.absences>=2)pick.append(el('small',p.plan.absences+' faltas seguidas · contactar'+(p.plan.absences>4?' · dar de baja':''),p.plan.absences>4?'recurring-text-critical':undefined));card.append(pick);
     if(p.estado==='PENDIENTE'&&!p.paused){const controls=el('div',undefined,'row-actions');for(const [label,kind]of[['Editar turno','edit'],['Cancelar turno','cancel']])controls.append(button(label,()=>ctx.work(()=>ctx.manageTurn({...p,fecha:dt,sede:site},kind)),kind==='cancel'?'destructive':'secondary'));card.append(controls);}
-    ctx.appendWhatsApp?.(card,{...p,fecha:dt,sede:site,profesional:options.professionals.find(x=>x.id===prof)?.label||prof,terapia:therapyName(p.therapy)});cell.append(card);
+    ctx.appendWhatsApp?.(card,{...p,fecha:dt,sede:site,profesional:options.professionals.find(x=>x.id===prof)?.label||prof,terapia:therapyName(p.therapy)});patientsBox.append(card);
    }
 
   }}

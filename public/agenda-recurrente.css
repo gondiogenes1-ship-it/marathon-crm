@@ -18,3 +18,7 @@
 .recurring-overcapacity{color:var(--no);font-weight:650}
 .recurring-overcapacity-detail{color:var(--no);font-size:var(--fs-md);font-weight:400}
 .recurring-occupancy-over{color:var(--no);font-weight:650}
+.recurring-toggle-patients{width:100%;border:1px dashed #b8cabf;background:#f4f8f5;color:#25503c;font-size:var(--fs-md);padding:7px 10px}
+.recurring-toggle-patients:hover{background:#e5f0e9}
+.recurring-patients{display:flex;flex-direction:column;gap:10px}
+.recurring-patients[hidden]{display:none}
