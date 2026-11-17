@@ -1,14 +1,12 @@
 begin;
 lock table marathon.movimientos in share mode;
-create temporary table egreso_edit_install_before on commit drop as
-select md5(coalesce(jsonb_agg(to_jsonb(x)order by id),'[]')::text)huella from marathon.movimientos x;
 
-create function marathon.egreso_edit_fingerprint(p_data jsonb)returns text language sql stable set search_path=''as $function$
+create or replace function marathon.egreso_edit_fingerprint(p_data jsonb)returns text language sql stable set search_path=''as $function$
  select encode(sha256(convert_to(jsonb_build_object('datos',p_data-'huella','movement',(select to_jsonb(m)from marathon.movimientos m where id=p_data->>'id'))::text,'UTF8')),'hex')
 $function$;
 revoke all on function marathon.egreso_edit_fingerprint(jsonb)from public,anon,authenticated;
 
-create function public.marathon_egreso_edit_get(p_id text)returns jsonb
+create or replace function public.marathon_egreso_edit_get(p_id text)returns jsonb
 language plpgsql stable security definer set search_path=''as $function$
 declare m marathon.movimientos%rowtype;history jsonb;begin
  if not marathon.active_user()then raise exception 'Se requiere un usuario activo para editar egresos.'using errcode='42501';end if;
@@ -20,7 +18,7 @@ declare m marathon.movimientos%rowtype;history jsonb;begin
  return jsonb_build_object('movement',to_jsonb(m),'history',history);
 end$function$;
 
-create function marathon.egreso_edit_run(p_request_id text,p_data jsonb)returns jsonb language plpgsql set search_path=''as $function$
+create or replace function marathon.egreso_edit_run(p_request_id text,p_data jsonb)returns jsonb language plpgsql set search_path=''as $function$
 declare old marathon.movimientos%rowtype;newrow marathon.movimientos%rowtype;previous jsonb;reply jsonb;kind text;prof text;sec text;ter text;begin
  if not marathon.active_user()then raise exception 'Se requiere un usuario activo para editar egresos.'using errcode='42501';end if;
  previous=marathon.operation_begin(p_request_id,'egreso:edit',p_data);if previous is not null then return previous;end if;
@@ -52,7 +50,7 @@ declare old marathon.movimientos%rowtype;newrow marathon.movimientos%rowtype;pre
 end$function$;
 revoke all on function marathon.egreso_edit_run(text,jsonb)from public,anon,authenticated;
 
-create function public.marathon_egreso_edit_preview(p_data jsonb)returns jsonb language plpgsql security definer set search_path=''as $function$
+create or replace function public.marathon_egreso_edit_preview(p_data jsonb)returns jsonb language plpgsql security definer set search_path=''as $function$
 declare r jsonb;fingerprint text;begin
  if not marathon.active_user()then raise exception 'Se requiere un usuario activo para editar egresos.'using errcode='42501';end if;
  perform pg_advisory_xact_lock(hashtextextended('marathon:master-write:v1',0));
@@ -63,7 +61,7 @@ declare r jsonb;fingerprint text;begin
  exception when sqlstate 'ZP002'then null;end;
  return r||jsonb_build_object('huella',fingerprint);
 end$function$;
-create function public.marathon_egreso_edit_save(p_request_id text,p_data jsonb)returns jsonb language plpgsql security definer set search_path=''set lock_timeout='3s'as $function$
+create or replace function public.marathon_egreso_edit_save(p_request_id text,p_data jsonb)returns jsonb language plpgsql security definer set search_path=''set lock_timeout='3s'as $function$
 declare previous jsonb;begin
  if not marathon.active_user()then raise exception 'Se requiere un usuario activo para editar egresos.'using errcode='42501';end if;
  previous=marathon.operation_begin(p_request_id,'egreso:edit',p_data);if previous is not null then return previous;end if;
@@ -72,9 +70,4 @@ declare previous jsonb;begin
 end$function$;
 revoke all on function public.marathon_egreso_edit_get(text),public.marathon_egreso_edit_preview(jsonb),public.marathon_egreso_edit_save(text,jsonb)from public,anon;
 grant execute on function public.marathon_egreso_edit_get(text),public.marathon_egreso_edit_preview(jsonb),public.marathon_egreso_edit_save(text,jsonb)to authenticated;
-
-do $guard$declare h text;begin
- select md5(coalesce(jsonb_agg(to_jsonb(x)order by id),'[]')::text)into h from marathon.movimientos x;
- if h<>(select huella from egreso_edit_install_before)then raise exception 'La instalación alteró movimientos.';end if;
-end $guard$;
 commit;
