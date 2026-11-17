@@ -76,7 +76,7 @@ export function createPatientHistory(ctx){
    }
   }else if(kind==='ortho'){
    const body=DailyUI.table(view.rows,['Fecha / hora','Operación','Producto','Sede','Cantidad','Por devolver','Devolución prevista','Importe','Cobrado neto','Saldo']);
-   for(const o of rows)DailyUI.row(body,[o.fecha+' · '+String(o.hora).slice(0,5),o.tipo,o.producto,o.sede,o.cantidad,o.tipo==='ALQUILER'?o.pending:'—',o.devolucion_prevista||'—',DailyUI.money(o.importe_total)+(o.discount_rate!=null?' · Desc. '+o.discount_rate+'% ('+DailyUI.money(o.discount_amount)+')':''),DailyUI.money(o.paid),DailyUI.money(o.debt)],{id:o.id});
+   for(const o of rows)DailyUI.row(body,[o.fecha+' · '+String(o.hora).slice(0,5),o.tipo+(o.anulada?' (Anulada)':''),o.producto,o.sede,o.cantidad,o.tipo==='ALQUILER'?o.pending:'—',o.devolucion_prevista||'—',DailyUI.money(o.importe_total)+(o.discount_rate!=null?' · Desc. '+o.discount_rate+'% ('+DailyUI.money(o.discount_amount)+')':''),DailyUI.money(o.paid),DailyUI.money(o.debt)],{id:o.id});
 
   }else if(kind==='advance'){
    view.rows.append(el('p',isSaldo()?'Este es el historial anterior a la conversión. El saldo actual se consulta en la cuenta del paciente.':'El anticipo se aplica a sesiones presentes de la misma sede y, si se indicaron, de la misma terapia y profesional. El ingreso ya figura en Caja; aplicarlo no duplica el cobro.','subtitle'));
