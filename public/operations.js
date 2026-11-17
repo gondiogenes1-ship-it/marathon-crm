@@ -1,6 +1,7 @@
 import {createSaldoUI} from './saldo.js?v=20261106-campos-visibles-1';
 import {createCashPatientPicker} from './cash-patient-picker.js?v=20261106-editar-ingreso-1';
 import {openCashEditor} from './cash-editor.js?v=20261106-editar-secretarias-1';
+import {openEgresoEditor} from './egreso-editor.js?v=20261117-editar-egreso-1';
 import {DailyUI} from './daily.js?v=20261019-0110';
 import {exportCash} from './cash-export.js?v=20261106-profesional-1';
 export function createOperations(ctx){
@@ -203,6 +204,7 @@ export function createOperations(ctx){
   const list=$('#cash-list');list.replaceChildren();const body=DailyUI.table(list,['Fecha / hora','Concepto','Terapia / categoría','Paciente','Medio','Sede','Secretaría que registra','Profesional / secretaría asociada','Importe','Acciones']);
   for(const m of result.rows){const actions=el('div',undefined,'row-actions');if(ctx.getUser()?.role==='ADMIN'&&!m.reversed&&!m.compensacion_de&&((m.tipo==='PAGO'&&['CLINICA','ORTOPEDIA'].includes(m.origen))||(m.origen==='CAJA'&&['INGRESO','EGRESO'].includes(m.tipo))))actions.append(action('Anular con contrasiento',()=>ctx.work(()=>m.origen==='ORTOPEDIA'?ctx.openOrthoReverse(m):openReverse(m)),'s','destructive'));if(m.reversed)actions.append(el('small','Con contrasiento registrado'));if(m.compensacion_de)actions.append(el('small','Compensa: '+m.compensacion_de));
    if(['ADMIN','SECRETARIA'].includes(ctx.getUser()?.role)&&!m.reversed&&!m.compensacion_de&&['INGRESO','PAGO'].includes(m.tipo))actions.prepend(action('Editar ingreso',()=>ctx.work(()=>openCashEditor({ctx,rpc,modal,execute,refresh:refreshMoney,picker:cashPatientPicker},m.id))));
+   if(['ADMIN','SECRETARIA'].includes(ctx.getUser()?.role)&&!m.reversed&&!m.compensacion_de&&!m.dni&&m.tipo==='EGRESO')actions.prepend(action('Editar egreso',()=>ctx.work(()=>openEgresoEditor({ctx,rpc,modal,execute,refresh:refreshMoney},m.id))));
    const concept=el('div');concept.append(el('strong',m.concepto||m.tipo),el('small',m.tipo));if(m.observaciones_legacy)concept.append(el('small',m.observaciones_legacy));
    const associated=el('div');for(const part of m.allocations||[]){const detail=el('div');detail.append(el('span',part.associated||'Sin profesional'),el('small',part.category_label+' · '+money(part.monto)));associated.append(detail);}if(!associated.childNodes.length)associated.textContent=m.associated||'—';
    const outgoing=['EGRESO','REINTEGRO'].includes(m.tipo),amount=el('div');amount.append(el('strong',(outgoing?'− ':'+ ')+money(m.monto_original??m.monto),outgoing?'ui-debt':''));if(m.attribution_filtered)amount.append(el('small','De este movimiento, '+money(m.monto)+' corresponde a este filtro.'));DailyUI.row(body,[m.fecha+' · '+String(m.hora).slice(0,5),concept,m.category_label,m.paciente?(m.paciente+' · DNI '+m.dni):'—',m.medio,m.sede,m.actor,associated,amount,actions],{id:m.id,cashDirection:outgoing?'expense':'income'});}
