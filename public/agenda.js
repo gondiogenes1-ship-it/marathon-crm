@@ -1,4 +1,4 @@
-import {createRecurringAgenda} from './agenda-recurrente.js?v=20261116-desglose-superposicion';
+import {createRecurringAgenda} from './agenda-recurrente.js?v=20261117-horarios-en-punto';
 import {createTurnSeriesUI} from './turn-series.js?v=20261105-series';
 import {sessionCountLabel,loadSessionCounts} from './session-counts.js?v=20261029-0131';
 import {createAgendaPatientEditor} from './agenda-patient-editor.js?v=20261029-caja-pacientes';
