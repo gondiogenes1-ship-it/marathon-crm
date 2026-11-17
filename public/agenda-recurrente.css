@@ -17,4 +17,4 @@
 .recurring-slot-meta .recurring-slot-past{font-size:var(--fs-md);color:#55665c}
 .recurring-overcapacity{color:var(--no);font-weight:650}
 .recurring-overcapacity-detail{color:var(--no);font-size:var(--fs-md);font-weight:400}
-.recurring-occupancy.recurring-occupancy-over{color:var(--no);font-weight:650}
+.recurring-occupancy-over{color:var(--no);font-weight:650}
