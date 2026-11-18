@@ -29,7 +29,7 @@ export class MarathonApi {
       const definite=known.includes(code)||code==='55P03'||code==='42501';
       const authMessages={invalid_credentials:'Correo o contraseña incorrectos.',email_not_confirmed:'El correo del usuario todavía no está confirmado.'};
       if(path.startsWith('/rest/')&&(code==='42501'||response.status===401))this.onDenied?.();
-      const message=code==='55P03'?'Hay otro guardado en curso. Esperá unos segundos y volvé a intentar.':authMessages[code]||(known.includes(code)?data.message:response.status===401?'La sesión venció. Volvé a ingresar.':code==='42501'||response.status===403?'Tu cuenta no tiene acceso habilitado.':'No se pudo completar la operación (HTTP '+response.status+').');
+      const message=code==='55P03'?'Hay otro guardado en curso. Esperá unos segundos y volvé a intentar.':authMessages[code]||(known.includes(code)?data.message:response.status===401?'La sesión venció. Volvé a ingresar.':code==='42501'||response.status===403?'Tu cuenta no tiene acceso habilitado.':response.status===429?'Ya se pidió un correo hace poco. Esperá un minuto y volvé a intentar.':'No se pudo completar la operación (HTTP '+response.status+').');
       throw new ApiError(message,code,write&&response.status>=500&&!definite);
     }
     return data;
@@ -61,6 +61,8 @@ export class MarathonApi {
   async whatsapp(body){if(!this.session)throw new ApiError('Volvé a ingresar.','401');if(this.session.expiresAt<Date.now()+30000)await this.refresh();return this.http('/functions/v1/marathon-whatsapp',body,{token:this.session.access_token,write:true});}
   async provisionUser(body){if(!this.session)throw new ApiError('Volvé a ingresar.','401');if(this.session.expiresAt<Date.now()+30000)await this.refresh();return this.http('/functions/v1/marathon-users',body,{token:this.session.access_token,write:true});}
   async updatePassword(password){if(!this.session)throw new ApiError('Volvé a ingresar.','401');if(this.session.expiresAt<Date.now()+30000)await this.refresh();return this.http('/auth/v1/user',{password},{token:this.session.access_token,write:true,method:'PUT'});}
+  async requestPasswordReset(email){return this.http('/auth/v1/recover?redirect_to='+encodeURIComponent(location.origin+location.pathname),{email});}
+  recoverSession({access_token,refresh_token,expires_in}){this.session={access_token,refresh_token,expires_in:Number(expires_in),expiresAt:Date.now()+Number(expires_in)*1000};}
   async storageRequest(path,{body=null,mime=null}={}){
     if(!this.session)throw new ApiError('Volvé a ingresar.','401');
     if(this.session.expiresAt<Date.now()+30000)await this.refresh();

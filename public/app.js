@@ -11,7 +11,7 @@ import {createHome} from './home.js?v=20261102-cancelados';
 import {createCatalogs} from './catalogs.js?v=20261019-0110';
 import {createReports} from './reports.js?v=20261113-pendientes-primero';
 import {createDocuments} from './documents.js?v=20261029-caja-pacientes';
-import {MarathonApi} from './api.js?v=20261104-saldo';
+import {MarathonApi} from './api.js?v=20261118-recuperar-contrasena';
 import {createMasters} from './masters.js?v=20261112-horarios-revision';
 import {createAgenda} from './agenda.js?v=20261117-desglose-completo';
 import {createHorariosRevision} from './horarios-revision.js?v=20261112-horarios-revision-2';
@@ -21,6 +21,15 @@ import {createModalUI} from './modal-ui.js?v=20261027-0128';
 const $=s=>document.querySelector(s);
 let saldoActive=false;
 let api=null,user=null,catalog=[],query='',pages=[null],page=0,next=null,selected=null,pending=null,busy=false,searchGeneration=0,detailGeneration=0,patientsLoaded=false;
+(function initPasswordRecovery(){
+  const hash=new URLSearchParams(location.hash.slice(1));
+  if(hash.get('type')!=='recovery'||!hash.get('access_token'))return;
+  const access_token=hash.get('access_token'),refresh_token=hash.get('refresh_token'),expires_in=hash.get('expires_in');
+  history.replaceState(null,'',location.pathname+location.search);
+  $('#login').hidden=true;$('#reset-password').hidden=false;
+  api=new MarathonApi(window.MARATHON_CONFIG);
+  api.recoverSession({access_token,refresh_token,expires_in});
+})();
 const motion=createMotion();
 const modalUI=createModalUI();
 function msg(text,error=false){const f=$('#feedback');f.hidden=!text;f.textContent=text;f.dataset.error=String(error);f.setAttribute('role',error?'alert':'status');if(error&&text)modalUI.showError(text);}
@@ -71,6 +80,8 @@ function clearScreen(){
   saldoActive=false;operations.updateSaldoLabels();user=null;catalog=[];pages=[null];page=0;next=null;selected=null;pending=null;query='';patientsLoaded=false;quickReset();
   $('#patient-list').replaceChildren();$('#detail').replaceChildren();$('#search').value='';$('#current-user').textContent='';msg('');
   $('#workspace').hidden=true;$('#login').hidden=false;$('#login-form').reset();
+  $('#recover-form').hidden=true;$('#recover-form').reset();$('#recover-message').textContent='';$('#login-forgot').hidden=false;$('#login-notice').textContent='';
+  $('#reset-password').hidden=true;$('#reset-password-form').reset();$('#reset-password-message').textContent='';
 }
 async function search(){
   const generation=++searchGeneration;
@@ -188,6 +199,33 @@ $('#login-form').addEventListener('submit',async event=>{
   finally{submit.disabled=false;}
 });
 $('#login-form').dataset.loginReady='true';$('#login-submit').disabled=false;
+$('#login-forgot').addEventListener('click',()=>{$('#login-form').hidden=true;$('#login-forgot').hidden=true;$('#recover-email').value=$('#login-email').value;$('#recover-form').hidden=false;$('#login-error').textContent='';$('#login-notice').textContent='';$('#recover-email').focus();});
+$('#recover-cancel').addEventListener('click',()=>{$('#recover-form').hidden=true;$('#recover-form').reset();$('#recover-message').textContent='';$('#login-form').hidden=false;$('#login-forgot').hidden=false;});
+$('#recover-form').addEventListener('submit',async event=>{
+  event.preventDefault();const form=event.currentTarget;if(!form.reportValidity())return;
+  const submit=form.querySelector('button[type=submit]');submit.disabled=true;$('#recover-message').textContent='';
+  try{
+    api??=new MarathonApi(window.MARATHON_CONFIG);
+    await api.requestPasswordReset($('#recover-email').value.trim());
+    $('#recover-message').textContent='Si el correo está registrado, vas a recibir un email para restablecer tu contraseña.';
+  }catch(e){$('#recover-message').textContent=e.message;}
+  finally{submit.disabled=false;}
+});
+$('#reset-password-form').addEventListener('submit',async event=>{
+  event.preventDefault();const form=event.currentTarget;if(!form.reportValidity())return;
+  const p=$('#reset-password-input'),again=$('#reset-password-again');
+  if(p.value!==again.value){$('#reset-password-message').textContent='Las contraseñas no coinciden.';return;}
+  const submit=form.querySelector('button');submit.disabled=true;$('#reset-password-message').textContent='';
+  let password=p.value;
+  try{
+    await api.updatePassword(password);
+    await api.signOut();
+    form.reset();
+    $('#reset-password').hidden=true;$('#login').hidden=false;
+    $('#login-notice').textContent='Contraseña actualizada. Iniciá sesión con tu nueva contraseña.';
+  }catch(e){$('#reset-password-message').textContent=e.uncertain?'No se confirmó el cambio. Pedí un nuevo correo de recuperación y probá ingresar con la nueva contraseña.':e.message;}
+  finally{password='';submit.disabled=false;}
+});
 $('#search-form').addEventListener('submit',event=>{event.preventDefault();work(async()=>{query=$('#search').value.trim();page=0;pages=[null];await search();});});
 $('#next').addEventListener('click',()=>work(async()=>{if(!next)return;pages=pages.slice(0,page+1);pages.push(next);page++;await search();}));
 $('#previous').addEventListener('click',()=>work(async()=>{if(page>0){page--;await search();}}));
