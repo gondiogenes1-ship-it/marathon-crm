@@ -15,7 +15,7 @@ import {MarathonApi} from './api.js?v=20261118-recuperar-contrasena';
 import {createMasters} from './masters.js?v=20261112-horarios-revision';
 import {createAgenda} from './agenda.js?v=20261118-ficha-pendientes';
 import {createHorariosRevision} from './horarios-revision.js?v=20261112-horarios-revision-2';
-import {createOperations} from './operations.js?v=20261117-terapia-asociada';
+import {createOperations} from './operations.js?v=20261118-contrasiento-secretaria';
 import {createOrtho} from './ortho.js?v=20261113-sin-traslado-secretaria';
 import {createModalUI} from './modal-ui.js?v=20261027-0128';
 const $=s=>document.querySelector(s);
