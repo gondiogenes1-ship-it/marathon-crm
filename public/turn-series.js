@@ -26,11 +26,17 @@ export function createTurnSeriesUI(ctx){
    prof=field(fields,'Profesional','select');choices(prof,options.professionals.filter(p=>p.therapy_ids.includes(t.terapia_id)),t.profesional_id);prof.required=true;
    form.append(node('p','En la serie, el cambio de fecha desplaza los próximos días por la misma cantidad. El horario, la sede y el profesional elegidos se aplican al conjunto. Se conservan terapia, importes y coberturas.'));
   }
+  let category=null;
+  if(kind==='cancel'){
+   category=field(form,'Motivo de cancelación','select');
+   choices(category,[{id:'',label:'Elegí un motivo'},{id:'ERROR_CARGA',label:'Error de carga'},{id:'PACIENTE',label:'Paciente'},{id:'PROFESIONAL',label:'Profesional'},{id:'OTRO',label:'Otro'}],'');
+   category.required=true;
+  }
   const reason=field(form,'Motivo (opcional)','textarea','');reason.maxLength=1000;reason.addEventListener('input',()=>reason.setCustomValidity(reason.value.trim()&&reason.value.trim().length<3?'Escribí al menos tres caracteres o dejá el motivo vacío.':''));
   const review=node('section');review.setAttribute('aria-live','polite');const error=node('p');error.setAttribute('role','alert');const actions=node('div');actions.className='form-actions';
   const preview=button('Revisar cambio',()=>void check()),confirm=button(kind==='edit'?'Confirmar edición':'Confirmar cancelación',()=>void save(),kind==='cancel'?'destructive':'default');confirm.disabled=true;actions.append(preview,confirm);form.append(review,error,actions);dialog.append(form);
   const v={form,info,following,confirm,close,review,error,reviewed:null,retry:null,turn,kind};current=v;
-  const proposal=()=>({id:t.id,action:kind,scope:following.checked?'following':'single',huella:info.huella,...(kind==='edit'?{date:date.value,time:time.value,site:site.value,prof:prof.value}:{}),reason:reason.value.trim()});
+  const proposal=()=>({id:t.id,action:kind,scope:following.checked?'following':'single',huella:info.huella,...(kind==='edit'?{date:date.value,time:time.value,site:site.value,prof:prof.value}:{categoria_cancelacion:category.value}),reason:reason.value.trim()});
   const describe=()=>{note.textContent=following.checked?(info.plan?kind==='cancel'?'Se dará de baja esta asignación desde '+t.fecha+'. Se liberarán sus cupos y no se generarán más sesiones de esta serie. Las cuotas ya generadas y los movimientos de Caja se conservan.':'También se cambiará la regla de repetición futura de esta asignación. Se conservan las sesiones anteriores y las cancelaciones ya registradas.':'Se modificarán solo las sesiones de esta reserva desde '+t.fecha+'. No afecta otras series del paciente.'):'Las demás sesiones de la serie conservarán sus fechas y horarios.';if(!info.can_following)note.textContent+=' El cambio de serie se habilita en turnos pendientes de hoy en adelante que pertenezcan a una serie.';};
   function invalidate(){v.reviewed=null;review.replaceChildren();error.textContent='';describe();sync();}
   form.addEventListener('input',invalidate);form.addEventListener('change',invalidate);form.addEventListener('submit',e=>{e.preventDefault();void check();});

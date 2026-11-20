@@ -1,5 +1,5 @@
 import {createRecurringAgenda} from './agenda-recurrente.js?v=20261118-ficha-pendientes';
-import {createTurnSeriesUI} from './turn-series.js?v=20261105-series';
+import {createTurnSeriesUI} from './turn-series.js?v=20261120-categoria-cancelacion';
 import {sessionCountLabel,loadSessionCounts} from './session-counts.js?v=20261029-0131';
 import {createAgendaPatientEditor} from './agenda-patient-editor.js?v=20261029-caja-pacientes';
 import {appendSharedSpace} from './shared-space.js?v=20261028-0131-espacio';

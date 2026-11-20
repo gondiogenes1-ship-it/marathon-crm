@@ -1,4 +1,4 @@
-import {buildPatientReportWorkbook,patientReportTabs} from './patient-report-workbook.js?v=20261111-obra-social';
+import {buildPatientReportWorkbook,patientReportTabs} from './patient-report-workbook.js?v=20261120-error-carga';
 const el=(tag,text,cls)=>{const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(cls)node.className=cls;return node;};
 const count=n=>Number(n??0).toLocaleString('es-AR',{maximumFractionDigits:1});
 const percent=n=>n===null||n===undefined?'Sin base':count(n)+' %';
@@ -34,7 +34,7 @@ function bars(title,note,rows,format=count,ceiling=null,flagFn=null){
 }
 function states(s){
  const box=panel('Estado de los turnos','Turnos finalizados al corte. Las cancelaciones y los pendientes no entran en el porcentaje de asistencia.');
- const parts=[['present','Presentes'],['absent','Ausentes'],['pending','Sin resultado'],['cancelled','Cancelados']];
+ const parts=[['present','Presentes'],['absent','Ausentes'],['pending','Sin resultado'],['cancelled','Cancelados'],['load_error','Error de carga']];
  const total=parts.reduce((n,[key])=>n+Number(s[key]),0),stack=el('div',undefined,'pps-stack');stack.setAttribute('role','img');stack.setAttribute('aria-label',parts.map(([k,l])=>`${l}: ${s[k]}`).join(', '));
  for(const [key]of parts){const mark=el('span',undefined,'pps-state-'+key);mark.style.width=(total?100*s[key]/total:0)+'%';stack.append(mark);}box.append(stack);
  const list=el('dl',undefined,'pps-state-list');for(const [key,label]of parts){const row=el('div'),term=el('dt',label),dot=el('i',undefined,'pps-state-'+key);term.prepend(dot);row.append(term,el('dd',count(s[key])));list.append(row);}box.append(list);return box;
@@ -122,7 +122,7 @@ export function createPatientReports(ctx){
   ]));
   const charts=el('div',undefined,'pps-columns');charts.append(distributionPanel(),graphTrend(report.trend));host.append(charts);
   const detail=panel('Detalle de la actividad','Una persona puede aparecer en varios profesionales, sedes o especialidades. El total institucional se calcula por separado.');
-  detail.append(table([['label','Grupo'],['patients','Pacientes',count],['present','Atenciones',count],['absent','Ausentes',count],['pending','Sin resultado',count],['cancelled','Cancelados',count],['attendance','Asistencia',percent]],distribution()));host.append(detail);
+  detail.append(table([['label','Grupo'],['patients','Pacientes',count],['present','Atenciones',count],['absent','Ausentes',count],['pending','Sin resultado',count],['cancelled','Cancelados',count],['load_error','Error de carga',count],['attendance','Asistencia',percent]],distribution()));host.append(detail);
   const first=panel('Cómo leer las primeras atenciones','La historia anterior puede no estar completa. No se utilizan altas de fichas ni bonos para contar primeras atenciones.');
   first.append(el('p',`${count(f.observed)} pacientes tuvieron su primera atención observada en el período; ${count(f.returning)} ya tenían una atención anterior registrada.`));
   if(f.first_site!==null)first.append(el('p',`${count(f.first_site)} primeras atenciones observadas en la sede elegida. No equivalen necesariamente a nuevos pacientes en Marathon.`));

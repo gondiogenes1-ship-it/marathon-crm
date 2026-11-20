@@ -50,6 +50,7 @@
 #patient-reports .pps-state-absent,#patient-reports .pps-cover-2{background:var(--no)}
 #patient-reports .pps-state-pending,#patient-reports .pps-cover-3{background:var(--wa)}
 #patient-reports .pps-state-cancelled,#patient-reports .pps-cover-4{background:var(--mu)}
+#patient-reports .pps-state-load_error{background:color-mix(in srgb,var(--mu) 50%,var(--bd))}
 #patient-reports .pps-cover-1{background:color-mix(in srgb,var(--ac) 55%,var(--card))}
 #patient-reports .pps-empty{padding:22px 0;color:var(--mu);font-size:var(--fs-md)}
 #patient-reports .pps-legend{display:flex;flex-wrap:wrap;gap:16px;font-size:var(--fs-md);margin-bottom:10px}
